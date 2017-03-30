@@ -4,8 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-#gem 'mysql2', '~> 0.4.5'
+#gem 'sqlite3'
+gem 'mysql2', '0.3.18'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -44,3 +44,8 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'blacklight'
+gem "rsolr", "~> 1.0"
+gem "devise"
+gem "devise-guests", "~> 0.3"
