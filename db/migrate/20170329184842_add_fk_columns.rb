@@ -11,11 +11,10 @@ class AddFkColumns < ActiveRecord::Migration
   	add_column :peaks, :chromatogram_id, :string
   	add_column :collectors, :sample_id, :string
 		add_column :collectors, :person_id, :string
-		add_column :major_compounds, :sample_id, :string
-		add_column :major_compounds, :compound_id, :string
+		add_column :sample_compounds, :sample_id, :string
+		add_column :sample_compounds, :compound_id, :string
 		add_column :identifications, :sample_id, :string
-		add_column :identifications, :plant_id, :string
-		add_column :identifications, :animal_id, :string
+		add_column :identifications, :product_id, :string
 		add_column :plant_compounds, :compound_id, :string
 		add_column :plant_compounds, :plant_id, :string
 		add_column :animal_compounds, :compound_id, :string

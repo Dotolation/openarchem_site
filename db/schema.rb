@@ -122,24 +122,12 @@ ActiveRecord::Schema.define(version: 20170329184843) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sample_id"
-    t.string   "plant_id"
-    t.string   "animal_id"
+    t.string   "product_id"
   end
 
-  add_index "identifications", ["animal_id"], name: "ide_ani_idx", using: :btree
   add_index "identifications", ["oa_id"], name: "index_identifications_on_oa_id", unique: true, using: :btree
-  add_index "identifications", ["plant_id"], name: "ide_pla_idx", using: :btree
+  add_index "identifications", ["product_id"], name: "ide_pro_idx", using: :btree
   add_index "identifications", ["sample_id"], name: "ide_sam_idx", using: :btree
-
-  create_table "major_compounds", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "sample_id"
-    t.string   "compound_id"
-  end
-
-  add_index "major_compounds", ["compound_id"], name: "maj_com_idx", using: :btree
-  add_index "major_compounds", ["sample_id"], name: "maj_sam_idx", using: :btree
 
   create_table "peaks", force: true do |t|
     t.string   "oa_id",                null: false
@@ -192,6 +180,43 @@ ActiveRecord::Schema.define(version: 20170329184843) do
 
   add_index "plants", ["oa_id"], name: "index_plants_on_oa_id", unique: true, using: :btree
 
+  create_table "product_compounds", force: true do |t|
+    t.string   "product_id"
+    t.string   "compound_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "product_compounds", ["compound_id"], name: "prc_com_idx", using: :btree
+  add_index "product_compounds", ["product_id"], name: "prc_pro_idx", using: :btree
+
+  create_table "products", force: true do |t|
+    t.string   "oa_id",          null: false
+    t.string   "name"
+    t.string   "alternate_name"
+    t.string   "plant_id"
+    t.string   "plant_part"
+    t.string   "animal_id"
+    t.string   "animal_part"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "products", ["animal_id"], name: "pro_ani_idx", using: :btree
+  add_index "products", ["oa_id"], name: "index_products_on_oa_id", unique: true, using: :btree
+  add_index "products", ["plant_id"], name: "pro_pla_idx", using: :btree
+
+  create_table "sample_compounds", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sample_id"
+    t.string   "compound_id"
+  end
+
+  add_index "sample_compounds", ["compound_id"], name: "sac_com_idx", using: :btree
+  add_index "sample_compounds", ["sample_id"], name: "sac_sam_idx", using: :btree
+
   create_table "samples", force: true do |t|
     t.string   "oa_id",              null: false
     t.string   "archem_id"
@@ -217,6 +242,7 @@ ActiveRecord::Schema.define(version: 20170329184843) do
   add_index "samples", ["chromatogram_id"], name: "sam_chr_idx", using: :btree
   add_index "samples", ["equipment_id"], name: "sam_equ_idx", using: :btree
   add_index "samples", ["oa_id"], name: "index_samples_on_oa_id", unique: true, using: :btree
+  add_index "samples", ["site_id"], name: "sam_sit_idx", using: :btree
   add_index "samples", ["source_id"], name: "sam_sou_idx", using: :btree
 
   create_table "searches", force: true do |t|

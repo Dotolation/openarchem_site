@@ -14,11 +14,10 @@ class AddAllForeignKeys < ActiveRecord::Migration
   	add_foreign_key :peaks, :chromatograms, column: :chromatogram_id, primary_key: "oa_id"
   	add_foreign_key :collectors, :people, column: :person_id, primary_key: "oa_id"
   	add_foreign_key :collectors, :samples, column: :sample_id, primary_key: "oa_id"
-  	add_foreign_key :major_compounds, :samples, column: :sample_id, primary_key: "oa_id"
-  	add_foreign_key :major_compounds, :compounds, column: :compound_id, primary_key: "oa_id"
+  	add_foreign_key :sample_compounds, :samples, column: :sample_id, primary_key: "oa_id"
+  	add_foreign_key :sample_compounds, :compounds, column: :compound_id, primary_key: "oa_id"
   	add_foreign_key :identifications, :samples, column: :sample_id, primary_key: "oa_id"
-  	add_foreign_key :identifications, :plants, column: :plant_id, primary_key: "oa_id"
-  	add_foreign_key :identifications, :animals, column: :animal_id, primary_key: "oa_id"
+  	add_foreign_key :identifications, :products, column: :product_id, primary_key: "oa_id"
   	add_foreign_key :plant_compounds, :compounds, column: :plant_id, primary_key: "oa_id"
   	add_foreign_key :plant_compounds, :plants, column: :plant_id, primary_key: "oa_id"
   	add_foreign_key :animal_compounds, :compounds, column: :compound_id, primary_key: "oa_id"
@@ -26,8 +25,7 @@ class AddAllForeignKeys < ActiveRecord::Migration
 =end
 
 #samples table
-#	
-=begin
+
 		execute <<-SQL
       ALTER TABLE `openarchem`.`samples` 
       ADD CONSTRAINT `sam_sit_id`
@@ -37,8 +35,7 @@ class AddAllForeignKeys < ActiveRecord::Migration
       ON UPDATE NO ACTION,
       ADD INDEX `sam_sit_idx` (`site_id` ASC) ;
     SQL
-=end
-#	
+
     execute <<-SQL
       ALTER TABLE `openarchem`.`samples` 
       ADD CONSTRAINT `sam_sou_id`
@@ -149,24 +146,24 @@ class AddAllForeignKeys < ActiveRecord::Migration
 
 	
 		execute <<-SQL
-      ALTER TABLE `openarchem`.`major_compounds` 
-      ADD CONSTRAINT `maj_sam_id`
+      ALTER TABLE `openarchem`.`sample_compounds` 
+      ADD CONSTRAINT `sac_sam_id`
       FOREIGN KEY (`sample_id` )
       REFERENCES `openarchem`.`samples` (`oa_id` )
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
-      ADD INDEX `maj_sam_idx` (`sample_id` ASC) ;
+      ADD INDEX `sac_sam_idx` (`sample_id` ASC) ;
     SQL
 
   
     execute <<-SQL
-      ALTER TABLE `openarchem`.`major_compounds` 
-      ADD CONSTRAINT `maj_com_id`
+      ALTER TABLE `openarchem`.`sample_compounds` 
+      ADD CONSTRAINT `sac_com_id`
       FOREIGN KEY (`compound_id` )
       REFERENCES `openarchem`.`compounds` (`oa_id` )
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
-      ADD INDEX `maj_com_idx` (`compound_id` ASC) ;
+      ADD INDEX `sac_com_idx` (`compound_id` ASC) ;
     SQL
 
 #identifications table
@@ -185,23 +182,12 @@ class AddAllForeignKeys < ActiveRecord::Migration
   
     execute <<-SQL
       ALTER TABLE `openarchem`.`identifications` 
-      ADD CONSTRAINT `ide_pla_id`
-      FOREIGN KEY (`plant_id` )
-      REFERENCES `openarchem`.`plants` (`oa_id` )
+      ADD CONSTRAINT `ide_pro_id`
+      FOREIGN KEY (`product_id` )
+      REFERENCES `openarchem`.`products` (`oa_id` )
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
-      ADD INDEX `ide_pla_idx` (`plant_id` ASC) ;
-    SQL
-
-  
-    execute <<-SQL
-      ALTER TABLE `openarchem`.`identifications` 
-      ADD CONSTRAINT `ide_ani_id`
-      FOREIGN KEY (`animal_id` )
-      REFERENCES `openarchem`.`animals` (`oa_id` )
-      ON DELETE CASCADE
-      ON UPDATE NO ACTION,
-      ADD INDEX `ide_ani_idx` (`animal_id` ASC) ;
+      ADD INDEX `ide_pro_idx` (`product_id` ASC) ;
     SQL
 
 #plant compounds table
@@ -250,6 +236,46 @@ class AddAllForeignKeys < ActiveRecord::Migration
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
       ADD INDEX `anc_ani_idx` (`animal_id` ASC) ;
+    SQL
+
+    execute <<-SQL
+      ALTER TABLE `openarchem`.`products` 
+      ADD CONSTRAINT `pro_ani_id`
+      FOREIGN KEY (`animal_id` )
+      REFERENCES `openarchem`.`animals` (`oa_id` )
+      ON DELETE CASCADE
+      ON UPDATE NO ACTION,
+      ADD INDEX `pro_ani_idx` (`animal_id` ASC) ;
+    SQL
+
+    execute <<-SQL
+      ALTER TABLE `openarchem`.`products` 
+      ADD CONSTRAINT `pro_pla_id`
+      FOREIGN KEY (`plant_id` )
+      REFERENCES `openarchem`.`plants` (`oa_id` )
+      ON DELETE CASCADE
+      ON UPDATE NO ACTION,
+      ADD INDEX `pro_pla_idx` (`plant_id` ASC) ;
+    SQL
+
+    execute <<-SQL
+      ALTER TABLE `openarchem`.`product_compounds` 
+      ADD CONSTRAINT `prc_pro_id`
+      FOREIGN KEY (`product_id` )
+      REFERENCES `openarchem`.`products` (`oa_id` )
+      ON DELETE CASCADE
+      ON UPDATE NO ACTION,
+      ADD INDEX `prc_pro_idx` (`product_id` ASC) ;
+    SQL
+
+    execute <<-SQL
+      ALTER TABLE `openarchem`.`product_compounds` 
+      ADD CONSTRAINT `prc_com_id`
+      FOREIGN KEY (`compound_id` )
+      REFERENCES `openarchem`.`compounds` (`oa_id` )
+      ON DELETE CASCADE
+      ON UPDATE NO ACTION,
+      ADD INDEX `prc_com_idx` (`compound_id` ASC) ;
     SQL
 
   end
