@@ -238,6 +238,8 @@ class AddAllForeignKeys < ActiveRecord::Migration
       ADD INDEX `anc_ani_idx` (`animal_id` ASC) ;
     SQL
 
+#products table
+
     execute <<-SQL
       ALTER TABLE `openarchem`.`products` 
       ADD CONSTRAINT `pro_ani_id`
@@ -257,6 +259,8 @@ class AddAllForeignKeys < ActiveRecord::Migration
       ON UPDATE NO ACTION,
       ADD INDEX `pro_pla_idx` (`plant_id` ASC) ;
     SQL
+
+#product_compounds
 
     execute <<-SQL
       ALTER TABLE `openarchem`.`product_compounds` 

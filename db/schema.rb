@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,186 +10,173 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329184843) do
+ActiveRecord::Schema.define(version: 20170404214044) do
 
-  create_table "animal_compounds", force: true do |t|
+  create_table "animal_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "compound_id"
     t.string   "animal_id"
+    t.index ["animal_id"], name: "anc_ani_idx", using: :btree
+    t.index ["compound_id"], name: "anc_com_idx", using: :btree
   end
 
-  add_index "animal_compounds", ["animal_id"], name: "anc_ani_idx", using: :btree
-  add_index "animal_compounds", ["compound_id"], name: "anc_com_idx", using: :btree
-
-  create_table "animals", force: true do |t|
-    t.string   "oa_id",           null: false
+  create_table "animals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                         null: false
     t.string   "scientific_name"
     t.string   "common_name"
-    t.text     "description"
+    t.text     "description",     limit: 65535
     t.string   "image_file_path"
     t.string   "reference_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_animals_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "animals", ["oa_id"], name: "index_animals_on_oa_id", unique: true, using: :btree
-
-  create_table "bookmarks", force: true do |t|
-    t.integer  "user_id",       null: false
+  create_table "bookmarks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id",                     null: false
     t.string   "user_type"
     t.string   "document_id"
-    t.string   "title"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
     t.string   "document_type"
+    t.binary   "title",         limit: 65535
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["document_id"], name: "index_bookmarks_on_document_id", using: :btree
+    t.index ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
   end
 
-  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
-
-  create_table "chromatograms", force: true do |t|
-    t.string   "oa_id",       null: false
+  create_table "chromatograms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                     null: false
     t.string   "file_path"
-    t.text     "notes"
+    t.text     "notes",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sample_id"
     t.string   "compound_id"
+    t.index ["compound_id"], name: "chr_com_idx", using: :btree
+    t.index ["oa_id"], name: "index_chromatograms_on_oa_id", unique: true, using: :btree
+    t.index ["sample_id"], name: "chr_sam_idx", using: :btree
   end
 
-  add_index "chromatograms", ["compound_id"], name: "chr_com_idx", using: :btree
-  add_index "chromatograms", ["oa_id"], name: "index_chromatograms_on_oa_id", unique: true, using: :btree
-  add_index "chromatograms", ["sample_id"], name: "chr_sam_idx", using: :btree
-
-  create_table "collectors", force: true do |t|
+  create_table "collectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sample_id"
     t.string   "person_id"
+    t.index ["person_id"], name: "col_pea_idx", using: :btree
+    t.index ["sample_id"], name: "col_sam_idx", using: :btree
   end
 
-  add_index "collectors", ["person_id"], name: "col_pea_idx", using: :btree
-  add_index "collectors", ["sample_id"], name: "col_sam_idx", using: :btree
-
-  create_table "compounds", force: true do |t|
-    t.string   "oa_id",            null: false
+  create_table "compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                          null: false
     t.string   "formula"
-    t.float    "molecular_weight"
+    t.float    "molecular_weight", limit: 24
     t.string   "name"
     t.string   "image_file_path"
     t.boolean  "ancient"
     t.string   "outside_db_url"
-    t.text     "notes"
+    t.text     "notes",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_compounds_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "compounds", ["oa_id"], name: "index_compounds_on_oa_id", unique: true, using: :btree
-
-  create_table "equipment", force: true do |t|
-    t.string   "oa_id",               null: false
+  create_table "equipment", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                             null: false
     t.string   "manufacturer"
     t.string   "model"
     t.integer  "year"
     t.string   "column_manufacturer"
     t.string   "column_model"
-    t.text     "settings"
-    t.text     "notes"
+    t.text     "settings",            limit: 65535
+    t.text     "notes",               limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_equipment_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "equipment", ["oa_id"], name: "index_equipment_on_oa_id", unique: true, using: :btree
-
-  create_table "extractions", force: true do |t|
-    t.string   "oa_id",           null: false
+  create_table "extractions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                         null: false
     t.string   "solvent"
     t.boolean  "buchi"
     t.boolean  "swished"
     t.boolean  "boiled_manually"
-    t.text     "notes"
+    t.text     "notes",           limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_extractions_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "extractions", ["oa_id"], name: "index_extractions_on_oa_id", unique: true, using: :btree
-
-  create_table "identifications", force: true do |t|
-    t.string   "oa_id",      null: false
+  create_table "identifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                    null: false
     t.string   "certainty"
-    t.text     "notes"
+    t.text     "notes",      limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sample_id"
     t.string   "product_id"
+    t.index ["oa_id"], name: "index_identifications_on_oa_id", unique: true, using: :btree
+    t.index ["product_id"], name: "ide_pro_idx", using: :btree
+    t.index ["sample_id"], name: "ide_sam_idx", using: :btree
   end
 
-  add_index "identifications", ["oa_id"], name: "index_identifications_on_oa_id", unique: true, using: :btree
-  add_index "identifications", ["product_id"], name: "ide_pro_idx", using: :btree
-  add_index "identifications", ["sample_id"], name: "ide_sam_idx", using: :btree
-
-  create_table "peaks", force: true do |t|
-    t.string   "oa_id",                null: false
+  create_table "peaks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                           null: false
     t.integer  "peak_number"
-    t.float    "retention_time"
+    t.float    "retention_time",       limit: 24
     t.integer  "peak_height"
     t.integer  "peak_area"
-    t.float    "peak_area_div_height"
-    t.float    "relative_abundance"
-    t.float    "absolute_abundance"
+    t.float    "peak_area_div_height", limit: 24
+    t.float    "relative_abundance",   limit: 24
+    t.float    "absolute_abundance",   limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "chromatogram_id"
+    t.index ["chromatogram_id"], name: "pea_chr_idx", using: :btree
+    t.index ["oa_id"], name: "index_peaks_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "peaks", ["chromatogram_id"], name: "pea_chr_idx", using: :btree
-  add_index "peaks", ["oa_id"], name: "index_peaks_on_oa_id", unique: true, using: :btree
-
-  create_table "people", force: true do |t|
+  create_table "people", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",       null: false
     t.string   "last_name"
     t.string   "first_name"
     t.string   "affiliation"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_people_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "people", ["oa_id"], name: "index_people_on_oa_id", unique: true, using: :btree
-
-  create_table "plant_compounds", force: true do |t|
+  create_table "plant_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "compound_id"
     t.string   "plant_id"
+    t.index ["compound_id"], name: "plc_com_idx", using: :btree
+    t.index ["plant_id"], name: "plc_pla_idx", using: :btree
   end
 
-  add_index "plant_compounds", ["compound_id"], name: "plc_com_idx", using: :btree
-  add_index "plant_compounds", ["plant_id"], name: "plc_pla_idx", using: :btree
-
-  create_table "plants", force: true do |t|
-    t.string   "oa_id",           null: false
+  create_table "plants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                         null: false
     t.string   "scientific_name"
     t.string   "common_name"
-    t.text     "description"
+    t.text     "description",     limit: 65535
     t.string   "image_file_path"
     t.string   "dukes_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_plants_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "plants", ["oa_id"], name: "index_plants_on_oa_id", unique: true, using: :btree
-
-  create_table "product_compounds", force: true do |t|
+  create_table "product_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "product_id"
     t.string   "compound_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["compound_id"], name: "prc_com_idx", using: :btree
+    t.index ["product_id"], name: "prc_pro_idx", using: :btree
   end
 
-  add_index "product_compounds", ["compound_id"], name: "prc_com_idx", using: :btree
-  add_index "product_compounds", ["product_id"], name: "prc_pro_idx", using: :btree
-
-  create_table "products", force: true do |t|
+  create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",          null: false
     t.string   "name"
     t.string   "alternate_name"
@@ -201,24 +187,22 @@ ActiveRecord::Schema.define(version: 20170329184843) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["animal_id"], name: "pro_ani_idx", using: :btree
+    t.index ["oa_id"], name: "index_products_on_oa_id", unique: true, using: :btree
+    t.index ["plant_id"], name: "pro_pla_idx", using: :btree
   end
 
-  add_index "products", ["animal_id"], name: "pro_ani_idx", using: :btree
-  add_index "products", ["oa_id"], name: "index_products_on_oa_id", unique: true, using: :btree
-  add_index "products", ["plant_id"], name: "pro_pla_idx", using: :btree
-
-  create_table "sample_compounds", force: true do |t|
+  create_table "sample_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sample_id"
     t.string   "compound_id"
+    t.index ["compound_id"], name: "sac_com_idx", using: :btree
+    t.index ["sample_id"], name: "sac_sam_idx", using: :btree
   end
 
-  add_index "sample_compounds", ["compound_id"], name: "sac_com_idx", using: :btree
-  add_index "sample_compounds", ["sample_id"], name: "sac_sam_idx", using: :btree
-
-  create_table "samples", force: true do |t|
-    t.string   "oa_id",              null: false
+  create_table "samples", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                            null: false
     t.string   "archem_id"
     t.string   "site_orig_id"
     t.string   "locus_name"
@@ -230,50 +214,47 @@ ActiveRecord::Schema.define(version: 20170329184843) do
     t.boolean  "stored_in_plastic"
     t.boolean  "plastic_in_gcms"
     t.boolean  "ided_substance"
-    t.text     "notes"
+    t.text     "notes",              limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "site_id"
     t.string   "source_id"
     t.string   "equipment_id"
     t.string   "chromatogram_id"
+    t.index ["chromatogram_id"], name: "sam_chr_idx", using: :btree
+    t.index ["equipment_id"], name: "sam_equ_idx", using: :btree
+    t.index ["oa_id"], name: "index_samples_on_oa_id", unique: true, using: :btree
+    t.index ["site_id"], name: "sam_sit_idx", using: :btree
+    t.index ["source_id"], name: "sam_sou_idx", using: :btree
   end
 
-  add_index "samples", ["chromatogram_id"], name: "sam_chr_idx", using: :btree
-  add_index "samples", ["equipment_id"], name: "sam_equ_idx", using: :btree
-  add_index "samples", ["oa_id"], name: "index_samples_on_oa_id", unique: true, using: :btree
-  add_index "samples", ["site_id"], name: "sam_sit_idx", using: :btree
-  add_index "samples", ["source_id"], name: "sam_sou_idx", using: :btree
-
-  create_table "searches", force: true do |t|
-    t.text     "query_params"
+  create_table "searches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.binary   "query_params", limit: 65535
     t.integer  "user_id"
     t.string   "user_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["user_id"], name: "index_searches_on_user_id", using: :btree
   end
 
-  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
-
-  create_table "sites", force: true do |t|
-    t.string   "oa_id",       null: false
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                     null: false
     t.string   "geo_coords"
     t.string   "name"
     t.string   "project_url"
-    t.text     "notes"
+    t.text     "notes",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "director_id"
+    t.index ["director_id"], name: "sit_per_idx", using: :btree
+    t.index ["oa_id"], name: "index_sites_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "sites", ["director_id"], name: "sit_per_idx", using: :btree
-  add_index "sites", ["oa_id"], name: "index_sites_on_oa_id", unique: true, using: :btree
-
-  create_table "sources", force: true do |t|
-    t.string   "oa_id",            null: false
+  create_table "sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "oa_id",                          null: false
     t.string   "coords"
     t.boolean  "soil_sample"
-    t.text     "notes"
+    t.text     "notes",            limit: 65535
     t.string   "object_condition"
     t.string   "object_type"
     t.string   "petrography"
@@ -282,8 +263,47 @@ ActiveRecord::Schema.define(version: 20170329184843) do
     t.string   "object_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["oa_id"], name: "index_sources_on_oa_id", unique: true, using: :btree
   end
 
-  add_index "sources", ["oa_id"], name: "index_sources_on_oa_id", unique: true, using: :btree
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "guest",                  default: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
 
+  add_foreign_key "animal_compounds", "animals", primary_key: "oa_id", name: "anc_ani_id", on_delete: :cascade
+  add_foreign_key "animal_compounds", "compounds", primary_key: "oa_id", name: "anc_com_id", on_delete: :cascade
+  add_foreign_key "chromatograms", "compounds", primary_key: "oa_id", name: "chr_com_id", on_delete: :cascade
+  add_foreign_key "chromatograms", "samples", primary_key: "oa_id", name: "chr_sam_id", on_delete: :cascade
+  add_foreign_key "collectors", "people", primary_key: "oa_id", name: "col_pea_id", on_delete: :cascade
+  add_foreign_key "collectors", "samples", primary_key: "oa_id", name: "col_sam_id", on_delete: :cascade
+  add_foreign_key "identifications", "products", primary_key: "oa_id", name: "ide_pro_id", on_delete: :cascade
+  add_foreign_key "identifications", "samples", primary_key: "oa_id", name: "ide_sam_id", on_delete: :cascade
+  add_foreign_key "peaks", "chromatograms", primary_key: "oa_id", name: "pea_chr_id", on_delete: :cascade
+  add_foreign_key "plant_compounds", "compounds", primary_key: "oa_id", name: "plc_com_id", on_delete: :cascade
+  add_foreign_key "plant_compounds", "plants", primary_key: "oa_id", name: "plc_pla_id", on_delete: :cascade
+  add_foreign_key "product_compounds", "compounds", primary_key: "oa_id", name: "prc_com_id", on_delete: :cascade
+  add_foreign_key "product_compounds", "products", primary_key: "oa_id", name: "prc_pro_id", on_delete: :cascade
+  add_foreign_key "products", "animals", primary_key: "oa_id", name: "pro_ani_id", on_delete: :cascade
+  add_foreign_key "products", "plants", primary_key: "oa_id", name: "pro_pla_id", on_delete: :cascade
+  add_foreign_key "sample_compounds", "compounds", primary_key: "oa_id", name: "sac_com_id", on_delete: :cascade
+  add_foreign_key "sample_compounds", "samples", primary_key: "oa_id", name: "sac_sam_id", on_delete: :cascade
+  add_foreign_key "samples", "chromatograms", primary_key: "oa_id", name: "sam_chr_id", on_delete: :cascade
+  add_foreign_key "samples", "equipment", primary_key: "oa_id", name: "sam_equ_id", on_delete: :cascade
+  add_foreign_key "samples", "sites", primary_key: "oa_id", name: "sam_sit_id", on_delete: :cascade
+  add_foreign_key "samples", "sources", primary_key: "oa_id", name: "sam_sou_id", on_delete: :cascade
+  add_foreign_key "sites", "people", column: "director_id", primary_key: "oa_id", name: "sit_per_id", on_delete: :cascade
 end
