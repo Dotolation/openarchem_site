@@ -46,3 +46,6 @@ bower.json
 
 # Ignore data directory
 /data
+
+#Ignore db-data-config
+/config/solr/db-data-config
