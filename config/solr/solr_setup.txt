@@ -1,0 +1,28 @@
+*Setting up solr*
+
+Download latest solr distro
+	wget http://apache.mirror1.spango.com/lucene/solr/6.5.0/solr-6.5.0.tgz
+
+unpack
+	tar xzf solr-5.2.1.tgz solr-5.2.1/bin/install_solr_service.sh --strip-components=2
+
+run 
+	sudo bash ./install_solr_service.sh solr-6.5.0.tgz
+
+Solr should now be running at http://localhost:8983/solr
+
+Create core (with solr user privileges)
+	sudo su - solr -c "/opt/solr/bin/solr create -c blacklight_core"
+
+Output should say the instance directory is at "/var/solr/data/blacklight_core"
+
+Move configuration files, solrconfig.xml, schema.xml, db-data-config.xml to core instance directory (change permissions on conf directory if "Permission denied" encountered)
+	sudo cp ~/openarchem/config/solr/solrconfig.xml /var/solr/data/blacklight_core/conf
+	sudo cp ~/openarchem/config/solr/schema.xml /var/solr/data/blacklight_core/conf
+	sudo cp ~/openarchem/config/solr/db-data-config.xml /var/solr/data/blacklight_core/conf
+
+Restart solr
+	sudo service solr restart
+
+Core should appear in dropdown on the main Solr admin page, and data import should be enabled
+

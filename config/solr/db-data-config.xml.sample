@@ -1,0 +1,37 @@
+
+<dataConfig>
+    <dataSource type="JdbcDataSource"
+        driver="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost/openarchem"
+        user="yourUser"
+        password="yourPassword"/>
+    <document>
+        <entity name="samples" rootEntity="true" transformer="RegexTransformer" query="SELECT * FROM samples">
+            <field column="oa_id" name="oa_id" />
+            <field column="oa_id" name="sample_id" />
+            <field column="oa_id" name="title_display"/>
+            <field column="locus_type" name="sample_locus_type" />
+            
+            <entity name="site_sub" rootEntity="false" query="SELECT name FROM sites where oa_id='${samples.site_id}'">
+                <field column="name" name="sample_site"/>
+            </entity>   
+            
+            <entity name="source_sub0" rootEntity="false" query="SELECT object_type FROM sources where oa_id='${samples.source_id}'">
+                <field column="object_type" name="sample_object_type"/>
+            </entity>
+            
+            <entity name="source_sub1" rootEntity="false" query="select case sources.soil_sample when 0 then 'object' when 1 then 'soil sample' end from sources;">
+              <field column="case sources.soil_sample when 0 then 'object' when 1 then 'soil sample' end" name="sample_type"/>
+            </entity>
+
+        </entity>
+        
+        <entity name="sites" rootEntity="true" transformer="RegexTransformer" query="SELECT * FROM sites">
+        </entity>
+
+        <entity name="sources" rootEntity="true" transformer="RegexTransformer" query="SELECT * FROM sources">
+        </entity>
+        
+        
+    </document>
+</dataConfig>

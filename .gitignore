@@ -48,4 +48,4 @@ bower.json
 /data
 
 #Ignore db-data-config
-/config/solr/db-data-config
+/config/solr/db-data-config.xml

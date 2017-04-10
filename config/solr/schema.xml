@@ -45,7 +45,7 @@
     that avoids logging every request
 -->
 
-<schema name="openarchem" version="1.5">
+<schema name="openarchem" version="1.6">
   <!-- attribute "name" is the name of this schema and is only used for display purposes.
        Applications should change this to reflect the nature of the search collection.
        version="x.y" is Solr's version number for the schema syntax and semantics.  It should
@@ -57,6 +57,7 @@
        1.4: default auto-phrase (QueryParser feature) to off
        1.5: omitNorms defaults to true for primitive field types (int, float, boolean, string...)
      -->
+
 
   <types>
     <!-- field type definitions. The "name" attribute is
@@ -473,6 +474,16 @@
        when adding a document.
    -->
 
+    <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
+      or Solr won't start. _version_ and update log are required for SolrCloud
+   --> 
+    <field name="_version_" type="long" indexed="true" stored="false" />
+   
+   <!-- points to the root document of a block of nested documents. Required for nested
+      document support, may be removed otherwise
+   -->
+    <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
+
     <field name="oa_id" type="string" indexed="true" stored="true" required="true" /> 
     <field name="title_display" type="string" indexed="true" stored="true"/>
   <!-- Sample documents --> 
@@ -482,9 +493,14 @@
     <field name="sample_type" type="string" indexed="true" stored="true" />
     <field name="sample_object_type" type="string" indexed="true" stored="true" />
   <!-- Site documents -->
-
+    <field name="site_id" type="string" indexed="true" stored="true" />
+    <field name="site_name" type="string" indexed="true" stored="true" />
   <!-- Source documents -->
-
+    <field name="source_id" type="string" indexed="true" stored="true" />
+    <field name="source_type" type="string" indexed="true" stored="true" />
+    <field name="source_notes" type="string" indexed="true" stored="true" />
+    <field name="source_condition" type="string" indexed="true" stored="true" />
+    <field name="source_url" type="string" indexed="true" stored="true" />
   <!-- Extraction documents -->
 
   <!-- Equipment documents -->
