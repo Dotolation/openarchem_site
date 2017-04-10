@@ -57,6 +57,17 @@ class AddAllForeignKeys < ActiveRecord::Migration
       ADD INDEX `sam_equ_idx` (`equipment_id` ASC) ;
     SQL
 
+
+    execute <<-SQL
+      ALTER TABLE `openarchem`.`samples` 
+      ADD CONSTRAINT `sam_ext_id`
+      FOREIGN KEY (`extraction_id` )
+      REFERENCES `openarchem`.`extractions` (`oa_id` )
+      ON DELETE CASCADE
+      ON UPDATE NO ACTION,
+      ADD INDEX `sam_ext_idx` (`extraction_id` ASC) ;
+    SQL
+
 	
     execute <<-SQL
       ALTER TABLE `openarchem`.`samples` 

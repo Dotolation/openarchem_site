@@ -220,9 +220,11 @@ ActiveRecord::Schema.define(version: 20170404214044) do
     t.string   "site_id"
     t.string   "source_id"
     t.string   "equipment_id"
+    t.string   "extraction_id"
     t.string   "chromatogram_id"
     t.index ["chromatogram_id"], name: "sam_chr_idx", using: :btree
     t.index ["equipment_id"], name: "sam_equ_idx", using: :btree
+    t.index ["extraction_id"], name: "sam_ext_idx", using: :btree
     t.index ["oa_id"], name: "index_samples_on_oa_id", unique: true, using: :btree
     t.index ["site_id"], name: "sam_sit_idx", using: :btree
     t.index ["source_id"], name: "sam_sou_idx", using: :btree
@@ -303,6 +305,7 @@ ActiveRecord::Schema.define(version: 20170404214044) do
   add_foreign_key "sample_compounds", "samples", primary_key: "oa_id", name: "sac_sam_id", on_delete: :cascade
   add_foreign_key "samples", "chromatograms", primary_key: "oa_id", name: "sam_chr_id", on_delete: :cascade
   add_foreign_key "samples", "equipment", primary_key: "oa_id", name: "sam_equ_id", on_delete: :cascade
+  add_foreign_key "samples", "extractions", primary_key: "oa_id", name: "sam_ext_id", on_delete: :cascade
   add_foreign_key "samples", "sites", primary_key: "oa_id", name: "sam_sit_id", on_delete: :cascade
   add_foreign_key "samples", "sources", primary_key: "oa_id", name: "sam_sou_id", on_delete: :cascade
   add_foreign_key "sites", "people", column: "director_id", primary_key: "oa_id", name: "sit_per_id", on_delete: :cascade

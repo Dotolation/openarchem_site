@@ -4,6 +4,7 @@ class AddFkColumns < ActiveRecord::Migration
   	add_column :samples, :site_id, :string
   	add_column :samples, :source_id, :string
   	add_column :samples, :equipment_id, :string
+    add_column :samples, :extraction_id, :string
   	add_column :samples, :chromatogram_id, :string
   	add_column :sites, :director_id, :string
   	add_column :chromatograms, :sample_id, :string
