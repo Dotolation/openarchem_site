@@ -24,5 +24,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "input_form" => "input_form#index"
+  resource :input_form, as: "input_form", path: "/input_form", controller: "input_form"
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

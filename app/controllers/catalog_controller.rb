@@ -15,6 +15,7 @@ class CatalogController < ApplicationController
 
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = { 
+      :qt => 'search',
       :q => '*:*',
       :rows => 10 
     }
@@ -29,11 +30,11 @@ class CatalogController < ApplicationController
     ## parameters included in the Blacklight-jetty document requestHandler.
     #
     config.default_document_solr_params = {
-    #  :qt => 'document',
-    #  ## These are hard-coded in the blacklight 'document' requestHandler
-    #   :fl => '*',
-    #   :rows => 1,
-    #   :q => '{!raw f=id v=$id}' 
+      :qt => 'document',
+      ## These are hard-coded in the blacklight 'document' requestHandler
+       :fl => '*',
+       :rows => 1,
+       :q => '{!raw f=oa_id v=$id}' 
     }
 
     # solr field configuration for search results/index views
@@ -77,7 +78,7 @@ class CatalogController < ApplicationController
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
-    #config.add_facet_fields_to_solr_request!
+    config.add_facet_fields_to_solr_request!
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 
@@ -104,6 +105,13 @@ class CatalogController < ApplicationController
     config.add_show_field 'plant_id', :label => 'ID'
     config.add_show_field 'plant_sci_name', :label => 'Plant Scientific Name'
     config.add_show_field 'plant_common_name', :label => 'Plant Common Name'
+    config.add_show_field 'site_id', :label => 'ID'
+    config.add_show_field 'site_name', :label => 'Site Name'
+    config.add_show_field 'source_id', :label => 'ID'
+    config.add_show_field 'source_type', :label => 'Source Type'
+    config.add_show_field 'source_notes', :label => 'Source Notes'
+    config.add_show_field 'source_condition', :label => 'Source Condition'
+    config.add_show_field 'source_url', :label => 'URL'
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields

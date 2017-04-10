@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Openarchem2</title>
+  	<meta charset="utf-8">
+	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	  <!-- Mobile viewport optimization h5bp.com/ad -->
+	  <meta name="HandheldFriendly" content="True">
+	  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>OpenARCHEM</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +15,31 @@
   </head>
 
   <body>
-    <%= yield %>
+  	<div id='wrap'>
+	  	<%= render :partial => 'shared/header_navbar' %>
+	  	<div id="main-container" class="container">
+	  		<!-- Top bar -->
+        <div id="search-found" class="row hidden-phone">
+          <%= topbar_items.join('').html_safe %>
+        </div>
+        <!-- /Top bar -->
+        <div class="row">
+            <div class="span12">
+              <div id="main-flashes">
+                <%= render :partial=>'/flash_msg' %>
+              </div>
+            </div>    
+        </div>              
+
+	    	<div class="row">
+	    		<%= yield %>
+	    	</div>
+	    </div>
+  
+    </div>
+    
+
+    <%= render :partial => 'shared/footer' %>
+
   </body>
 </html>

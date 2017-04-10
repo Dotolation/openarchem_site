@@ -1,0 +1,10 @@
+<div>
+	<h2>Data Input Form</h2>
+
+	<%= form_tag(controller: "input_form", action: "new", method: "post") do %>
+		<%= label_tag(:sample_id, "Sample ID") %>
+		<%= text_field_tag(:sample_id) %>
+
+	<% end %>
+
+</div>
