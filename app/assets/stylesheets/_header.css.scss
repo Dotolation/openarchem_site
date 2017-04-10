@@ -1,0 +1,81 @@
+/*
+ The main logo image for the Blacklight instance
+*/
+
+
+.navbar .logo {
+  width: 500px;
+  background:transparent url(openarchem1.gif) no-repeat center;
+  background-size: contain;
+  display: block;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: auto;
+
+  .image {
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  }
+}
+
+
+/*
+  Header bar at top (Bootstrap nav-bar)
+*/
+
+/* This ensures that any tool pop-up goes infront of the header */
+.navbar-fixed-top {
+  z-index:1000;
+}
+
+
+#header-navbar {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  min-width: 395px;
+  max-height: 100%;
+  margin-bottom: 26px;
+  .navbar-inner {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+
+  /*
+    Search form is in the header...
+  */
+  .desktop-search-bar {
+    opacity: 1 !important;
+    padding-top: 2em;
+
+  }
+}
+
+
+#searchbar {
+  padding-top:10px;
+}
+
+.search-query-form {
+  margin-bottom: 0;
+}
+
+
+
+.btn.search-btn {
+  margin-top: 0;
+}
+
+.search_field {
+  margin-right: 0.5em;
+}
+
+.util-links-login, .util-links-other {
+  padding-top: 10px;
+  font-size: 0.9em;
+}
+
+#util_links {
+  padding-right: 1em;
+}

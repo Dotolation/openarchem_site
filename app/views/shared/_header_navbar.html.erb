@@ -1,0 +1,27 @@
+<div id="header-navbar" class="navbar navbar">
+   <div class="navbar-inner">
+      <div class="container">
+        <div class="row">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          
+            <%= link_to image_tag('openarchem1.gif'), {:controller=> "catalog"}, :class => "logo" %>
+          
+        </div>
+        <div class="row">  
+          <div class="text-center" id="searchbar">         
+            <%= render_search_bar  %>
+          </div>
+
+          <div class="text-center" id="util_links">
+            <%= render :partial=>'/user_util_links' %>
+          
+          </div>
+
+        </div>
+      </div>
+   </div>
+</div>

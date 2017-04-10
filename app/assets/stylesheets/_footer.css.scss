@@ -1,0 +1,26 @@
+
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  max-height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+  padding: 0 0 80px;
+}
+
+
+#footer-navbar-fixed-bottom {
+  max-height: 100%;
+  background: lightgrey;
+  border-top: 1px solid;
+}
+
+
+#footer-links {
+  padding-top: 20px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
