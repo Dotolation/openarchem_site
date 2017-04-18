@@ -1,0 +1,58 @@
+<% doc_presenter = show_presenter(document) %>
+<%# partial to display samples documents in catalog show view -%>
+<% sample_data, site_data, source_data, equipment_data, extraction_data, chromatogram_data = Sample.get_data(document) %>
+<%# temporarily removed equipment_id until data exists in the db %>
+<% link_fields = ["site_id", "source_id", "extraction_id", "chromatogram_id"] %>
+
+<dl class="dl-horizontal  dl-invert">
+  <% sample_data.each do |key, val| -%>
+  <% #byebug %>
+  	<% unless val == nil %>
+	    <% unless link_fields.include?(key) %>
+		    <dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
+		    <dd><%= "#{val}" %></dd>
+		  <% else %>
+		  	<%# Need to pass matching x_data hash to mini_list  %>
+		  	<% name = "#{key.gsub('_id', '').capitalize}" %>
+		  	<% case key %>
+		  	<% when /site/ %> 
+		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => site_data, :num => "1"} %>
+		  	<%  when /source/ %> 
+		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => source_data, :num => "2"} %>
+		  	<%# when /equipment/ %>
+		  		<%#= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => equipment_data, :num => "3"} %>
+		  	<% when /extraction/ %>
+		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => extraction_data, :num => "4"} %>
+		  	<% else %>
+		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => chromatogram_data, :num => "5"} %>		
+		  	<% end -%>
+		  <% end -%>
+    <% end -%>
+  <% end -%>
+</dl>
+
+
+
+
+<%# "oa_id"
+    "archem_id"
+    "site_orig_id"
+    "locus_name"
+    "locus_type"
+    site name, link to record w/"site_id"
+    source type (object type if object) link w/"source_id"
+    "sample_date"
+    "sample_time"
+    "subsample_amount"
+    equipment name link w/"equipment_id"
+    "gcms_analysis_date"
+    "stored_in_plastic"
+    "plastic_in_gcms"
+    summary of extraction proceedure link w/"extraction_id"
+    link to chromatogram "chromatogram_id"
+    "ided_substance"
+    "notes"   
+    
+
+    Want format to be a basic listing, but links out to the auxiliary info, site, source, etc. will have collapsable panels, providing some values, link to full record
+     %>

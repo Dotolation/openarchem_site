@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170404214044) do
+ActiveRecord::Schema.define(version: 20170412194901) do
 
   create_table "animal_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170404214044) do
     t.string   "reference_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image_credit"
     t.index ["oa_id"], name: "index_animals_on_oa_id", unique: true, using: :btree
   end
 
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20170404214044) do
     t.text     "notes",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image_credit"
     t.index ["oa_id"], name: "index_compounds_on_oa_id", unique: true, using: :btree
   end
 
@@ -164,6 +166,7 @@ ActiveRecord::Schema.define(version: 20170404214044) do
     t.string   "dukes_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image_credit"
     t.index ["oa_id"], name: "index_plants_on_oa_id", unique: true, using: :btree
   end
 

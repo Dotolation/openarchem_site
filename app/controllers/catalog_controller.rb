@@ -42,8 +42,8 @@ class CatalogController < ApplicationController
     config.index.display_type_field = 'format'
 
     # solr field configuration for document/show views
-    #config.show.title_field = 'title_display'
-    #config.show.display_type_field = 'format'
+    config.show.title_field = 'title_display'
+    config.show.display_type_field = 'format'
 
     # solr fields that will be treated as facets by the blacklight application
     #   The ordering of the field names is the order of the display
@@ -65,6 +65,8 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
     config.add_facet_field 'sample_site', :label => 'Site'
+    config.add_facet_field 'sample_compound', :label => 'Compounds'
+
 
     #config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
@@ -82,7 +84,7 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 
-    config.add_index_field 'sample_id', :label => 'ID'
+    config.add_index_field 'sample_id', :label => 'Sample ID'
     config.add_index_field 'sample_site', :label => 'Site'
     config.add_index_field 'sample_type', :label => 'Sample Type'
     config.add_index_field 'sample_object_type', :label => 'Object Type'
@@ -93,21 +95,20 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
-    config.add_show_field 'sample_id', :label => 'ID'
+    config.add_show_field 'sample_id', :label => 'Sample ID'
     config.add_show_field 'sample_site', :label => 'Site'
     config.add_show_field 'sample_locus_type', :label => 'Sample Locus Type'
     config.add_show_field 'sample_type', :label => 'Sample Type'
     config.add_show_field 'sample_object_type', :label => 'Object Type'
-    config.add_show_field 'author_display', :label => 'Author'
-    config.add_show_field 'compound_id', :label => 'ID'
+    config.add_show_field 'compound_id', :label => 'Compound ID'
     config.add_show_field 'compound_name', :label => 'Compound Name'
     config.add_show_field 'compound_formula', :label => 'Compound Formula'
-    config.add_show_field 'plant_id', :label => 'ID'
+    config.add_show_field 'plant_id', :label => 'Plant ID'
     config.add_show_field 'plant_sci_name', :label => 'Plant Scientific Name'
     config.add_show_field 'plant_common_name', :label => 'Plant Common Name'
-    config.add_show_field 'site_id', :label => 'ID'
+    config.add_show_field 'site_id', :label => 'Site ID'
     config.add_show_field 'site_name', :label => 'Site Name'
-    config.add_show_field 'source_id', :label => 'ID'
+    config.add_show_field 'source_id', :label => 'Source ID'
     config.add_show_field 'source_type', :label => 'Source Type'
     config.add_show_field 'source_notes', :label => 'Source Notes'
     config.add_show_field 'source_condition', :label => 'Source Condition'
@@ -143,6 +144,14 @@ class CatalogController < ApplicationController
       field.solr_local_parameters = {
         :type => 'dismax',
         :qf => 'plant_sci_name plant_common_name'
+      }
+    end
+
+    config.add_search_field('compound') do |field|
+      field.label = "Compounds" 
+      field.solr_local_parameters = {
+        :type => 'dismax',
+        :qf => 'compound_name compound_formula'
       }
     end
 

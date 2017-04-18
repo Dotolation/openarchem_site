@@ -1,0 +1,30 @@
+<%# displays the smaller, collapsable portions in the document views %>
+
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel">
+			<div class="panel-heading" role="tab" id="<%= "heading" + "#{num}" %>">
+		        
+				<dt><%= "#{name}:" %></dt>
+				<dd>
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="<%= "#collapse" + "#{num}" %>" aria-controls="<%= "collapse" + "#{num}" %>">
+		         <%= "#{data['display']}" %> 
+		      </a>
+		    </div>
+		    <div id="<%= "collapse" + "#{num}" %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= "heading" + "#{num}" %>">
+		      <div class="panel-body">
+		      	
+		        <dl class="dl-horizontal  dl-invert">
+		        	<% data.each do |key, val| %>
+		        		<% unless val == nil  %>
+			        		<% unless key == "display" %>
+			        			<dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
+			        			<dd><%= "#{val}" %></dd>
+			        		<% end -%>
+			        	<% end -%>
+		        	<% end -%>
+		        	<dt>See full record:</dt>
+		        	<dd><%= link_to "Here", oa_id %> 
+		        </dl>
+		      </div>
+		    </div>
+		  </div>

@@ -486,12 +486,14 @@
 
     <field name="oa_id" type="string" indexed="true" stored="true" required="true" /> 
     <field name="title_display" type="string" indexed="true" stored="true"/>
+    <field name="format" type="string" indexed="false" stored="true"/>
   <!-- Sample documents --> 
     <field name="sample_id" type="string" indexed="true" stored="true" />
     <field name="sample_site" type="string" indexed="true" stored="true" />
     <field name="sample_locus_type" type="string" indexed="true" stored="true" />
     <field name="sample_type" type="string" indexed="true" stored="true" />
     <field name="sample_object_type" type="string" indexed="true" stored="true" />
+    <field name="sample_compound" type="string" indexed="true" stored="true" multiValued="true" />
   <!-- Site documents -->
     <field name="site_id" type="string" indexed="true" stored="true" />
     <field name="site_name" type="string" indexed="true" stored="true" />
