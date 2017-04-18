@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412194901) do
+ActiveRecord::Schema.define(version: 20170418180910) do
 
   create_table "animal_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
@@ -268,6 +268,8 @@ ActiveRecord::Schema.define(version: 20170412194901) do
     t.string   "object_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "file_path"
+    t.string   "image_credit"
     t.index ["oa_id"], name: "index_sources_on_oa_id", unique: true, using: :btree
   end
 

@@ -17,7 +17,7 @@ class Source < ActiveRecord::Base
 
 	def self.get_data_for_mini_view(id)
 		source = Source.find_source(id)
-		field_list = ["oa_id", "soil_sample", "object_type", "object_url"] 
+		field_list = ["oa_id", "soil_sample", "object_type", "object_url", "file_path", "image_credit"] 
 		#add in image field above
 		source_hash = Hash.new
 		

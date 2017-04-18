@@ -24,7 +24,7 @@ class Site < ActiveRecord::Base
 
 		field_list.each do |key|
 			val = site[key]
-			#need to decide what will be our display field in the mini list
+			#setting the display field in the mini list
 			if key == "name"
 				site_hash["display"] = val
 			else
