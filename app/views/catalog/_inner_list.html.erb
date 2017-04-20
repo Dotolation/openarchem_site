@@ -1,6 +1,6 @@
 <%# displays the smaller, collapsable portions in the document views %>
 
-	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	
 		<div class="panel">
 			<div class="panel-heading" role="tab" id="<%= "heading" + "#{num}" %>">
 		        
@@ -15,10 +15,10 @@
 		      	
 		        <dl class="dl-horizontal  dl-invert">
 		        	<% data.each do |key, val| %>
-		        		<% unless val == nil  %>
+		        		<% unless val == nil || key == ""  %>
 			        		<% unless key == "display" %>
 			        			<dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
-			        			<dd><%= "#{val}" %></dd>
+			        			<dd><%= key == "image_file_path" ? render_value(val, data["image_credit"]) : render_value(val) %></dd>
 			        		<% end -%>
 			        	<% end -%>
 		        	<% end -%>

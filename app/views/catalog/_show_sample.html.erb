@@ -1,39 +1,27 @@
 <% doc_presenter = show_presenter(document) %>
 <%# partial to display samples documents in catalog show view -%>
-<% sample_data, site_data, source_data, equipment_data, extraction_data, chromatogram_data = Sample.get_data(document) %>
-<%# temporarily removed equipment_id until data exists in the db %>
-<% link_fields = ["site_id", "source_id", "extraction_id", "chromatogram_id"] %>
-
-<dl class="dl-horizontal  dl-invert">
-  <% sample_data.each do |key, val| -%>
-  <% #byebug %>
-  	<% unless val == nil %>
-	    <% unless link_fields.include?(key) %>
-	    	<% if key == "oa_id" %>
-	    		<dt><%= "OA Id:" %></dt>
-	    	<% else %>
-		    	<dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
-		    <% end -%>
-		    <dd><%= "#{val}" %></dd>
-		  <% else %>
-		  	<%# Need to pass matching x_data hash to mini_list  %>
-		  	<% name = "#{key.gsub('_id', '').capitalize}" %>
-		  	<% case key %>
-		  	<% when /site/ %> 
-		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => site_data, :num => "1"} %>
-		  	<%  when /source/ %> 
-		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => source_data, :num => "2"} %>
-		  	<%# when /equipment/ %>
-		  		<%#= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => equipment_data, :num => "3"} %>
-		  	<% when /extraction/ %>
-		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => extraction_data, :num => "4"} %>
-		  	<% else %>
-		  		<%= render :partial => "mini_list" , :locals => {:name => name, :oa_id => val, :data => chromatogram_data, :num => "5"} %>		
-		  	<% end -%>
-		  <% end -%>
-    <% end -%>
-  <% end -%>
-</dl>
+<%  %>
+<% data_arr = sample_show_data(params["id"])%>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<dl class="dl-horizontal  dl-invert">
+	  <% data_arr[0].each do |key, val| -%>
+	  	<% unless val == nil || key == "" %>
+		    <% unless data_arr[1].include?(key) %>
+		    	<% if key == "oa_id" %>
+		    		<dt><%= "OA Id:" %></dt>
+		    	<% else %>
+			    	<dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
+			    <% end -%>
+			    	<dd><%= key == "image_file_path" ? render_value(val, data_arr[0]["image_credit"]) : render_value(val) %></dd>
+			  <% else %>
+			  	<%# Need to pass matching x_data hash to mini_list  %>
+			  	<% locals = data_for_inner_list(key, val, data_arr) %>
+			  	<%= render :partial => "inner_list" , :locals => locals %>
+			  <% end -%>
+	    <% end -%>
+	  <% end -%>
+	</dl>
+</div>
 
 
 

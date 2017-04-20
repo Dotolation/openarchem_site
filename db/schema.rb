@@ -268,7 +268,7 @@ ActiveRecord::Schema.define(version: 20170418180910) do
     t.string   "object_url"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "file_path"
+    t.string   "image_file_path"
     t.string   "image_credit"
     t.index ["oa_id"], name: "index_sources_on_oa_id", unique: true, using: :btree
   end

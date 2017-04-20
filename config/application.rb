@@ -11,5 +11,9 @@ module Openarchem2
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    
+		Dir.glob("#{Rails.root}/app/assets/images/**/").each do |path|
+		  config.assets.paths << path
+		end
   end
 end

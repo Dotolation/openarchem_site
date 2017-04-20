@@ -15,13 +15,12 @@ class Sample < ActiveRecord::Base
 		return sample		
 	end
 
-	def self.get_data(document)
-		d_id = document.to_h["oa_id"] 
- 		#doc is an activerecord relation
- 		doc = Sample.find_sample(d_id)
+	def self.get_data(oa_id)
+ 		doc = Sample.find_sample(oa_id)
 
  		#field_list is used to weed out unwanted fields in the display, like created_at 
  		field_list = ["oa_id", "archem_id", "site_orig_id", "locus_name", "locus_type", "site_id", "source_id", "sample_date", "sample_time", "subsample_amount", "equipment_id", "gcms_analysis_date", "stored_in_plastic", "plastic_in_gcms", "extraction_id", "chromatogram_id", "ided_substance", "notes"]
+ 		link_fields = ["site_id", "source_id", "equipment_id", "extraction_id", "chromatogram_id"]
 
  		sam_hash = Hash.new
 
@@ -30,12 +29,12 @@ class Sample < ActiveRecord::Base
  			sam_hash[key] = val
  		end
 
- 		site_data, source_data, equipment_data, extraction_data, chromatogram_data = Sample.get_data_for_mini_view(sam_hash["site_id"], sam_hash["source_id"], sam_hash["equipment_id"], sam_hash["extraction_id"], sam_hash["chromatogram_id"])
+ 		site_data, source_data, equipment_data, extraction_data, chromatogram_data = Sample.get_data_for_inner_list(sam_hash["site_id"], sam_hash["source_id"], sam_hash["equipment_id"], sam_hash["extraction_id"], sam_hash["chromatogram_id"])
 
- 		return sam_hash, site_data, source_data, equipment_data, extraction_data, chromatogram_data
+ 		return [sam_hash, link_fields, site_data, source_data, equipment_data, extraction_data, chromatogram_data]
 	end
 
-	def self.get_data_for_mini_view(site_id, source_id, equipment_id, extraction_id, chromatogram_id)
+	def self.get_data_for_inner_list(site_id, source_id, equipment_id, extraction_id, chromatogram_id)
 		#each x_data variable is a hash of the information
 		site_data = Site.get_data_for_mini_view(site_id)
 		source_data = Source.get_data_for_mini_view(source_id)
@@ -45,5 +44,11 @@ class Sample < ActiveRecord::Base
 
 		return site_data, source_data, equipment_data, extraction_data, chromatogram_data
 	end
+
+	def self.show_sample_data(oa_id)
+		data_arr = get_data(oa_id)
+	end
+
+	
 
 end
