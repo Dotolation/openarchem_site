@@ -1,50 +1,6 @@
 <% doc_presenter = show_presenter(document) %>
 <%# partial to display samples documents in catalog show view -%>
-<%  %>
-<% data_arr = sample_show_data(params["id"])%>
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-	<dl class="dl-horizontal  dl-invert">
-	  <% data_arr[0].each do |key, val| -%>
-	  	<% unless val == nil || key == "" %>
-		    <% unless data_arr[1].include?(key) %>
-		    	<% if key == "oa_id" %>
-		    		<dt><%= "OA Id:" %></dt>
-		    	<% else %>
-			    	<dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
-			    <% end -%>
-			    	<dd><%= key == "image_file_path" ? render_value(val, data_arr[0]["image_credit"]) : render_value(val) %></dd>
-			  <% else %>
-			  	<%# Need to pass matching x_data hash to mini_list  %>
-			  	<% locals = data_for_inner_list(key, val, data_arr) %>
-			  	<%= render :partial => "inner_list" , :locals => locals %>
-			  <% end -%>
-	    <% end -%>
-	  <% end -%>
-	</dl>
-</div>
 
+<% data_hashes = sample_show_data(params["id"])%>
 
-
-
-<%# "oa_id"
-    "archem_id"
-    "site_orig_id"
-    "locus_name"
-    "locus_type"
-    site name, link to record w/"site_id"
-    source type (object type if object) link w/"source_id"
-    "sample_date"
-    "sample_time"
-    "subsample_amount"
-    equipment name link w/"equipment_id"
-    "gcms_analysis_date"
-    "stored_in_plastic"
-    "plastic_in_gcms"
-    summary of extraction proceedure link w/"extraction_id"
-    link to chromatogram "chromatogram_id"
-    "ided_substance"
-    "notes"   
-    
-
-    Want format to be a basic listing, but links out to the auxiliary info, site, source, etc. will have collapsable panels, providing some values, link to full record
-     %>
+<%= render :partial => "show_list" , :locals => {:data_hashes => data_hashes} %>

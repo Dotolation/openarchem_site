@@ -1,0 +1,43 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<dl class="dl-horizontal  dl-invert">
+		<% count = 1 #not a great way to do this, but need unique values for the accordians' ids... %>
+		<% show_hash = data_hashes["show_hash"] %>
+	  <% show_hash.each do |key, val| -%>
+	  	<% unless val == nil || key == "" %>
+	  		<%# data_hashes["inner_fields"] will the be link or added fields lists, things that require accordian treatment %>
+	  		<% name = "#{key.gsub("_", " ").capitalize}:" %>
+		    <% unless data_hashes["inner_fields"].include?(key) %>
+		    	<% if key == "oa_id" %>
+		    		<dt><%= "OA Id:" %></dt>
+		    	<% else %>
+			    	<dt><%= name %></dt>
+			    <% end -%>
+			    	<dd><%= key == "image_file_path" ? render_value(val, show_hash["image_credit"]) : render_value(val) %></dd>
+				<% else %>
+			  	<%# Need to pass matching x_data hash to mini_list  %>
+			  	<%= render :partial => "inner_list" , :locals => {:name => name, :oa_id => val, :data => data_hashes[key], :num => count.to_s} %>
+				<% end -%>
+	    <% end -%>
+	    <% count += 1 %>
+	  <% end -%>
+	  <% if data_hashes.has_key?("added_fields") %>
+	  	<% data_hashes["added_fields"].each do |key, val| %>
+	  		<% name = "#{key.gsub("_id", "s").capitalize}" %>
+	  		<% if data_hashes[key].kind_of?(Array) %>
+	  			<% arr_count = 1 %>
+	  			<%# need to look out for multivalue returns from mysql, like lists of samples %>
+	  			<% data_hashes[key].each do |i_key, i_val| %>
+
+	  				<%= render :partial => "inner_list" , :locals => {:name => "Sample #{arr_count.to_s}", :oa_id => i_key["oa_id"], :data => i_key, :num => count.to_s} %>
+	  				<% arr_count += 1 %>
+	  				<% count += 1 %>
+	  			<% end %>
+	  		<% else %>
+			  	<%= render :partial => "inner_list" , :locals => {:name => name, :oa_id => data_hashes[key]["oa_id"], :data => data_hashes[key], :num => count.to_s} %>
+			  	<% count += 1 %>
+			  <% end -%>
+	  	<% end -%>
+	  	
+	  <% end -%>
+	</dl>
+</div>

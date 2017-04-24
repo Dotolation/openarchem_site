@@ -9,9 +9,7 @@ class Site < ActiveRecord::Base
 		unless id.empty?
 			site = Site.where("oa_id = ?", id).first
 		end
-
 		#returns nil if no record found
-		return site
 	end
 
 	def self.get_data(document)
