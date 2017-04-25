@@ -27,6 +27,10 @@ module CatalogShowHelper
 		Chromatogram.show_chromatogram_data(id)
 	end
 
+	def person_show_data(id)
+		Person.show_person_data(id)
+	end
+
 
   #value formatting
   def render_value(val, image_credit=nil)

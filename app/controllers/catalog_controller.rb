@@ -92,6 +92,8 @@ class CatalogController < ApplicationController
     config.add_index_field 'compound_formula', :label => 'Compound Formula'
     config.add_index_field 'plant_sci_name', :label => 'Plant Scientific Name'
     config.add_index_field 'plant_common_name', :label => 'Plant Common Name'
+    config.add_index_field 'person_id', :label => "ID"
+    config.add_index_field 'person_affiliation', :label => "Affiliation"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 

@@ -59,6 +59,31 @@ class Sample < ActiveRecord::Base
 	def self.show_sample_data(oa_id)
 		data_hashes = get_data(oa_id)
 	end
+
+	def self.get_data_for_mini_view(id, id_name = nil)
+		if id_name
+			samples = Sample.find_sample_by_other_id(id_name, id)
+		else
+			samples = Sample.find_sample(id)
+		end
+		sample_data = []
+		samples.each do |sample_hash|
+			#creating a small hash for each sample and putting all hashes in an array
+			s_h = Hash.new
+			s_h["display"] = sample_hash["oa_id"]
+			s_h["oa_id"] = sample_hash["oa_id"]
+			s_h["notes"] = sample_hash["notes"]
+			sample_data << s_h
+		end
+		if id_name && id_name != "site_id"
+			#get the site id from one of the samples (all should have the same id, if not, that's weird)
+			site_id = samples[0]["site_id"]
+
+			return sample_data, site_id
+		else
+			return sample_data
+		end
+	end
 	
 
 end

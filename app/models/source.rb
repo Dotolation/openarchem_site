@@ -45,7 +45,7 @@ class Source < ActiveRecord::Base
  			sou_hash[key] = val
  		end
 
- 		site_data, sample_data = Source.get_data_for_inner_list(doc["oa_id"])
+ 		site_data, sample_data = Source.get_data_for_inner_list(oa_id)
 
  		return {"show_hash" => sou_hash, "inner_fields" => {}, "added_fields" => added_fields, "site_id" => site_data, "sample_id" => sample_data}
 	end
@@ -54,25 +54,15 @@ class Source < ActiveRecord::Base
 #inner list, associated samples and source site
 	def self.get_data_for_inner_list(id)
 		#this will return an active record relation, since there may be multiple samples for a source
-		samples = Sample.find_sample_by_other_id("source_id", id)
-		sample_data = []
-		samples.each do |sample_hash|
-			#creating a small hash for each sample and putting all hashes in an array
-			s_h = Hash.new
-			s_h["display"] = sample_hash["oa_id"]
-			s_h["oa_id"] = sample_hash["oa_id"]
-			s_h["notes"] = sample_hash["notes"]
-			sample_data << s_h
-		end
-		#get the site id from one of the samples (all should have the same id, if not, that's weird)
-		site_id = samples[0]["site_id"]
+		sample_data, site_id = Sample.get_data_for_mini_view(id, "source_id")
+
 		site_data = Site.get_data_for_mini_view(site_id)
 
 		return site_data, sample_data
 	end
 
 	def self.show_source_data(oa_id)
-		data_arr = get_data(oa_id)
+		data = get_data(oa_id)
 	end
 
 end

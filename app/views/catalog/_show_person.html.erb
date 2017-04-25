@@ -1,5 +1,6 @@
 <% doc_presenter = show_presenter(document) %>
+<%# partial to display samples documents in catalog show view -%>
 
-<% data_hashes = site_show_data(params["id"])%>
+<% data_hashes = person_show_data(params["id"])%>
 
 <%= render :partial => "show_list" , :locals => {:data_hashes => data_hashes} %>
