@@ -22,7 +22,8 @@
 	  <% end -%>
 	  <% if data_hashes.has_key?("added_fields") %>
 	  	<% data_hashes["added_fields"].each do |key, val| %>
-	  		<% name = "#{key.gsub("_id", "s").capitalize}" %>
+	  		<% name = "#{key.gsub(/_id|_/, '_id' => 's', '_' => ' ').capitalize}" %>
+
 	  		<% if data_hashes[key].kind_of?(Array) %>
 	  			<% arr_count = 1 %>
 	  			<%# need to look out for multivalue returns from mysql, like lists of samples %>
@@ -33,7 +34,6 @@
 	  				<% count += 1 %>
 	  			<% end %>
 	  		<% else %>
-	  		<%#byebug%>
 			  	<%= render :partial => "inner_list" , :locals => {:name => name, :oa_id => data_hashes[key]["oa_id"], :data => data_hashes[key], :num => count.to_s} %>
 			  	<% count += 1 %>
 			  <% end -%>

@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20170418180910) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_credit"
+    t.float    "peak_time"
     t.index ["oa_id"], name: "index_compounds_on_oa_id", unique: true, using: :btree
   end
 

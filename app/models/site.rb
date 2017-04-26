@@ -19,6 +19,7 @@ class Site < ActiveRecord::Base
 	end
 
 
+	#get_data is for the base mysql pull and collecting of other data to show on a Site page
 	def self.get_data(oa_id)
 		doc = Site.find_site(oa_id)
 
@@ -40,6 +41,7 @@ class Site < ActiveRecord::Base
 	end
 
 
+	#mini_view is for pulling Site info to display on another entity's page
 	def self.get_data_for_mini_view(id, id_name=nil)
 		field_list = ["name", "oa_id", "geo_coords", "project_url"]
 		site_data = []
@@ -77,11 +79,12 @@ class Site < ActiveRecord::Base
 	end
 
 
+	#base method called by the catalog_show_helper to pull Site infoS
 	def self.show_site_data(oa_id)
 		data_arr = get_data(oa_id)
 	end
 
-
+	#inner_list is for getting other entities' data to put on a Site page
 	def self.get_data_for_inner_list(site_id, director_id)
 		director = Person.get_data_for_mini_view(director_id)
 

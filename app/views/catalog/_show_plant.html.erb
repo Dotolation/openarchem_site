@@ -1,0 +1,6 @@
+<% doc_presenter = show_presenter(document) %>
+<%# partial to display samples documents in catalog show view -%>
+
+<% data_hashes = plant_show_data(params["id"])%>
+
+<%= render :partial => "show_list" , :locals => {:data_hashes => data_hashes} %>

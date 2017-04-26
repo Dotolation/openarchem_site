@@ -31,6 +31,14 @@ module CatalogShowHelper
 		Person.show_person_data(id)
 	end
 
+	def plant_show_data(id)
+		Plant.show_plant_data(id)
+	end
+
+	def compound_show_data(id)
+		Compound.show_compound_data(id)
+	end
+
 
   #value formatting
   def render_value(val, image_credit=nil)
@@ -45,7 +53,8 @@ module CatalogShowHelper
 
   #render urls as links
 	def url_to_link(url)
-		link_to(url, url, :target => "_blank")
+		only_url = url.match(/http.+$/)[0]
+		link_to(url, only_url, :target => "_blank")
 	end
 
 	#display images with image_credit alt text

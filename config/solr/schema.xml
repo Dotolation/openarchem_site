@@ -487,6 +487,7 @@
     <field name="oa_id" type="string" indexed="true" stored="true" required="true" /> 
     <field name="title_display" type="string" indexed="true" stored="true"/>
     <field name="format" type="string" indexed="false" stored="true"/>
+
   <!-- Sample documents --> 
     <field name="sample_id" type="string" indexed="true" stored="true" />
     <field name="sample_site" type="string" indexed="true" stored="true" />
@@ -494,28 +495,40 @@
     <field name="sample_type" type="string" indexed="true" stored="true" />
     <field name="sample_object_type" type="string" indexed="true" stored="true" />
     <field name="sample_compound" type="string" indexed="true" stored="true" multiValued="true" />
+
   <!-- Site documents -->
     <field name="site_id" type="string" indexed="true" stored="true" />
     <field name="site_name" type="string" indexed="true" stored="true" />
     <field name="director_name" type="string" indexed="true" stored="true" />
+
   <!-- Source documents -->
     <field name="source_id" type="string" indexed="true" stored="true" />
     <field name="source_type" type="string" indexed="true" stored="true" />
     <field name="source_notes" type="string" indexed="true" stored="true" />
     <field name="source_condition" type="string" indexed="true" stored="true" />
     <field name="source_url" type="string" indexed="true" stored="true" />
+
   <!-- Extraction documents -->
+    <field name="extraction_id" type="string" indexed="true" stored="true" />
 
   <!-- Equipment documents -->
+    <field name="equipment_id" type="string" indexed="true" stored="true" />
+
+  <!-- Chromatogram documents -->
+    <field name="chromatogram_id" type="string" indexed="true" stored="true" />
+
+  <!-- Peak documents -->
 
   <!-- Compound documents -->
     <field name="compound_id" type="string" indexed="true" stored="true" />
     <field name="compound_formula" type="string" indexed="true" stored="true" />
     <field name="compound_name" type="string" indexed="true" stored="true" />
+
   <!-- Plant documents -->
     <field name="plant_id" type="string" indexed="true" stored="true" />
     <field name="plant_sci_name" type="string" indexed="true" stored="true" />
     <field name="plant_common_name" type="string" indexed="true" stored="true" />
+
   <!-- Animal documents -->
 
   <!-- People documents -->

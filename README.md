@@ -1,6 +1,11 @@
 # openarchem
 
+To fix:
+
+	!!Solr isn't getting any responses from Mysql when it tries to get extractions or equipment!!
+
 Current To dos:
+
 
 Server	- set up mysql db
 					import data to mysql
@@ -18,3 +23,5 @@ Code		-	change data for compounds in mysql
 
 					add extraction fields to solr and reindex
 					add	extraction view and associated methods (or does this just need to be detailed info on the sample page?)
+
+					double check the site dropdowns

@@ -9,6 +9,7 @@ class CreateCompounds < ActiveRecord::Migration
       t.boolean :ancient
       t.string :outside_db_url
       t.text :notes
+      t.float :peak_time
       t.timestamps
     end
 

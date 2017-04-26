@@ -3,6 +3,7 @@ class Source < ActiveRecord::Base
 	def self.new_source(source)
 	end
 
+
 	def self.find_source(id)
 		unless id.empty?
 			source = Source.where("oa_id = ?", id).first
@@ -12,6 +13,7 @@ class Source < ActiveRecord::Base
 		return source		
 	end
 
+	#mini_view is for pulling Source info to display on another entity's page
 	def self.get_data_for_mini_view(id)
 		source = Source.find_source(id)
 		field_list = ["oa_id", "soil_sample", "object_type", "object_url", "image_file_path", "image_credit"] 
@@ -31,6 +33,8 @@ class Source < ActiveRecord::Base
 		return source_hash		
 	end
 
+
+	#get_data is for the base mysql pull and collecting of other data to show on a Source page
 	def self.get_data(oa_id)
  		doc = Source.find_source(oa_id)
 
@@ -51,7 +55,7 @@ class Source < ActiveRecord::Base
 	end
 
 
-#inner list, associated samples and source site
+	#inner list, associated samples and source site
 	def self.get_data_for_inner_list(id)
 		#this will return an active record relation, since there may be multiple samples for a source
 		sample_data, site_id = Sample.get_data_for_mini_view(id, "source_id")

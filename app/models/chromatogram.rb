@@ -10,6 +10,36 @@ class Chromatogram < ActiveRecord::Base
 		return chromatogram		
 	end
 
+	def self.show_chromatogram_data(oa_id)
+		data_arr = get_data(oa_id)
+	end
+
+	def self.get_data(oa_id)
+		chrom = find_chromatogram(oa_id)
+
+		field_list = ["oa_id", "file_path", "notes", "sample_id"]
+ 		linked_fields = ["sample_id"]
+ 		added_fields = []
+
+ 		chr_hash = Hash.new
+
+ 		field_list.each do |key|
+ 			val = chrom[key]
+ 			chr_hash[key] = val
+ 		end
+
+ 		sample_data = get_data_for_inner_list(chrom["sample_id"])
+
+ 		return {"show_hash" => chr_hash, "inner_fields" => linked_fields, "added_fields" => added_fields, "sample_id" => sample_data}
+	end
+	
+	def self.get_data_for_inner_list(sample_id)
+		#due to potential multi value sample results, have to get the single sample here out of the array
+		sample_data = Sample.get_data_for_mini_view(sample_id)[0]
+
+		return sample_data
+	end
+
 	def self.get_data_for_mini_view(id)
 		chrom = Chromatogram.find_chromatogram(id)
 		chrom_hash = Hash.new

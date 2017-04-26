@@ -9,8 +9,29 @@ class Equipment < ActiveRecord::Base
 		return equipment		
 	end
 
-	def self.get_data(document)
+
+	def self.get_data(oa_id)
+		equip = find_equipment(oa_id)
+
+		field_list = ["oa_id", "manufacturer", "model", "column_manufacturer", "column_model", "detector", "settings", "notes"]
+ 		linked_fields = []
+ 		added_fields = []
+
+ 		equ_hash = Hash.new
+
+ 		field_list.each do |key|
+ 			val = equip[key]
+ 			equ_hash[key] = val
+ 		end
+
+ 		return {"show_hash" => equ_hash, "inner_fields" => linked_fields, "added_fields" => added_fields}
 	end
+
+
+	def self.show_equipment_data(oa_id)
+		data = get_data(oa_id)
+	end
+
 
 	def self.get_data_for_mini_view(id)
 		equip = Equipment.find_equipment(id)
