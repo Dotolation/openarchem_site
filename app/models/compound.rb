@@ -46,7 +46,7 @@ class Compound < ActiveRecord::Base
 	def self.get_data_for_mini_list(oa_id)
 		comp = find_compound(oa_id)
 
-		field_list = ["name", "formula", "molecular_weight", "image_file_path", "image_credit"]
+		field_list = ["oa_id", "name", "formula", "molecular_weight", "image_file_path", "image_credit"]
 		comp_hash = Hash.new
 
 		field_list.each do |key|
