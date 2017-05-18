@@ -42,13 +42,13 @@ bower.json
 .byebug_history
 
 # Ignore database.yml
-/config/database.yml
+config/database.yml
 
 # Ignore data directory
 /data
 
 #Ignore db-data-config
-/config/solr/db-data-config.xml
+config/solr/db-data-config.xml
 
 #Ignore the devise.rb since it has secrets
-/config/initializers/devise.rb
+config/initializers/devise.rb
