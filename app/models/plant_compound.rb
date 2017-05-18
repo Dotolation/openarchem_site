@@ -14,7 +14,7 @@ class PlantCompound < ActiveRecord::Base
 		end
 	end
 
-	def self.get_data_for_mini_list(oa_id, type)
+	def self.get_data_for_mini_view(oa_id, type)
 		if type == "plant"
 			p_comp = find_by_plant_id(oa_id)
 		else
@@ -28,7 +28,7 @@ class PlantCompound < ActiveRecord::Base
 		if p_comp
 			p_comp.each do |ar|
 				compound_id = ar["compound_id"]
-				p_comp_arr << Compound.get_data_for_mini_list(compound_id)
+				p_comp_arr << Compound.get_data_for_mini_view(compound_id)
 			end
 		end
 

@@ -43,7 +43,7 @@ class Compound < ActiveRecord::Base
 	end
 
 	#mini_view is for pulling Compound info to display on another entity's page
-	def self.get_data_for_mini_list(oa_id)
+	def self.get_data_for_mini_view(oa_id)
 		comp = find_compound(oa_id)
 
 		field_list = ["oa_id", "name", "formula", "molecular_weight", "image_file_path", "image_credit"]

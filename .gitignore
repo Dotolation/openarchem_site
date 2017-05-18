@@ -49,3 +49,6 @@ bower.json
 
 #Ignore db-data-config
 /config/solr/db-data-config.xml
+
+#Ignore the devise.rb since it has secrets
+/config/initializers/devise.rb

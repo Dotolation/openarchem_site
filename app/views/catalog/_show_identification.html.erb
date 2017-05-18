@@ -1,0 +1,5 @@
+<% doc_presenter = show_presenter(document) %>
+
+<% data_hashes = identification_show_data(params["id"])%>
+
+<%= render :partial => "show_list" , :locals => {:data_hashes => data_hashes} %>

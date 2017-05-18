@@ -4,7 +4,7 @@
 		<div class="panel">
 			<div class="panel-heading" role="tab" id="<%= "heading" + "#{num}" %>">
 		        
-				<dt><%= "#{name}:" %></dt>
+				<dt><%= "#{name}" %></dt>
 				<dd>
 					<a role="button" data-toggle="collapse" data-parent="#accordion" href="<%= "#collapse" + "#{num}" %>" aria-controls="<%= "collapse" + "#{num}" %>">
 
@@ -18,7 +18,7 @@
 		        	<% data.each do |key, val| %>
 		        		<% unless val == nil || key == ""  %>
 			        		<% unless key == "display" %>
-			        			<dt><%= "#{key.gsub("_", " ").capitalize}:" %></dt>
+			        			<dt><%= "#{key.gsub("_", " ").capitalize}" %></dt>
 			        			<dd><%= key == "image_file_path" ? render_value(val, data["image_credit"]) : render_value(val) %></dd>
 			        		<% end -%>
 			        	<% end -%>

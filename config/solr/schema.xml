@@ -495,6 +495,9 @@
     <field name="sample_type" type="string" indexed="true" stored="true" />
     <field name="sample_object_type" type="string" indexed="true" stored="true" />
     <field name="sample_compound" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_product" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_plant" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_identification" type="string" indexed="true" stored="true" multiValued="true" />
 
   <!-- Site documents -->
     <field name="site_id" type="string" indexed="true" stored="true" />
@@ -537,6 +540,16 @@
     <field name="person_first_name" type="string" indexed="true" stored="true" />
     <field name="person_full_name" type="string" indexed="true" stored="true" />
     <field name="person_affiliation" type="string" indexed="true" stored="true" />
+
+  <!-- Product documents -->
+    <field name="product_id" type="string" indexed="true" stored="true" />
+    <field name="product_name" type="string" indexed="true" stored="true" />
+    <field name="product_alt_name" type="string" indexed="true" stored="true" />
+    <field name="product_ingredient_ids" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="product_ingredient_names" type="string" indexed="true" stored="true" multiValued="true" />
+
+  <!-- Identification documents -->
+    <field name="identification_id" type="string" indexed="true" stored="true" />
 
    <!--
    The following store examples are used to demonstrate the various ways one might _CHOOSE_ to
@@ -585,27 +598,30 @@
   <!-- copyField commands copy one field to another at the time a document
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
-  <!--
-   <copyField source="cat" dest="text"/>
-   <copyField source="name" dest="text"/>
-   <copyField source="manu" dest="text"/>
-   <copyField source="features" dest="text"/>
-   <copyField source="includes" dest="text"/>
-   <copyField source="manu" dest="manu_exact"/>
-  -->
-   <!-- Copy the price into a currency enabled field (default USD) 
-   <copyField source="price" dest="price_c"/>-->
-	
-   <!-- Above, multiple source fields are copied to the [text] field. 
-	  Another way to map multiple source fields to the same 
-	  destination field is to use the dynamic field syntax. 
-	  copyField also supports a maxChars to copy setting.  -->
-	   
-   <!-- <copyField source="*_t" dest="text" maxChars="3000"/> -->
 
-   <!-- copy name to alphaNameSort, a field designed for sorting by name -->
-   <!-- <copyField source="name" dest="alphaNameSort"/> -->
- 
+   <copyField source="sample_site" dest="text"/>
+   <copyField source="sample_locus_type" dest="text"/>
+   <copyField source="sample_type" dest="text"/>
+   <copyField source="sample_object_type" dest="text"/>
+   <copyField source="sample_compound" dest="text"/>
+   <copyField source="sample_product" dest="text"/>
+   <copyField source="sample_plant" dest="text"/>
+   <copyField source="sample_identification" dest="text"/>
+   <copyField source="site_name" dest="text"/>
+   <copyField source="director_name" dest="text"/>
+   <copyField source="source_type" dest="text"/>
+   <copyField source="source_notes" dest="text"/>
+   <copyField source="source_condition" dest="text"/>
+   <copyField source="compound_formula" dest="text"/>
+   <copyField source="compound_name" dest="text"/>
+   <copyField source="plant_sci_name" dest="text"/>
+   <copyField source="plant_common_name" dest="text"/>
+   <copyField source="person_last_name" dest="text"/>
+   <copyField source="person_first_name" dest="text"/>
+   <copyField source="person_affiliation" dest="text"/>
+   <copyField source="product_name" dest="text"/>
+   <copyField source="product_alt_name" dest="text"/>
+   <copyField source="product_ingredient_names" dest="text"/>
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine

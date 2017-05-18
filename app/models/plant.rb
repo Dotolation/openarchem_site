@@ -32,9 +32,29 @@ class Plant < ActiveRecord::Base
 	#inner_list is for getting other entities' data to put on a Plant page
 	def self.get_data_for_inner_list(oa_id)
 		#compounds here is an array
-		compound_data = PlantCompound.get_data_for_mini_list(oa_id, "plant")
+		compound_data = PlantCompound.get_data_for_mini_view(oa_id, "plant")
 
 		return compound_data 
+	end
+
+	#mini view is for getting Plant data that appears on another entity's page
+	def self.get_data_for_mini_view(id)
+		plant = find_plant(id)
+		field_list =["oa_id", "scientific_name", "common_name", "image_file_path", "image_credit"]
+
+		plant_hash = Hash.new
+		
+		field_list.each do |key|
+			if key == "scientific_name"
+				val = plant[key]
+				plant_hash["display"] = val
+			else
+				val = plant[key]
+				plant_hash[key] = val
+			end
+		end
+				
+		return plant_hash	
 	end
 
 end

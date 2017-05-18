@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418180910) do
+ActiveRecord::Schema.define(version: 20170427183649) do
 
   create_table "animal_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20170418180910) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image_credit"
-    t.float    "peak_time"
+    t.float    "peak_time",        limit: 24
     t.index ["oa_id"], name: "index_compounds_on_oa_id", unique: true, using: :btree
   end
 
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170418180910) do
     t.text     "notes",               limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "detector"
     t.index ["oa_id"], name: "index_equipment_on_oa_id", unique: true, using: :btree
   end
 
@@ -178,6 +179,19 @@ ActiveRecord::Schema.define(version: 20170418180910) do
     t.datetime "updated_at"
     t.index ["compound_id"], name: "prc_com_idx", using: :btree
     t.index ["product_id"], name: "prc_pro_idx", using: :btree
+  end
+
+  create_table "product_ingredients", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "product1_id"
+    t.string   "product2_id"
+    t.string   "plant_id"
+    t.string   "animal_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["animal_id"], name: "fk_rails_fc3f2d1d0b", using: :btree
+    t.index ["plant_id"], name: "fk_rails_a7a3868299", using: :btree
+    t.index ["product1_id"], name: "fk_rails_7038dbc3b6", using: :btree
+    t.index ["product2_id"], name: "fk_rails_1b20706a42", using: :btree
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -305,6 +319,10 @@ ActiveRecord::Schema.define(version: 20170418180910) do
   add_foreign_key "plant_compounds", "plants", primary_key: "oa_id", name: "plc_pla_id", on_delete: :cascade
   add_foreign_key "product_compounds", "compounds", primary_key: "oa_id", name: "prc_com_id", on_delete: :cascade
   add_foreign_key "product_compounds", "products", primary_key: "oa_id", name: "prc_pro_id", on_delete: :cascade
+  add_foreign_key "product_ingredients", "animals", primary_key: "oa_id"
+  add_foreign_key "product_ingredients", "plants", primary_key: "oa_id"
+  add_foreign_key "product_ingredients", "products", column: "product1_id", primary_key: "oa_id"
+  add_foreign_key "product_ingredients", "products", column: "product2_id", primary_key: "oa_id"
   add_foreign_key "products", "animals", primary_key: "oa_id", name: "pro_ani_id", on_delete: :cascade
   add_foreign_key "products", "plants", primary_key: "oa_id", name: "pro_pla_id", on_delete: :cascade
   add_foreign_key "sample_compounds", "compounds", primary_key: "oa_id", name: "sac_com_id", on_delete: :cascade

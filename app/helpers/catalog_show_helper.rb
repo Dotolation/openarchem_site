@@ -39,6 +39,14 @@ module CatalogShowHelper
 		Compound.show_compound_data(id)
 	end
 
+	def product_show_data(id)
+		Product.show_product_data(id)
+	end
+
+	def identification_show_data(id)
+		Identification.show_identification_data(id)
+	end
+
 
   #value formatting
   def render_value(val, image_credit=nil)

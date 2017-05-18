@@ -1,10 +1,23 @@
+*Setting it all up*
+
+*Have mysql*
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04
+sudo apt-get update
+sudo apt-get install mysql-server
+sudo mysql_secure_installation
+
+*have java*
+check with java -v
+if no java, install the jdk, version will vary, check for latest
+sudo apt-get install openjdk-8-jre-headless
+
 *Setting up solr*
 
 Download latest solr distro
 	wget http://apache.mirror1.spango.com/lucene/solr/6.5.0/solr-6.5.0.tgz
 
 unpack
-	tar xzf solr-5.2.1.tgz solr-5.2.1/bin/install_solr_service.sh --strip-components=2
+	tar xzf solr-6.5.0.tgz solr-6.5.0/bin/install_solr_service.sh --strip-components=2
 
 run 
 	sudo bash ./install_solr_service.sh solr-6.5.0.tgz
@@ -21,8 +34,14 @@ Move configuration files, solrconfig.xml, schema.xml, db-data-config.xml to core
 	sudo cp ~/openarchem/config/solr/schema.xml /var/solr/data/blacklight_core/conf
 	sudo cp ~/openarchem/config/solr/db-data-config.xml /var/solr/data/blacklight_core/conf
 
+**make sure to change password in db-data-config
+
 Restart solr
 	sudo service solr restart
 
 Core should appear in dropdown on the main Solr admin page, and data import should be enabled
+Can also import from the command line
+	curl http://localhost:8983/solr/blacklight_core/dataimport?command=full-import
+
+
 
