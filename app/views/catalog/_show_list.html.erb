@@ -8,7 +8,7 @@
 	  		<% name = "#{key.gsub("_", " ").capitalize}:" %>
 		    <% unless data_hashes["inner_fields"].include?(key) %>
 		    	<% if key == "oa_id" %>
-		    		<dt><%= "OA Id:" %></dt>
+		    		<dt><%= "OpenARCHEM Id:" %></dt>
 		    	<% else %>
 			    	<dt><%= name %></dt>
 			    <% end -%>
