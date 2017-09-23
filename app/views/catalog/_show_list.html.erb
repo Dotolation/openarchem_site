@@ -1,5 +1,10 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 	<dl class="dl-horizontal  dl-invert">
+	
+		<% if data_hashes.has_key?("image_hash") %>
+			<%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+		<% end %>
+
 		<% count = 1 #not a great way to do this, but need unique values for the accordians' ids... %>
 		<% show_hash = data_hashes["show_hash"] %>
 	  <% show_hash.each do |key, val| -%>
@@ -20,6 +25,7 @@
 	    <% end -%>
 	    <% count += 1 %>
 	  <% end -%>
+
 	  <% if data_hashes.has_key?("added_fields") %>
 	  	<% data_hashes["added_fields"].each do |key, val| %>
 	  		<% name = "#{key.gsub(/_id|_/, '_id' => 's', '_' => ' ').capitalize}" %>

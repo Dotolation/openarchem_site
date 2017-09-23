@@ -17,9 +17,8 @@ class Chromatogram < ActiveRecord::Base
 	def self.get_data(oa_id)
 		chrom = find_chromatogram(oa_id)
 
-		field_list = ["oa_id", "file_path", "notes", "sample_id"]
+		field_list = ["oa_id", "image_file_path", "notes", "sample_id"]
  		linked_fields = ["sample_id"]
- 		added_fields = []
 
  		chr_hash = Hash.new
 
@@ -30,12 +29,12 @@ class Chromatogram < ActiveRecord::Base
 
  		sample_data = get_data_for_inner_list(chrom["sample_id"])
 
- 		return {"show_hash" => chr_hash, "inner_fields" => linked_fields, "added_fields" => added_fields, "sample_id" => sample_data}
+ 		return {"show_hash" => chr_hash, "inner_fields" => linked_fields, "sample_id" => sample_data}
 	end
 	
 	def self.get_data_for_inner_list(sample_id)
-		#due to potential multi value sample results, have to get the single sample here out of the array
-		sample_data = Sample.get_data_for_mini_view(sample_id)[0]
+	
+		sample_data = Sample.get_data_for_mini_view(sample_id)
 
 		return sample_data
 	end
@@ -44,7 +43,7 @@ class Chromatogram < ActiveRecord::Base
 		chrom = Chromatogram.find_chromatogram(id)
 		chrom_hash = Hash.new
 		chrom_hash["display"] = chrom["oa_id"]
-		chrom_hash["image_file_path"]  = chrom["file_path"]
+		chrom_hash["image_file_path"]  = chrom["image_file_path"]
 		chrom_hash["notes"] = chrom["notes"]
 		
 		return chrom_hash
