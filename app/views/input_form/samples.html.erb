@@ -1,0 +1,220 @@
+<div>
+    <h2> Sample Data Input Form </h2>
+
+    <%= form_tag(controller: "input_form", action: "create", method: "post") do %>
+        
+        <%= hidden_field_tag(:user, current_user.id) %>
+        <h4> Sample information </h4>
+        
+        <p>
+            <%= label_tag(:sample_id, "OpenARCHEM ID") %>
+            <%= text_field_tag(:sample_id) %>
+        </p>
+
+        <p>
+            <%= label_tag(:subsample_amt, "Subsample Amount") %>
+            <%= text_field_tag(:subsample_amt) %>
+        </p>
+
+        <p>
+            <%= label_tag(:stored_plastic, "Stored in Plastic") %>
+            <%= check_box_tag(:stored_plastic) %>
+        </p>
+
+        <p>
+            <%= label_tag(:sample_type, "ORA Sample Type") %>
+            <%= select_tag(:sample_type, 
+                options_for_select(
+                [['Reference', 'reference'], 
+                ['New Excavation', 'new excavation'], 
+                ['Legacy Object', 'legacy object']])) %>
+        </p>
+
+        <p>
+            <%= label_tag(:sample_quality, "ORA Sample Quality") %>
+            <%= select_tag(:sample_quality, 
+                options_for_select(
+                [['Closed intact, in situ', 5], 
+                ['Open intact/Closed fragmented, in situ', 4],
+                ['Diagnostic sherd, unwashed', 3],
+                ['Any washed on site/Legacy unwashed', 2],
+                ['Any washed or treated', 1]])) %>
+
+            <p>
+                <%= label_tag(:sample_quality_notes, "Notes") %>
+                <%= text_area_tag(:sample_quality_notes) %>
+            </p>
+        </p>
+
+        <p>
+            <%= label_tag(:diagnostic_compounds, "Diagnostic Compounds") %> </br>
+            <%= "Please separate compounds with a semi colon" %> </br>
+            <%= text_area_tag(:diagnostic_compounds) %>
+        </p>
+
+        <p>
+            <%= label_tag(:interpretation, "Proposed Interpretation") %>
+            <%= text_field_tag(:interpretation) %>
+        </p>
+
+        <p>
+            <%= label_tag(:interpretation_certainty, "Interpretation Certainty") %>
+            <%= text_field_tag(:interpretation_certainty) %>
+        </p>
+
+        <p>
+            <%= label_tag(:interpretation_notes, "Interpretation Notes") %>
+            <%= text_field_tag(:interpretation_notes) %>
+        </p>
+        </br>
+
+        <h4> Object Information and History </h4>
+
+        <p>
+            <%= label_tag(:object_type, "Object Type") %>
+            <%= text_field_tag(:object_type) %>
+        </p>
+
+        <p>
+            <%= label_tag(:object_condition, "Object Condition") %>
+            <%= text_field_tag(:object_condition) %>
+        </p>
+
+        <p>
+            <%= label_tag(:object_date, "Object Date") %>
+            <%= text_field_tag(:object_date) %>
+        </p>
+
+        <p>
+            <%= label_tag(:object_fabric, "Object Fabric Type") %>
+            <%= text_field_tag(:object_fabric) %>
+        </p>
+
+        <p> Petrography File upload will go here
+       
+
+        <p>
+            <%= label_tag(:object_origin, "Object Origin") %>
+            <%= text_field_tag(:object_origin) %>
+        </p>
+
+        <p>
+            <%= label_tag(:excavation_team, "Original Excavation Team") %>
+            <%= text_field_tag(:excavation_team) %>
+        </p>
+        <p>
+            <%= label_tag(:excavation_date, "Excavation Date") %>
+            <%= text_field_tag(:excavation_date) %>
+        </p>
+        <p>
+            <%= label_tag(:excavation_notes, "Excavation Notes") %>
+            <%= text_area_tag(:excavation_notes) %>
+        </p>
+        <p>
+            <%= label_tag(:context, "Context") %>
+            <%= text_field_tag(:context) %>
+        </p>
+        <p>
+            <%= label_tag(:current_location, "Current Location") %>
+            <%= text_field_tag(:current_location) %>
+        </p>
+        <p>
+            <%= label_tag(:catalog_number, "Object Number") %>
+            <%= text_field_tag(:catalog_number) %>
+        </p>
+        <p>
+            <%= label_tag(:object_biblio, "Relevant Bibliography") %>
+            <%= text_area_tag(:object_biblio) %>
+        </p>
+
+        <p> Object image upload will go here
+       
+
+        <p>
+        </br>
+
+        <h4> ORA History </h4>
+        <p>
+            <%= label_tag(:extraction_team, "Extraction Team/PIs") %>
+            <%= text_field_tag(:extraction_team) %>
+        </p>
+        <p>
+            <%= label_tag(:extraction_date, "Extraction Date") %>
+            <%= text_field_tag(:extraction_date) %>
+        </p>
+        <p>
+            <%= label_tag(:ext_location, "Location") %>
+            <%= text_field_tag(:ext_location) %>
+        </p>
+        <p> 
+            <%= label_tag(:ext_id, "Extraction Number") %>
+            <%= text_field_tag(:ext_id) %>
+        </p>
+        <p>
+            <%= label_tag(:ext_solvent, "Extraction Solvent") %>
+            <%= text_field_tag(:ext_solvent) %>
+        </p>
+        <h5> Extraction Methodology</h5>
+        <p>
+            <%= label_tag(:buchi, "Buchi") %>
+            <%= check_box_tag(:buchi) %>
+        </p>
+        <p>
+            <%= label_tag(:swished, "Swished") %>
+            <%= check_box_tag(:swished) %>
+        </p>
+        <p>
+            <%= label_tag(:boiled_manually, "Boiled Manually") %>
+            <%= check_box_tag(:boiled_manually) %>
+        </p>
+        <p>
+            <%= label_tag(:extraction_notes, "Extraction Notes") %>
+            <%= text_area_tag(:extraction_notes) %>
+        </p>
+       
+        </br>
+
+         <h4> Instrumentation Notes </h4>
+        <p>
+            <%= label_tag(:instrumentation_team, "Instrumentation Team/PIs") %>
+            <%= text_field_tag(:instrumentation_team) %>
+        </p>
+        <p>
+            <%= label_tag(:instrumentation_date, "Instrumentation Date") %>
+            <%= text_field_tag(:instrumentation_date) %>
+        </p>
+        <p>
+            <%= label_tag(:instrumentation_location, "Location") %>
+            <%= text_field_tag(:instrumentation_location) %>
+        </p>
+        <p>
+            <%= label_tag(:equipment_model, "Equipment Used") %>
+            <%= text_field_tag(:equipment_model) %>
+        </p>
+        <p>
+            <%= label_tag(:instrumentation_solvent, "Instrumentation Solvent") %>
+            <%= text_field_tag(:instrumentation_solvent) %>
+        </p>
+        <p>
+            Chromatogram File upload will go here
+        </p>
+        <p>
+            <%= label_tag(:ext_biblio, "Relevant Bibliography") %>
+            <%= text_area_tag(:ext_biblio) %>
+        </p> </br>
+
+        <h4> Other Scientific Analyses </h4>
+        <p>
+            <%= label_tag(:other_analysis_type, "Type") %>
+            <%= text_field_tag(:other_analysis_type) %>
+        </p>
+        <p>
+            <%= label_tag(:other_analysis_biblio, "Relevant Bibliography") %>
+            <%= text_area_tag(:other_analysis_biblio) %>
+        </p>
+        </br>
+
+        <%= submit_tag("Submit") %>
+    <% end %>
+
+</div>
