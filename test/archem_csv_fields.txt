@@ -1,0 +1,36 @@
+Sample #  
+Excavation  
+Catalog # 
+GC-MS data file on hard drive 
+Context/Trench  
+Area  
+Locus Pail #  
+Obj # 
+Object (or soil sample) 
+Excavator Date found (dd-mon-yy)  
+Comments  
+Comments 2  
+# of Samples  
+Buchi 
+Swished 
+Ethanol 
+Dichloromethane 
+Boiled manually 
+Photo 
+Sample date (dd-mon-yy) 
+Person sampling 
+Subsample amount taken  
+Subsampling details 
+Date of GC-MS analysis (dd-mon-yy)  
+GC-MS operator  
+Notes on GC-MS  
+Where stored  
+Stored in plastic 
+Plastic in GC-MS  
+Residue 
+Olive oil 
+Wine  
+Resinated wine  
+Cholesterol 
+Other substance 
+Interpretation

@@ -18,3 +18,27 @@ html, body {
   height: auto;
   margin-bottom: 60px;
 }
+
+//for dropdown icons
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+//overriding bootstrap
+.panel-heading {
+  border-bottom: 0px solid transparent;
+
+}
+
+.image-size {
+  max-width: 300px;
+  max-height: 200px;
+}

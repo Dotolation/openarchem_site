@@ -1,17 +1,17 @@
 <%# displays the smaller, collapsable portions in the document views %>
 
-	
 		<div class="panel">
 			<div class="panel-heading" role="tab" id="<%= "heading" + "#{num}" %>">
-		        
+		       
 				<dt><%= "#{name}" %></dt>
 				<dd>
 					<a role="button" data-toggle="collapse" data-parent="#accordion" href="<%= "#collapse" + "#{num}" %>" aria-controls="<%= "collapse" + "#{num}" %>">
 
 		         <%= "#{data['display']}" %> 
+		         <span class="glyphicon glyphicon-minus"/> 
 		      </a>
 		    </div>
-		    <div id="<%= "collapse" + "#{num}" %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= "heading" + "#{num}" %>">
+		    <div id="<%= "collapse" + "#{num}" %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="<%= "heading" + "#{num}" %>">
 		      <div class="panel-body">
 		      	
 		        <dl class="dl-horizontal  dl-invert">
@@ -24,8 +24,8 @@
 			        	<% end -%>
 		        	<% end -%>
 
-		        	<dt>See full record:</dt>
-		        	<dd><%= link_to "Here", oa_id %>
+		        	<dt></dt>
+		        	<dd><%= link_to "Click here to see more information", oa_id %>
 
 		        </dl>
 		      </div>

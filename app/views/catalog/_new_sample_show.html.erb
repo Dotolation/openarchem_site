@@ -1,0 +1,52 @@
+<div class="panel-group">
+  <div class="panel">
+      <% if data_hashes.has_key?("image_hash") %>
+          <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+      <% end %>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Sample Information</h3>
+         <ul class="list-group">
+          <li class="list-group-item">Sample Type:  Legacy object</li>
+          <li class="list-group-item">Sample Quality:  Legacy unwashed</li>
+          <li class="list-group-item">Diagnostic Compounds:
+            <ul class="list">
+              <li class="list-item">Azeliac Acid</li>
+              <li class="list-item">Oleic Acid</li>
+              <li class="list-item">Linalool</li>
+              <li class="list-item">Manoyl Oxide</li>
+            </ul>
+          </li>
+          <li class="list-group-item">Proposed Sources:
+            <ul class="list">
+              <li class="list-item">Olea Europaea  <a href="https://phytochem.nal.usda.gov/phytochem/plants/show/1392" class="btn btn-default btn-xs" role="button">Duke's</a></li>
+              <li class="list-item">Coriandrum Sativum <button type="button" class="btn btn-warning btn-xs " data-toggle="modal" data-target="#myModal">Ancient Reference</button><a href="https://phytochem.nal.usda.gov/phytochem/plants/show/526" class="btn btn-default btn-xs" role="button">Duke's</a></li>
+              <li class="list-item">Cistus Creticus <a href="https://phytochem.nal.usda.gov/phytochem/plants/show/11132" class="btn btn-default btn-xs" role="button">Duke's</a></li>
+            </ul>
+          </li>
+          <li class="list-group-item">Interpreted Product: Perfume</li>
+        </ul> 
+    
+      </div>
+     
+      <div class="well">
+        <h3>Sample Source Information</h3>
+          <ul class="list-group">
+            <li class="list-group-item">Source: Stirrup Jar</li>
+            <li class="list-group-item">Find Site: Tourloti <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#myModal">Bibliography</button></li>
+            <li class="list-group-item">Date Relative: LM IIIC Early</li>
+            <li class="list-group-item">Date Absolute:</li>
+            <li class="list-group-item">Production Location:</li>
+            <li class="list-group-item">Current Location: University of Pennsylvania Museum of Archaeology and Anthropology</li>
+          </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
