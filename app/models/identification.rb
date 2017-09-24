@@ -91,4 +91,16 @@ class Identification < ActiveRecord::Base
 		return i_hash	
 	end
 
+
+	def self.get_product_name_and_id(sample_id)
+		idents = Identification.find_identification_by_sample_id(sample_id)
+		id_arr = []
+		idents.each do |rec|
+			prod = Product.find_product(rec["product_id"])
+			id_arr << prod["name"]
+			id_arr << prod["oa_id"]
+		end
+		return id_arr
+	end
+
 end

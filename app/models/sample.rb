@@ -40,7 +40,7 @@ class Sample < ActiveRecord::Base
 
  		site_data, source_data, chromatogram_data, identification_data = Sample.get_data_for_inner_list(sam_hash["site_id"], sam_hash["source_id"], sam_hash["chromatogram_id"], oa_id)
 
- 		image_hash = {source_data["oa_id"] => source_data["image_file_path"], chromatogram_data["oa_id"] => chromatogram_data["image_file_path"]}
+ 		image_hash = Image.get_image_data(sam_hash["source_id"], sam_hash["chromatogram_id"])
 
  		return {"show_hash" => sam_hash, "inner_fields" => link_fields, "added_fields" => added_fields, "site_id" => site_data, "source_id" => source_data, "chromatogram_id" => chromatogram_data, "identifications" => identification_data, "image_hash" => image_hash}
 	end
@@ -58,7 +58,7 @@ class Sample < ActiveRecord::Base
 	end
 
 	def self.show_sample_data(oa_id)
-		data_hashes = get_data(oa_id)
+		data_hashes = new_get_data(oa_id)
 	end
 
 	def self.get_data_for_mini_view(id, id_name = nil)
@@ -88,6 +88,32 @@ class Sample < ActiveRecord::Base
 		else
 			return sample_data
 		end
+	end
+
+
+	def self.new_get_data(oa_id)
+
+		doc = Sample.find_sample(oa_id)
+		
+		sample_info_hash = Hash.new
+		sample_info_hash["sample_type"] = doc["sample_type"]
+    sample_info_hash["sample_quality"] = doc["sample_quality"]
+    sample_info_hash["final_identification"] = Identification.get_product_name_and_id(oa_id)
+    
+    #get hash of diagnostic compound names and and plant names with their oa_ids
+    #hash[compound_name] = [compound_id, c_dukes_url, c_nist_url, plant_name, plant_id, p_dukes_url, product_name, ancient_reference_hash]
+    compound_plant_hash = SampleCompound.get_plants_for_sample(oa_id)
+
+    image_hash = Image.get_image_data(doc["source_id"], doc["chromatogram_id"])
+
+    sample_info_hash["Source:"] = ""
+    sample_info_hash["Find Site:"] = ""
+    sample_info_hash["Date Relative:"] = ""
+    sample_info_hash["Date Absolute:"] = ""
+    sample_info_hash["Production Location:"] = ""
+    sample_info_hash["Current Location:"] = ""
+
+    return {"show_hash" => sample_info_hash, "table_info" => compound_plant_hash, "image_hash" => image_hash}
 	end
 	
 

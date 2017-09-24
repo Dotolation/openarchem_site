@@ -16,6 +16,15 @@ class Product < ActiveRecord::Base
 		#returns nil if no record found
 	end
 
+	def self.find_by_plant_id(id)
+		unless id.empty?
+			prod = Product.where("plant_id = ?", id)
+		else
+			return nil
+		end
+		return prod
+	end
+
 
 	#get_data is for the base mysql pull and collecting of other data to show on a Site page
 	def self.get_data(oa_id)

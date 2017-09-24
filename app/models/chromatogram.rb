@@ -17,7 +17,7 @@ class Chromatogram < ActiveRecord::Base
 	def self.get_data(oa_id)
 		chrom = find_chromatogram(oa_id)
 
-		field_list = ["oa_id", "image_file_path", "notes", "sample_id"]
+		field_list = ["oa_id", "notes", "sample_id"]
  		linked_fields = ["sample_id"]
 
  		chr_hash = Hash.new
@@ -43,7 +43,6 @@ class Chromatogram < ActiveRecord::Base
 		chrom = Chromatogram.find_chromatogram(id)
 		chrom_hash = Hash.new
 		chrom_hash["display"] = chrom["oa_id"]
-		chrom_hash["image_file_path"]  = chrom["image_file_path"]
 		chrom_hash["notes"] = chrom["notes"]
 		
 		return chrom_hash

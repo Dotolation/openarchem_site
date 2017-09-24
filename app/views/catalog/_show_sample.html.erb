@@ -2,8 +2,8 @@
 <%# partial to display samples documents in catalog show view -%>
 
 <% data_hashes = sample_show_data(params["id"])%>
-<% data_hashes["source_id"].delete("image_file_path") %>
-<% data_hashes["chromatogram_id"].delete("image_file_path") %>
+<%# data_hashes["source_id"].delete("image_file_path") %>
+<%# data_hashes["chromatogram_id"].delete("image_file_path") %>
 
 <%# render :partial => "show_list" , :locals => {:data_hashes => data_hashes} %>
 <%= render :partial => "new_sample_show", :locals => {:data_hashes => data_hashes} %>

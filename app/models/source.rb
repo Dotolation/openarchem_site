@@ -16,7 +16,7 @@ class Source < ActiveRecord::Base
 	#mini_view is for pulling Source info to display on another entity's page
 	def self.get_data_for_mini_view(id)
 		source = Source.find_source(id)
-		field_list = ["oa_id", "soil_sample", "object_type", "object_url", "image_file_path", "image_credit"] 
+		field_list = ["oa_id", "soil_sample", "object_type", "object_url"] 
 
 		source_hash = Hash.new
 		
@@ -39,7 +39,7 @@ class Source < ActiveRecord::Base
  		doc = Source.find_source(oa_id)
 
  		#field_list is used to weed out unwanted fields in the display, like created_at 
- 		field_list = ["oa_id", "coords", "soil_sample", "notes", "object_condition", "object_type", "petrograpy", "object_treatement", "published", "object_url", "image_file_path", "image_credit"]
+ 		field_list = ["oa_id", "coords", "soil_sample", "notes", "object_condition", "object_type", "petrograpy", "object_treatement", "published", "object_url"]
  		added_fields = ["site_id", "sample_id"]
 
  		sou_hash = Hash.new

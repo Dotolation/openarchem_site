@@ -61,4 +61,19 @@ class Compound < ActiveRecord::Base
 		end
 		return comp_hash
 	end
+
+
+	def self.get_sample_diagnostic_comps(sample_id)
+		comps = SampleCompounds.find_by_sample_id(sample_id)
+
+		diag_comps = Hash.new
+
+		if comps 
+			comps.each do |rec|
+				comp = Compound.find_compound(rec["compound_id"])
+				diag_comps = {"compound_id" => comp["oa_id"], "compound_name" => comp["name"], "dukes" => comp["dukes_url"], "nist" => comp["nist_url"]}
+			end
+		end
+		return diag_comps
+	end
 end

@@ -2,30 +2,34 @@
     <% image_hash.each do |key, val| %>
       <div class="col-xs-6 col-md-3">
         
-        <a href="#" class="thumbnail" data-toggle="modal" data-target="#myModal">
-          <%= image_tag(val, :alt => key) %>
+        <a href="#" class="thumbnail" data-toggle="modal" data-target="#myModal<%= key %>">
+          <%= image_tag(val[1], :alt => key) %>
         </a>
+        <div class="caption">
+          <p><%= val[2] %></p>
+        </div>
         
       </div>
-    <% end %>
-  </div>
+    
 
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+      <div id="myModal<%= key %>" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          
-        </div>
-        <div class="modal-body">
-         <p>“Thus Alxoitas gave to Thyestes the perfumed-boiler aromatics for perfume destined for boiling: coriander 576 l, cyperus 576 l, *157 16 units, fruits 240 l, wine 576 l, honey 58 l, wool 6 kg, inferior wine 58 l” <i>Linear B Tablet UN 267</i></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <%= val[2] %>
+            </div>
+            <div class="modal-body">
+             <%= link_to image_tag(val[1], style: 'height:auto;width:100%;'), val[0], target: :_blank %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
         </div>
       </div>
-
-    </div>
+    <% end %>
   </div>
