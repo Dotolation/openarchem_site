@@ -97,7 +97,22 @@ class Sample < ActiveRecord::Base
 		
 		sample_info_hash = Hash.new
 		sample_info_hash["sample_type"] = doc["sample_type"]
-    sample_info_hash["sample_quality"] = doc["sample_quality"]
+
+		sq = doc["sample_quality"]
+		case sq
+		when 5
+			qual = 'Closed intact, in situ' 
+		when 4
+      qual = 'Open intact/Closed fragmented, in situ'
+    when 3
+      qual = 'Diagnostic sherd, unwashed'
+    when 2
+      qual = 'Any washed on site/Legacy unwashed'
+    when 1
+      qual = 'Any washed or treated'
+    end
+
+    sample_info_hash["sample_quality"] = qual
     sample_info_hash["final_identification"] = Identification.get_product_name_and_id(oa_id)
     
     #get hash of diagnostic compound names and and plant names with their oa_ids
