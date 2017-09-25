@@ -105,13 +105,13 @@ class Sample < ActiveRecord::Base
     compound_plant_hash = SampleCompound.get_plants_for_sample(oa_id)
 
     image_hash = Image.get_image_data(doc["source_id"], doc["chromatogram_id"])
-
-    sample_info_hash["Source:"] = ""
-    sample_info_hash["Find Site:"] = ""
-    sample_info_hash["Date Relative:"] = ""
-    sample_info_hash["Date Absolute:"] = ""
-    sample_info_hash["Production Location:"] = ""
-    sample_info_hash["Current Location:"] = ""
+    source = Source.get_source_and_bib(doc["source_id"])
+    sample_info_hash["source"] = [doc["source_id"], source[0]["object_type"], source[1]]
+    sample_info_hash["find_site"] = Site.get_id_and_name(doc["site_id"])
+    sample_info_hash["date_rel"] = source[0]["date"]
+    sample_info_hash["date_abs"] = ""
+    sample_info_hash["prod_location"] = ""
+    sample_info_hash["curr_location"] = source[0]["current_location"]
 
     return {"show_hash" => sample_info_hash, "table_info" => compound_plant_hash, "image_hash" => image_hash}
 	end

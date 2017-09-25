@@ -93,4 +93,11 @@ class Site < ActiveRecord::Base
 		return director, sample_data
 	end
 
+
+	def self.get_id_and_name(oa_id)
+		site = Site.find_site(oa_id)
+		arr = [oa_id, site["name"]]
+		return arr
+	end
+
 end

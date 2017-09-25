@@ -16,60 +16,62 @@
          <ul class="list-group">
           <li class="list-group-item"><b>Sample Type:</b> <%= summary_info["sample_type"] %> </li>
           <li class="list-group-item"><b>Sample Quality:</b> <%= summary_info["sample_quality"] %> </li>
+          
           <li class="list-group-item">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Diagnostic Compounds</th>
-                  <th>Proposed Sources</th>
-                  <th>Probable Ingredients</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% table_info.each do |key, val| %>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
                   <tr>
-                    <td>
-                      <%= link_to key, val[0] %> 
-                      <a href="<%= val[1] %>" class="btn btn-default btn-xs" role="button">Duke's</a>
-                      <a href="<%= val[2] %>" class="btn btn-default btn-xs" role="button">NIST</a>
-                    </td>
-                    <td>
-                      <i><%= link_to val[3], val[4] %></i>  
-                      <a href="<%= val[5] %>" class="btn btn-default btn-xs" role="button">Duke's</a>
-                    </td>
-                    <td>
-                      <%= val[6] %>
-                      <% unless val[7] == nil %>
-                        <a href="#" class="btn btn-default btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[7]["oa_id"] %>">Ancient Ref.</a>
-
-                        <div id="ref_modal<%= val[7]["oa_id"] %>" class="modal fade" role="dialog">
-                          <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              </div>
-                              <div class="modal-body">
-                                <p><%= val[7]["excerpt_eng"] %></p>
-                                <p><%= val[7]["author"] if val[7]["author"] %> <%= link_to val[7]["work"], val[7]["link"], target: :_blank %>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
-                      <% end %>
-                    </td>
+                    <th>Diagnostic Compounds</th>
+                    <th>Proposed Sources</th>
+                    <th>Probable Ingredients</th>
                   </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div> 
+                </thead>
+                <tbody>
+                  <% table_info.each do |key, val| %>
+                    <tr>
+                      <td>
+                        <%= link_to key, val[0] %> 
+                        <a href="<%= val[1] %>" class="btn btn-success btn-xs" role="button">Duke's</a>
+                        <a href="<%= val[2] %>" class="btn btn-warning btn-xs" role="button">NIST</a>
+                      </td>
+                      <td>
+                        <i><%= link_to val[3], val[4] %></i>  
+                        <a href="<%= val[5] %>" class="btn btn-success btn-xs" role="button">Duke's</a>
+                      </td>
+                      <td>
+                        <%= val[6] %>
+                        <% unless val[7] == nil %>
+                          <a href="#" class="btn btn-danger btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[7]["oa_id"] %>">Ancient Ref.</a>
+
+                          <div id="ref_modal<%= val[7]["oa_id"] %>" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                              <!-- Modal content-->
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                  <p><%= val[7]["excerpt_eng"] %></p>
+                                  <p><%= val[7]["author"] if val[7]["author"] %> <%= link_to val[7]["work"], val[7]["link"], target: :_blank %>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div> 
           </li>
+
           <li class="list-group-item"><b>Interpreted Product:</b> <%= link_to summary_info["final_identification"][0], summary_info["final_identification"][1] %> </li>
         </ul> 
     
@@ -78,12 +80,38 @@
       <div class="well">
         <h3>Sample Source Information</h3>
           <ul class="list-group">
-            <li class="list-group-item"><b>Source:</b> Stirrup Jar</li>
-            <li class="list-group-item"><b>Find Site:</b> Tourloti <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#myModal">Bibliography</button></li>
-            <li class="list-group-item"><b>Date Relative:</b> LM IIIC Early</li>
-            <li class="list-group-item"><b>Date Absolute:</b></li>
-            <li class="list-group-item"><b>Production Location:</b></li>
-            <li class="list-group-item"><b>Current Location:</b> University of Pennsylvania Museum of Archaeology and Anthropology</li>
+            <li class="list-group-item">
+              <b>Source:</b> 
+              <%= link_to summary_info["source"][1], summary_info["source"][0] %>
+              <% if summary_info["source"][2] %>
+                <%# summary_info["source"][2].each do |rec| %>
+                  <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#bib_modal<%= summary_info["source"][2]['oa_id'] %>">Bibliography</button>
+                  <div id="bib_modal<%= summary_info["source"][2]['oa_id'] %>" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                          <p><%= summary_info["source"][2]["author"] %>. <%= summary_info["source"][2]['title'] %>. <%= summary_info["source"][2]['publisher'] %>. <%= summary_info["source"][2]['year'] %></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                <%# end %>
+              <% end %>
+            </li>
+            <li class="list-group-item"><b>Find Site:</b> <%= link_to summary_info["find_site"][1], summary_info["find_site"][0] %> </li>
+            <li class="list-group-item"><b>Date Relative:</b> <%= summary_info["date_rel"] %></li>
+            <li class="list-group-item"><b>Date Absolute:</b> <%= summary_info["date_rabs"] %></li>
+            <li class="list-group-item"><b>Production Location:</b> <%= summary_info["prod_location"] %></li>
+            <li class="list-group-item"><b>Current Location:</b> <%= summary_info["curr_location"] %></li>
           </ul>
       </div>
       

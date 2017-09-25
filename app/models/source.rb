@@ -69,4 +69,11 @@ class Source < ActiveRecord::Base
 		data = get_data(oa_id)
 	end
 
+
+	def self.get_source_and_bib(oa_id)
+		source = Source.find_source(oa_id)
+		pubs = Bibliography.find_pubs_by_source_id(oa_id).first
+		arr = [source, pubs]
+	end
+
 end

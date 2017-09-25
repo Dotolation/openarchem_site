@@ -13,7 +13,7 @@ class AddMoreFKs < ActiveRecord::Migration[5.0]
     add_index :publications, :oa_id, unique: true
     
     execute <<-SQL
-      ALTER TABLE `openarchem`.`bibliography` 
+      ALTER TABLE `openarchem`.`bibliographies` 
       ADD CONSTRAINT `bib_pub_id`
       FOREIGN KEY (`publication_id` )
       REFERENCES `openarchem`.`publications` (`oa_id` )
@@ -23,7 +23,7 @@ class AddMoreFKs < ActiveRecord::Migration[5.0]
     SQL
 
     execute <<-SQL
-      ALTER TABLE `openarchem`.`bibliography` 
+      ALTER TABLE `openarchem`.`bibliographies` 
       ADD CONSTRAINT `bib_sam_id`
       FOREIGN KEY (`sample_id` )
       REFERENCES `openarchem`.`samples` (`oa_id` )
@@ -33,7 +33,7 @@ class AddMoreFKs < ActiveRecord::Migration[5.0]
     SQL
 
     execute <<-SQL
-      ALTER TABLE `openarchem`.`bibliography` 
+      ALTER TABLE `openarchem`.`bibliographies` 
       ADD CONSTRAINT `bib_chro_id`
       FOREIGN KEY (`chromatogram_id` )
       REFERENCES `openarchem`.`chromatograms` (`oa_id` )
@@ -43,7 +43,7 @@ class AddMoreFKs < ActiveRecord::Migration[5.0]
     SQL
 
     execute <<-SQL
-      ALTER TABLE `openarchem`.`bibliography` 
+      ALTER TABLE `openarchem`.`bibliographies` 
       ADD CONSTRAINT `bib_sit_id`
       FOREIGN KEY (`site_id` )
       REFERENCES `openarchem`.`sites` (`oa_id` )
@@ -53,7 +53,7 @@ class AddMoreFKs < ActiveRecord::Migration[5.0]
     SQL
 
     execute <<-SQL
-      ALTER TABLE `openarchem`.`bibliography` 
+      ALTER TABLE `openarchem`.`bibliographies` 
       ADD CONSTRAINT `bib_sou_id`
       FOREIGN KEY (`source_id` )
       REFERENCES `openarchem`.`sources` (`oa_id` )
@@ -66,7 +66,7 @@ class AddMoreFKs < ActiveRecord::Migration[5.0]
     add_index :other_analysis, :oa_id, unique: true
 
     execute <<-SQL
-      ALTER TABLE `openarchem`.`bibliography` 
+      ALTER TABLE `openarchem`.`bibliographies` 
       ADD CONSTRAINT `bib_oth_id`
       FOREIGN KEY (`other_analysis_id` )
       REFERENCES `openarchem`.`other_analysis` (`oa_id` )

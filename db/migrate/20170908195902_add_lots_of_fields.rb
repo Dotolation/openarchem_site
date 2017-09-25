@@ -51,7 +51,7 @@ class AddLotsOfFields < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    create_table :bibliography do |t|
+    create_table :bibliographies do |t|
       t.string :publication_id
       t.string :sample_id
       t.string :chromatogram_id
