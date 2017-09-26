@@ -137,6 +137,8 @@
                     <b><%= k.gsub("_", " ").capitalize %>: </b> 
                     <% if v =~ /oa2017/ && !(v =~ /oa2017sam/) %>
                       <%= link_to v, v %>
+                    <% elsif k == "sample_quality" %>
+                      <%= summary_info["sample_quality"] %>
                     <% else %>
                       <%= v %>
                     <% end %>

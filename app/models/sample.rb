@@ -94,12 +94,11 @@ class Sample < ActiveRecord::Base
 	def self.new_get_data(oa_id)
 
 		doc = Sample.find_sample(oa_id)
-		details_hash = Sample.get_details(doc)
 		
 		sample_info_hash = Hash.new
 		sample_info_hash["sample_type"] = doc["sample_type"]
 
-		qual = Sample.sample_qual_convert(doc)
+		qual = Sample.sample_qual_convert(doc["sample_quality"])
 
     sample_info_hash["sample_quality"] = qual
     sample_info_hash["final_identification"] = Identification.get_product_name_and_id(oa_id)
@@ -117,6 +116,8 @@ class Sample < ActiveRecord::Base
     sample_info_hash["prod_location"] = ""
     sample_info_hash["curr_location"] = source[0]["current_location"]
 
+    details_hash = Sample.get_details(doc)
+
     return {"show_hash" => sample_info_hash, "table_info" => compound_plant_hash, "image_hash" => image_hash, "details_hash" => details_hash}
 	end
 	
@@ -125,16 +126,13 @@ class Sample < ActiveRecord::Base
 		ext = Extraction.find_extraction(doc["extraction_id"])
 		equ = Equipment.find_equipment(doc["equipment_id"])
 
-		qual = Sample.sample_qual_convert(doc)
-		doc["sample_quality"] = qual
-
 		details_hash = {"Sample" => doc, "Extraction" => ext, "Equipment" => equ}
 		
 		return details_hash
 	end
 
-	def self.sample_qual_convert(doc)
-		sq = doc["sample_quality"]
+	def self.sample_qual_convert(sq)
+
 		case sq
 		when 5
 			qual = 'Closed intact, in situ' 
@@ -147,6 +145,7 @@ class Sample < ActiveRecord::Base
     when 1
       qual = 'Any washed or treated'
     end
+
     return qual
   end
 end
