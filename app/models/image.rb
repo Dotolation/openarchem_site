@@ -20,16 +20,19 @@ class Image < ActiveRecord::Base
 
   def self.get_image_data(source_id, chromatogram_id)
     image_hash = Hash.new
-    source_img = Image.find_image_by_source_id(source_id) 
-    chrom_img = Image.find_image_by_chromatogram_id(chromatogram_id)
 
-    
-    source_img.each do |rec|
-      image_hash[rec["oa_id"]] = [rec["source_id"], rec["image_file_path"], rec["image_credit"]]
+    unless source_id == nil
+      source_img = Image.find_image_by_source_id(source_id) 
+      source_img.each do |rec|
+        image_hash[rec["oa_id"]] = [rec["source_id"], rec["image_file_path"], rec["image_credit"]]
+      end
     end
 
-    chrom_img.each do |rec|
-      image_hash[rec["oa_id"]] = [rec["chromatogram_id"], rec["image_file_path"], rec["image_credit"]]
+    unless chromatogram_id == nil
+      chrom_img = Image.find_image_by_chromatogram_id(chromatogram_id)
+      chrom_img.each do |rec|
+        image_hash[rec["oa_id"]] = [rec["chromatogram_id"], rec["image_file_path"], rec["image_credit"]]
+      end
     end
 
     return image_hash

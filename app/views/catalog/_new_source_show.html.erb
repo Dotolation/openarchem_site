@@ -1,0 +1,55 @@
+<% summary_info = data_hashes["source_hash"] %>
+
+<div class="panel-group">
+  <div class="panel">
+    <% if data_hashes.has_key?("image_hash") %>
+        <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+    <% end %>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Source Information</h3>
+         <ul class="list-group">
+
+          <li class="list-group-item"><b>Find Site:</b> <%= link_to summary_info["site"][1], summary_info["site"][0] %> </li>
+          <li class="list-group-item"><b>Relative Date:</b> <%= summary_info["date"] %> </li>
+          <li class="list-group-item"><b>Object Type:</b> <%= summary_info["object_type"] %> </li>
+          <li class="list-group-item"><b>Petrography:</b> <%= summary_info["petrography"] %> </li>
+        </ul>
+      </div>
+ 
+      <div class="well">
+        <h3>Bibliography</h3>
+        <ul class="list-group">   
+          <% summary_info["bibliography"].each do |bib| %>
+            <li class="list-group-item">
+            <% bib.attributes.each do |k, v| %>
+              <% unless k == "created_at" || k == "updated_at" || k == "id" || v == "" || v == nil || k == "oa_id" %>
+                <%= v %>.
+              <% end %>
+            <% end%>
+            </li>
+          <% end %>          
+        </ul>
+      </div>
+
+      <div class="well">
+        <h3>Associated Samples</h3>
+        <ul class="list-group">   
+          <li class="list-group-item">
+            <ul>
+              <% summary_info["sample_ids"].each do |sam| %>
+                <li><%= link_to "Sample #{sam}", sam %></li>
+              <% end %>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <%= render :partial => "detailed_rec" , :locals => {:summary_info => summary_info, :details_hash => data_hashes["details_hash"]} %>
+</div>

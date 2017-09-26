@@ -66,7 +66,7 @@ class Source < ActiveRecord::Base
 	end
 
 	def self.show_source_data(oa_id)
-		data = get_data(oa_id)
+		data = new_get_data(oa_id)
 	end
 
 
@@ -74,6 +74,37 @@ class Source < ActiveRecord::Base
 		source = Source.find_source(oa_id)
 		pubs = Bibliography.find_pubs_by_source_id(oa_id).first
 		arr = [source, pubs]
+	end
+
+
+	def self.new_get_data(oa_id)
+		source = Source.find_source(oa_id)
+		source_hash = Hash.new
+		sample_data, site_id = Sample.get_data_for_mini_view(oa_id, "source_id")
+		image_hash = Image.get_image_data(oa_id, nil)
+		site = Site.get_id_and_name(site_id)
+		sample_ids = []
+		sample_data.each{|a| sample_ids << a["oa_id"]}
+		
+		source_hash["sample_ids"] = sample_ids
+		source_hash["oa_id"] = oa_id
+		source_hash["site"] = site
+		source_hash["date"] = source["date"]
+		source_hash["object_type"] = source["object_type"]
+		source_hash["petrograpy"] = source["petrograpy"]
+		source_hash["bibliography"] = Bibliography.find_pubs_by_source_id(oa_id).to_a
+
+		details_hash = Source.get_details(source, site_id)
+
+		return {"source_hash" => source_hash, "image_hash" => image_hash, "details_hash" => details_hash}
+
+	end
+
+
+	def self.get_details(source, site_id)
+		site = Site.find_site(site_id)
+
+		details_hash = {"Source" => source, "Site" => site}
 	end
 
 end
