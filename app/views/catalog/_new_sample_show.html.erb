@@ -31,16 +31,16 @@
                   <% table_info.each do |key, val| %>
                     <tr>
                       <td>
-                        <%= link_to key, val[0] %> 
+                        <%= link_to key, val[0] %> </br>
                         <a href="<%= val[1] %>" class="btn btn-success btn-xs" role="button">Duke's</a>
                         <a href="<%= val[2] %>" class="btn btn-warning btn-xs" role="button">NIST</a>
                       </td>
                       <td>
-                        <i><%= link_to val[3], val[4] %></i>  
+                        <i><%= link_to val[3], val[4] %></i>  </br>
                         <a href="<%= val[5] %>" class="btn btn-success btn-xs" role="button">Duke's</a>
                       </td>
                       <td>
-                        <%= val[6] %>
+                        <%= val[6] %> </br>
                         <% unless val[7] == nil %>
                           <a href="#" class="btn btn-danger btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[7]["oa_id"] %>">Ancient Ref.</a>
 
@@ -83,8 +83,8 @@
             <li class="list-group-item">
               <b>Source:</b> 
               <%= link_to summary_info["source"][1], summary_info["source"][0] %>
-              <% if summary_info["source"][2] %>       
-                <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#bib_modal<%= summary_info["source"][2]['oa_id'] %>">Bibliography</button>
+              <% if summary_info["source"][2] %>  </br>    
+                <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#bib_modal<%= summary_info["source"][2]['oa_id'] %>">Ref.</button>
                 <div id="bib_modal<%= summary_info["source"][2]['oa_id'] %>" class="modal fade" role="dialog">
                   <div class="modal-dialog">
 
