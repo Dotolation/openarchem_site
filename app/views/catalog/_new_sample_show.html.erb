@@ -117,5 +117,38 @@
       
     </div>
   </div>
+  <div class="panel" id="accordion">
+    <div class="panel-heading" role="tab" id="detail_rec">
+      <h2>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">Detailed Record</a>
+      </h2>
+    </div>
+
+    <div id="collapse_detail" class="panel-collapse collapse">
+      <div class="panel-body">
+
+        <% data_hashes["details_hash"].each do |key, value| %>
+          <div class="well">
+          <h3><%= key %></h3>
+            <ul class="list-group">
+              <% value.attributes.each do |k, v| %>
+               <% unless k == "created_at" || k == "updated_at" || k == "id" || v == "" || v == nil %>
+                  <li class="list-group-item">
+                    <b><%= k.gsub("_", " ").capitalize %>: </b> 
+                    <% if v =~ /oa2017/ && !(v =~ /oa2017sam/) %>
+                      <%= link_to v, v %>
+                    <% else %>
+                      <%= v %>
+                    <% end %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 
