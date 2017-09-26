@@ -96,6 +96,7 @@ class Sample < ActiveRecord::Base
 		doc = Sample.find_sample(oa_id)
 		
 		sample_info_hash = Hash.new
+		sample_info_hash["oa_id"] = oa_id
 		sample_info_hash["sample_type"] = doc["sample_type"]
 
 		qual = Sample.sample_qual_convert(doc["sample_quality"])

@@ -2,9 +2,9 @@
 <% table_info = data_hashes["table_info"] %>
 <div class="panel-group">
   <div class="panel">
-      <% if data_hashes.has_key?("image_hash") %>
-          <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
-      <% end %>
+    <% if data_hashes.has_key?("image_hash") %>
+        <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+    <% end %>
   </div>
   <div class="panel">
     <div class="panel-heading">
@@ -83,28 +83,25 @@
             <li class="list-group-item">
               <b>Source:</b> 
               <%= link_to summary_info["source"][1], summary_info["source"][0] %>
-              <% if summary_info["source"][2] %>
-                <%# summary_info["source"][2].each do |rec| %>
-                  <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#bib_modal<%= summary_info["source"][2]['oa_id'] %>">Bibliography</button>
-                  <div id="bib_modal<%= summary_info["source"][2]['oa_id'] %>" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
+              <% if summary_info["source"][2] %>       
+                <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#bib_modal<%= summary_info["source"][2]['oa_id'] %>">Bibliography</button>
+                <div id="bib_modal<%= summary_info["source"][2]['oa_id'] %>" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
 
-                      <!-- Modal content-->
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                          <p><%= summary_info["source"][2]["author"] %>. <%= summary_info["source"][2]['title'] %>. <%= summary_info["source"][2]['publisher'] %>. <%= summary_info["source"][2]['year'] %></p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                       </div>
-
-                    </div>
+                      <div class="modal-body">
+                        <p><%= summary_info["source"][2]["author"] %>. <%= summary_info["source"][2]['title'] %>. <%= summary_info["source"][2]['publisher'] %>. <%= summary_info["source"][2]['year'] %></p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>\
                   </div>
-                <%# end %>
+                </div>
               <% end %>
             </li>
             <li class="list-group-item"><b>Find Site:</b> <%= link_to summary_info["find_site"][1], summary_info["find_site"][0] %> </li>
@@ -117,40 +114,6 @@
       
     </div>
   </div>
-  <div class="panel" id="accordion">
-    <div class="panel-heading" role="tab" id="detail_rec">
-      <h2>
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_detail">Detailed Record</a>
-      </h2>
-    </div>
-
-    <div id="collapse_detail" class="panel-collapse collapse">
-      <div class="panel-body">
-
-        <% data_hashes["details_hash"].each do |key, value| %>
-          <div class="well">
-          <h3><%= key %></h3>
-            <ul class="list-group">
-              <% value.attributes.each do |k, v| %>
-               <% unless k == "created_at" || k == "updated_at" || k == "id" || v == "" || v == nil %>
-                  <li class="list-group-item">
-                    <b><%= k.gsub("_", " ").capitalize %>: </b> 
-                    <% if v =~ /oa2017/ && !(v =~ /oa2017sam/) %>
-                      <%= link_to v, v %>
-                    <% elsif k == "sample_quality" %>
-                      <%= summary_info["sample_quality"] %>
-                    <% else %>
-                      <%= v %>
-                    <% end %>
-                  </li>
-                <% end %>
-              <% end %>
-            </ul>
-          </div>
-
-        <% end %>
-      </div>
-    </div>
-  </div>
+  <%= render :partial => "detailed_rec" , :locals => {:summary_info => summary_info, :details_hash => data_hashes["details_hash"]} %>
 </div>
 
