@@ -75,7 +75,7 @@
             </li>
             <li class="list-group-item"><b>Find Site:</b> <%= link_to summary_info["find_site"][1], summary_info["find_site"][0] %>
               <% if summary_info["find_site"][2] %> </br>
-                 <a href="<%= summary_info["find_site"][2] %>" class="btn btn-primary btn-xs" role="button">Atlas</a>
+                 <a href="<%= summary_info["find_site"][2] %>" class="btn btn-primary btn-xs" role="button" title="Site requires signup">Atlas</a>
               <% end %>
             </li>
             <li class="list-group-item"><b>Date Relative:</b> <%= summary_info["date_rel"] %></li>

@@ -32,8 +32,14 @@
         </div>
         <div class="modal-body"> 
           <% val[8].each do |a_ref| %>
+            <div class="well">
             <p><%= a_ref["excerpt_eng"] %></p>
             <p><%= a_ref["author"] if a_ref["author"] %> <%= link_to a_ref["work"], a_ref["link"], target: :_blank %>
+              <% unless a_ref["link1"].nil? %>
+                , <%= link_to "Link 2", a_ref["link1"], target: :_blank %>
+              <% end %>
+            </p>
+            </div>
           <% end %>
         </div>
         <div class="modal-footer">
