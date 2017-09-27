@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170923023020) do
+ActiveRecord::Schema.define(version: 20170926221410) do
 
-  create_table "ancient_ref", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ancient_refs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",                                                          null: false
     t.string   "author"
     t.string   "work"
@@ -21,9 +21,12 @@ ActiveRecord::Schema.define(version: 20170923023020) do
     t.text     "excerpt_eng", limit: 65535
     t.datetime "created_at",                default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at",                default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string   "plant_id"
+    t.string   "product_id"
+    t.string   "link1"
+    t.string   "link2"
+    t.string   "link3"
     t.index ["oa_id"], name: "index_ancient_ref_on_oa_id", unique: true, using: :btree
-    t.index ["plant_id"], name: "fk_rails_200582d8e1", using: :btree
+    t.index ["product_id"], name: "fk_rails_200582d8e1_idx", using: :btree
   end
 
   create_table "animal_compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -46,15 +49,15 @@ ActiveRecord::Schema.define(version: 20170923023020) do
     t.index ["oa_id"], name: "index_animals_on_oa_id", unique: true, using: :btree
   end
 
-  create_table "bibliography", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "bibliographies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "publication_id"
     t.string   "sample_id"
     t.string   "chromatogram_id"
     t.string   "site_id"
     t.string   "source_id"
     t.string   "other_analysis_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",        default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",        default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["chromatogram_id"], name: "bib_chro_idx", using: :btree
     t.index ["other_analysis_id"], name: "bib_oth_idx", using: :btree
     t.index ["publication_id"], name: "fk_rails_0201e0a0cf", using: :btree
@@ -223,6 +226,7 @@ ActiveRecord::Schema.define(version: 20170923023020) do
     t.string   "dukes_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "flora_url"
     t.index ["oa_id"], name: "index_plants_on_oa_id", unique: true, using: :btree
   end
 
@@ -265,15 +269,16 @@ ActiveRecord::Schema.define(version: 20170923023020) do
   end
 
   create_table "publications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "oa_id",        null: false
+    t.string   "oa_id",                                             null: false
     t.string   "author"
     t.string   "title"
     t.string   "journal_name"
     t.string   "publisher"
     t.string   "year"
     t.string   "pages"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",   default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",   default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string   "url"
     t.index ["oa_id"], name: "index_publications_on_oa_id", unique: true, using: :btree
   end
 
@@ -342,15 +347,16 @@ ActiveRecord::Schema.define(version: 20170923023020) do
     t.datetime "updated_at"
     t.string   "director_id"
     t.string   "date"
+    t.string   "atlas_url"
     t.index ["director_id"], name: "sit_per_idx", using: :btree
     t.index ["oa_id"], name: "index_sites_on_oa_id", unique: true, using: :btree
   end
 
   create_table "sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "oa_id",                          null: false
+    t.string   "oa_id",                             null: false
     t.string   "coords"
     t.boolean  "soil_sample"
-    t.text     "notes",            limit: 65535
+    t.text     "notes",               limit: 65535
     t.string   "object_condition"
     t.string   "object_type"
     t.string   "petrography"
@@ -362,9 +368,12 @@ ActiveRecord::Schema.define(version: 20170923023020) do
     t.string   "petro_image"
     t.string   "date"
     t.string   "excavation_date"
-    t.text     "excavation_notes", limit: 65535
+    t.text     "excavation_notes",    limit: 65535
     t.string   "current_location"
     t.string   "institution_id"
+    t.string   "absolute_date"
+    t.string   "production_location"
+    t.string   "lcp_url"
     t.index ["oa_id"], name: "index_sources_on_oa_id", unique: true, using: :btree
   end
 
@@ -401,15 +410,15 @@ ActiveRecord::Schema.define(version: 20170923023020) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "ancient_ref", "plants", primary_key: "oa_id"
+  add_foreign_key "ancient_refs", "products", primary_key: "oa_id"
   add_foreign_key "animal_compounds", "animals", primary_key: "oa_id", name: "anc_ani_id", on_delete: :cascade
   add_foreign_key "animal_compounds", "compounds", primary_key: "oa_id", name: "anc_com_id", on_delete: :cascade
-  add_foreign_key "bibliography", "chromatograms", primary_key: "oa_id", name: "bib_chro_id", on_delete: :cascade
-  add_foreign_key "bibliography", "other_analysis", primary_key: "oa_id", name: "bib_oth_id", on_delete: :cascade
-  add_foreign_key "bibliography", "publications", primary_key: "oa_id"
-  add_foreign_key "bibliography", "samples", primary_key: "oa_id", name: "bib_sam_id", on_delete: :cascade
-  add_foreign_key "bibliography", "sites", primary_key: "oa_id", name: "bib_sit_id", on_delete: :cascade
-  add_foreign_key "bibliography", "sources", primary_key: "oa_id", name: "bib_sou_id", on_delete: :cascade
+  add_foreign_key "bibliographies", "chromatograms", primary_key: "oa_id", name: "bib_chro_id", on_delete: :cascade
+  add_foreign_key "bibliographies", "other_analysis", primary_key: "oa_id", name: "bib_oth_id", on_delete: :cascade
+  add_foreign_key "bibliographies", "publications", primary_key: "oa_id"
+  add_foreign_key "bibliographies", "samples", primary_key: "oa_id", name: "bib_sam_id", on_delete: :cascade
+  add_foreign_key "bibliographies", "sites", primary_key: "oa_id", name: "bib_sit_id", on_delete: :cascade
+  add_foreign_key "bibliographies", "sources", primary_key: "oa_id", name: "bib_sou_id", on_delete: :cascade
   add_foreign_key "chromatograms", "compounds", primary_key: "oa_id", name: "chr_com_id", on_delete: :cascade
   add_foreign_key "chromatograms", "samples", primary_key: "oa_id", name: "chr_sam_id", on_delete: :cascade
   add_foreign_key "identifications", "products", primary_key: "oa_id", name: "ide_pro_id", on_delete: :cascade

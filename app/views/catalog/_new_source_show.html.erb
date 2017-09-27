@@ -27,11 +27,7 @@
         <ul class="list-group">   
           <% summary_info["bibliography"].each do |bib| %>
             <li class="list-group-item">
-            <% bib.attributes.each do |k, v| %>
-              <% unless k == "created_at" || k == "updated_at" || k == "id" || v == "" || v == nil || k == "oa_id" %>
-                <%= v %>.
-              <% end %>
-            <% end%>
+              <%= bib %>
             </li>
           <% end %>          
         </ul>

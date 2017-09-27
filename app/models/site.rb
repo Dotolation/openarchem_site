@@ -100,4 +100,10 @@ class Site < ActiveRecord::Base
 		return arr
 	end
 
+	def self.get_atlas_link(oa_id)
+		site = Site.find_site(oa_id)
+		atlas = site["atlas_url"]
+		return atlas
+	end
+
 end

@@ -107,15 +107,19 @@ class Sample < ActiveRecord::Base
     #get hash of diagnostic compound names and and plant names with their oa_ids
     #hash[compound_name] = [compound_id, c_dukes_url, c_nist_url, plant_name, plant_id, p_dukes_url, product_name, ancient_reference_hash]
     compound_plant_hash = SampleCompound.get_plants_for_sample(oa_id)
+    site = Site.get_id_and_name(doc["site_id"])
+    site << Site.get_atlas_link(doc["site_id"])
 
     image_hash = Image.get_image_data(doc["source_id"], doc["chromatogram_id"])
     source = Source.get_source_and_bib(doc["source_id"])
     sample_info_hash["source"] = [doc["source_id"], source[0]["object_type"], source[1]]
-    sample_info_hash["find_site"] = Site.get_id_and_name(doc["site_id"])
+    sample_info_hash["find_site"] = site
     sample_info_hash["date_rel"] = source[0]["date"]
-    sample_info_hash["date_abs"] = ""
-    sample_info_hash["prod_location"] = ""
+    sample_info_hash["date_abs"] = source[0]["absolute_date"]
+    sample_info_hash["prod_location"] = source[0]["production_location"]
     sample_info_hash["curr_location"] = source[0]["current_location"]
+    sample_info_hash["url"] = source[0]["object_url"]
+    sample_info_hash["biblio"] = Bibliography.find_pubs_by_sample_id(oa_id)
 
     details_hash = Sample.get_details(doc)
 
@@ -149,4 +153,5 @@ class Sample < ActiveRecord::Base
 
     return qual
   end
+
 end

@@ -72,7 +72,7 @@ class Source < ActiveRecord::Base
 
 	def self.get_source_and_bib(oa_id)
 		source = Source.find_source(oa_id)
-		pubs = Bibliography.find_pubs_by_source_id(oa_id).first
+		pubs = Bibliography.find_pubs_by_source_id(oa_id)
 		arr = [source, pubs]
 	end
 
@@ -83,6 +83,8 @@ class Source < ActiveRecord::Base
 		sample_data, site_id = Sample.get_data_for_mini_view(oa_id, "source_id")
 		image_hash = Image.get_image_data(oa_id, nil)
 		site = Site.get_id_and_name(site_id)
+		site << Site.get_atlas_link(site_id)
+		byebug
 		sample_ids = []
 		sample_data.each{|a| sample_ids << a["oa_id"]}
 		

@@ -36,7 +36,7 @@ class SampleCompound < ActiveRecord::Base
         plant = Plant.find_plant(p_rec["plant_id"])
         prod = Product.find_by_plant_id(p_rec["plant_id"]).first
         a_ref = AncientRef.find_by_prod_id(prod["oa_id"])
-        comp_and_plant_hash[comp["name"]] = [comp["oa_id"], comp["dukes_url"], comp["nist_url"], plant["scientific_name"], plant["oa_id"], plant["dukes_url"], prod["name"], a_ref]
+        comp_and_plant_hash[comp["name"]] = [comp["oa_id"], comp["dukes_url"], comp["nist_url"], plant["scientific_name"], plant["oa_id"], plant["dukes_url"], plant["flora_url"], prod["name"], a_ref]
       end
     end
     return comp_and_plant_hash
