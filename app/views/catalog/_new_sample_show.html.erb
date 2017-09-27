@@ -44,8 +44,8 @@
                       </td>
                       <td>
                         <%= val[7] %> </br>
-                        <% unless val[8] == nil %>
-                          <a href="#" class="btn btn-danger btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[8]["oa_id"] %>">Ancient Ref.</a>
+                        <% unless val[8].empty? %>
+                          <a href="#" class="btn btn-danger btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[8][0]["oa_id"] %>">Ancient Ref.</a>
                           <%= render :partial => "modals", :locals => {:val => val} %>
                           
                         <% end %>
