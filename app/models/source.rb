@@ -84,7 +84,6 @@ class Source < ActiveRecord::Base
 		image_hash = Image.get_image_data(oa_id, nil)
 		site = Site.get_id_and_name(site_id)
 		site << Site.get_atlas_link(site_id)
-		byebug
 		sample_ids = []
 		sample_data.each{|a| sample_ids << a["oa_id"]}
 		
