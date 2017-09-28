@@ -8,7 +8,7 @@ class Plant < ActiveRecord::Base
 	end
 
 	def self.show_plant_data(oa_id)
-		data_arr = get_data(oa_id)
+		data_arr = get_new_data(oa_id)
 	end
 
 	def self.get_data(oa_id)
@@ -57,4 +57,34 @@ class Plant < ActiveRecord::Base
 		return plant_hash	
 	end
 
+	def self.get_new_data(oa_id)
+		plant = find_plant(oa_id)
+		p_img = Image.get_plant_images(oa_id)
+		assoc_comps = get_compounds(oa_id)
+		assoc_prods = get_products(oa_id)
+
+		return {"show_hash" => plant, "image_hash" => p_img, "comps_hash" => assoc_comps, "prods_hash" => assoc_prods}
+
+	end
+
+
+	def self.get_compounds(oa_id)
+		p_com = PlantCompound.find_by_plant_id(oa_id)
+		com_hash = Hash.new
+		p_com.each do |ref|
+			com = Compound.find_compound(ref["compound_id"])
+			com_hash[com["oa_id"]] = [com["name"], com["formula"], com["dukes_url"], com["nist_url"]]
+		end
+		return com_hash
+	end
+
+	def self.get_products(oa_id)
+		prod = Product.find_by_plant_id(oa_id)
+		prod_hash = Hash.new
+		prod.each do |ref|
+			a_r = AncientRef.find_by_prod_id(oa_id)
+			prod_hash[ref["oa_id"]]=[ref["name"], ref["alternate_name"], ref["plant_part"], a_r]
+		end
+		return prod_hash
+	end
 end

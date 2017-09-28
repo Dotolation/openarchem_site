@@ -18,6 +18,15 @@ class Image < ActiveRecord::Base
   end
 
 
+  def self.find_image_by_plant_id(id)
+    unless id.empty?
+      pla = Image.where("plant_id = ?", id)
+    else
+      nil
+    end
+  end
+
+
   def self.get_image_data(source_id, chromatogram_id)
     image_hash = Hash.new
 
@@ -35,6 +44,18 @@ class Image < ActiveRecord::Base
       end
     end
 
+    return image_hash
+  end
+
+  def self.get_plant_images(plant_id)
+    image_hash = Hash.new
+
+    unless plant_id == nil
+      p_img = Image.find_image_by_plant_id(plant_id)
+      p_img.each do |rec|
+        image_hash[rec["oa_id"]] = [rec["plant_id"], rec["image_file_path"], rec["image_credit"]]
+      end
+    end
     return image_hash
   end
 end

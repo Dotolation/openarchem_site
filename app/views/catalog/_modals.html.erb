@@ -22,7 +22,7 @@
 
 <% else %>
   <!-- Ancient Ref modal  -->
-  <div id="ref_modal<%= val[8][0]["oa_id"] %>" class="modal fade" role="dialog">
+  <div id="ref_modal<%= anc_ref[0]["oa_id"] %>" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -31,7 +31,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body"> 
-          <% val[8].each do |a_ref| %>
+          <% anc_ref.each do |a_ref| %>
             <div class="well">
             <p><%= a_ref["excerpt_eng"] %></p>
             <p><%= a_ref["author"] if a_ref["author"] %> <%= link_to a_ref["work"], a_ref["link"], target: :_blank %>

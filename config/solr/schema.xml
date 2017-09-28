@@ -551,6 +551,10 @@
   <!-- Identification documents -->
     <field name="identification_id" type="string" indexed="true" stored="true" />
 
+  <!-- Ancient Ref. documents -->
+    <field name="a_ref_author" type="string" indexed="true" stored="true" />
+    
+
    <!--
    The following store examples are used to demonstrate the various ways one might _CHOOSE_ to
     implement spatial.  It is highly unlikely that you would ever have ALL of these fields defined.

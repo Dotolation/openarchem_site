@@ -32,21 +32,21 @@
                     <tr>
                       <td>
                         <%= link_to key, val[0] %> </br>
-                        <a href="<%= val[1] %>" class="btn btn-success btn-xs" role="button">Duke's</a>
-                        <a href="<%= val[2] %>" class="btn btn-warning btn-xs" role="button">NIST</a>
+                        <a href="<%= val[1] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
+                        <a href="<%= val[2] %>" class="btn btn-warning btn-xs" role="button" target="_blank">NIST</a>
                       </td>
                       <td>
                         <i><%= link_to val[3], val[4] %></i>  </br>
-                        <a href="<%= val[5] %>" class="btn btn-success btn-xs" role="button">Duke's</a>
+                        <a href="<%= val[5] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
                         <% unless val[6] == nil %>
-                          <a href="<%= val[6] %>" class="btn btn-default btn-xs" role="button">Flora</a>
+                          <a href="<%= val[6] %>" class="btn btn-default btn-xs" role="button" target="_blank">Flora</a>
                         <% end %>
                       </td>
                       <td>
                         <%= val[7] %> </br>
                         <% unless val[8].empty? %>
                           <a href="#" class="btn btn-danger btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[8][0]["oa_id"] %>">Ancient Ref.</a>
-                          <%= render :partial => "modals", :locals => {:val => val} %>
+                          <%= render :partial => "modals", :locals => {:anc_ref => val[8]} %>
                           
                         <% end %>
                       </td>
@@ -75,7 +75,7 @@
             </li>
             <li class="list-group-item"><b>Find Site:</b> <%= link_to summary_info["find_site"][1], summary_info["find_site"][0] %>
               <% if summary_info["find_site"][2] %> </br>
-                 <a href="<%= summary_info["find_site"][2] %>" class="btn btn-primary btn-xs" role="button" title="Site requires signup">Atlas</a>
+                 <a href="<%= summary_info["find_site"][2] %>" class="btn btn-primary btn-xs" role="button" title="Site requires signup" target="_blank">Atlas</a>
               <% end %>
             </li>
             <li class="list-group-item"><b>Date Relative:</b> <%= summary_info["date_rel"] %></li>

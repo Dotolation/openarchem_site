@@ -1,0 +1,103 @@
+<% summary_info = data_hashes["show_hash"] %>
+<div class="panel-group">
+  <div class="panel">
+    <% if data_hashes.has_key?("image_hash") %>
+        <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+    <% end %>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Plant Information</h3> 
+         <ul class="list-group">
+          <li class="list-group-item">Scientific Name: <%= summary_info["scientific_name"] %></li>
+          <li class="list-group-item">Common Name: <%= summary_info["common_name"] %></li>
+          <li class="list-group-item">Description: <%= summary_info["description"] %></li>
+          <li class="list-group-item text-center">
+            <% unless summary_info["dukes_url"].nil? && summary_info["dukes_url"].empty? %>
+              <a href="<%= summary_info["dukes_url"] %>" class="btn btn-success btn-md" role="button" target="_blank">Duke's</a>
+            <% end %>
+            <% unless summary_info["flora_url"].nil? && summary_info["flora_url"].empty? %>
+              <a href="<%= summary_info["flora_url"] %>" class="btn btn-default btn-md" role="button" target="_blank">Flora</a>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+
+      <div class="well">
+        <h3>Compounds Found in the Plant</h3>         
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Formula</th>
+                  <th>Additional Info</th>
+                </tr>
+              </thead>
+              <tbody>
+               <% data_hashes["comps_hash"].each do |key, val| %>
+                  <tr>
+                    <td>
+                      <%= link_to val[0], key %>
+                    </td>
+                    <td>
+                      <%= val[1] %>
+                    </td>
+                    <td>
+                      <a href="<%= val[2] %>" class="btn btn-success btn-sm" role="button" target="_blank">Duke's</a>
+                      <a href="<%= val[3] %>" class="btn btn-warning btn-sm" role="button" target="_blank">NIST</a>
+                    </td>
+                  </tr>
+                <% end %>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="well">
+        <h3>Products Made with this Plant</h3>         
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Alternate Name</th>
+                  <th>Plant Part</th>
+                  <th>Ancient References</th>
+                </tr>
+              </thead>
+              <tbody>
+               <% data_hashes["prods_hash"].each do |key, val| %>
+
+                  <tr>
+                    <td>
+                      <%= link_to val[0], key %>
+                    </td>
+                    <td>
+                      <%= val[1] %>
+                    </td>
+                    <td>
+                      <%= val[2] %>
+                    </td>
+                    <td> 
+                      <% unless val[3].empty? %>
+                        <a href="#" class="btn btn-danger btn-xs" role="button" data-toggle="modal" data-target="#ref_modal<%= val[3][0]["oa_id"] %>">Ancient Ref.</a>
+                        <%= render :partial => "modals", :locals => {:anc_ref => val[3]} %>
+                        
+                      <% end %> 
+                    </td>
+                  </tr>
+             
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>                      
+    </div>
+  </div>
+</div>
