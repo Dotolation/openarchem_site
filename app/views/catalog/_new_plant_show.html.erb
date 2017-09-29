@@ -16,7 +16,7 @@
           <li class="list-group-item">Scientific Name: <%= summary_info["scientific_name"] %></li>
           <li class="list-group-item">Common Name: <%= summary_info["common_name"] %></li>
           <li class="list-group-item">Description: <%= summary_info["description"] %></li>
-          <li class="list-group-item text-center">
+          <li class="list-group-item">
             <% unless summary_info["dukes_url"].nil? && summary_info["dukes_url"].empty? %>
               <a href="<%= summary_info["dukes_url"] %>" class="btn btn-success btn-md" role="button" target="_blank">Duke's</a>
             <% end %>

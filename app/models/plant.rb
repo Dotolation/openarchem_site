@@ -82,7 +82,7 @@ class Plant < ActiveRecord::Base
 		prod = Product.find_by_plant_id(oa_id)
 		prod_hash = Hash.new
 		prod.each do |ref|
-			a_r = AncientRef.find_by_prod_id(oa_id)
+			a_r = AncientRef.find_by_prod_id(ref["oa_id"])
 			prod_hash[ref["oa_id"]]=[ref["name"], ref["alternate_name"], ref["plant_part"], a_r]
 		end
 		return prod_hash
