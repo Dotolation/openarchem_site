@@ -27,6 +27,15 @@ class Image < ActiveRecord::Base
   end
 
 
+  def self.find_image_by_compound_id(id)
+    unless id.empty?
+      pla = Image.where("compound_id = ?", id)
+    else
+      nil
+    end
+  end
+
+
   def self.get_image_data(source_id, chromatogram_id)
     image_hash = Hash.new
 
@@ -58,4 +67,17 @@ class Image < ActiveRecord::Base
     end
     return image_hash
   end
+
+  def self.get_compound_images(compound_id)
+    image_hash = Hash.new
+    
+    unless compound_id.nil?
+      com_img = Image.find_image_by_compound_id(compound_id)
+      com_img.each do |rec|
+        image_hash[rec["oa_id"]] = [rec["compound_id"], rec["image_file_path"], rec["image_credit"]]
+      end
+    end
+    return image_hash
+  end
+
 end

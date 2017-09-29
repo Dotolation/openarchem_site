@@ -9,7 +9,7 @@ class Compound < ActiveRecord::Base
 
 
 	def self.show_compound_data(oa_id)
-		data_arr = get_data(oa_id)
+		data_arr = new_get_data(oa_id)
 	end
 
 
@@ -64,16 +64,50 @@ class Compound < ActiveRecord::Base
 
 
 	def self.get_sample_diagnostic_comps(sample_id)
-		comps = SampleCompounds.find_by_sample_id(sample_id)
+		comps = SampleCompound.find_by_sample_id(sample_id)
 
 		diag_comps = Hash.new
 
 		if comps 
 			comps.each do |rec|
-				comp = Compound.find_compound(rec["compound_id"])
+				comp = find_compound(rec["compound_id"])
 				diag_comps = {"compound_id" => comp["oa_id"], "compound_name" => comp["name"], "dukes" => comp["dukes_url"], "nist" => comp["nist_url"]}
 			end
 		end
 		return diag_comps
+	end
+
+	def self.new_get_data(oa_id)
+		comp = find_compound(oa_id)
+		image_hash = Image.get_compound_images(oa_id)
+		plant_hash = get_plants(oa_id)
+		sample_hash = get_samples(oa_id)
+
+		return {"show_hash" => comp, "image_hash" => image_hash, "plant_hash" => plant_hash, "sample_hash" => sample_hash}
+	end
+
+
+	def self.get_plants(oa_id)
+		p_com = PlantCompound.find_by_compound_id(oa_id)
+		com_hash = Hash.new
+		p_com.each do |ref|
+			plant = Plant.find_plant(ref["plant_id"])
+			com_hash[plant["oa_id"]] = [plant["scientific_name"], plant["common_name"], plant["dukes_url"], plant["flora_url"]]
+		end
+		return com_hash
+	end
+
+
+	def self.get_samples(oa_id)
+		samples = SampleCompound.find_by_compound_id(oa_id)
+		sam_hash = Hash.new
+		samples.each do |rec|
+			sam = Sample.find_sample(rec["sample_id"])
+			site = Site.get_id_and_name(sam["site_id"])
+			p_c = Identification.get_product_name_and_id(sam["oa_id"])
+
+			sam_hash[sam["oa_id"]] = [site, p_c]
+		end
+		return sam_hash
 	end
 end

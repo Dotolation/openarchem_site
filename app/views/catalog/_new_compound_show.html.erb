@@ -1,0 +1,92 @@
+<% summary_info = data_hashes["show_hash"] %>
+
+<div class="panel-group">
+  <div class="panel">
+    <% if data_hashes.has_key?("image_hash") %>
+        <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+    <% end %>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Compound Information</h3> 
+         <ul class="list-group">
+          <li class="list-group-item"><b>Name:</b> <%= summary_info["name"] %> </li>
+          <li class="list-group-item"><b>Formula:</b> <%= summary_info["formula"] %> </li>
+          <li class="list-group-item"><b>Molecular Weight:</b> <%= summary_info["molecular_weight"] %> </li>
+          <li class="list-group-item"><b>Chromatogram Peak Time:</b> <%= summary_info["peak_time"] %> </li>
+          <li class="list-group-item">
+            <a href="<%= summary_info["dukes_url"] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
+            <a href="<%= summary_info["nist_url"] %>" class="btn btn-warning btn-xs" role="button" target="_blank">NIST</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="well">
+        <h3>Plants with Compound</h3>
+         <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Scientific Name</th>
+                  <th>Common Name</th>
+                  <th>Additional Info</th>
+                </tr>
+              </thead>
+              <tbody>
+               <% data_hashes["plant_hash"].each do |key, val| %>
+                  <tr>
+                    <td>
+                      <%= link_to val[0], key %>
+                    </td>
+                    <td>
+                      <%= val[1] %>
+                    </td>
+                    <td>
+                      <a href="<%= val[2] %>" class="btn btn-success btn-sm" role="button" target="_blank">Duke's</a>
+                      <% unless val[3].nil? && val[3].empty? %>
+                        <a href="<%= val[3] %>" class="btn btn-default btn-sm" role="button" target="_blank">Flora</a>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="well">
+        <h3>Samples with Compound</h3>
+         <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sample ID</th>
+                  <th>Site</th>
+                  <th>Probable Commodity</th>
+                </tr>
+              </thead>
+              <tbody>
+               <% data_hashes["sample_hash"].each do |key, val| %>
+                  <tr>
+                    <td>
+                      <%= link_to key, key %>
+                    </td>
+                    <td>
+                      <%= link_to val[0][1], val[0][0] %>
+                    </td>
+                    <td>
+                      <%= link_to val[1][0], val[1][1] %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
