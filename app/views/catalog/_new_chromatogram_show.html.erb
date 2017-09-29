@@ -1,0 +1,46 @@
+<% summary_info = data_hashes["show_hash"] %>
+<div class="panel-group">
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Chromatogram Information</h3> 
+         <ul class="list-group">
+          <li class="list-group-item"><b>Sample:</b> <%= link_to summary_info["sample_id"], summary_info["sample_id"] %> </li>
+          <% data_hashes["image_hash"].each do |rec| %>
+            <%= image_tag(rec[1][1], alt: rec[1][2], style: 'height:auto;width:100%;') %>
+          <% end %>
+          <li class="list-group-item">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Diagnostic Compound</th>
+                    <th>Peak Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% data_hashes["comp_hash"].each do |key, val| %>
+                    <tr>
+                      <td>
+                        <%= link_to val[0], key %> </br>
+                        <a href="<%= val[2] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
+                        <a href="<%= val[3] %>" class="btn btn-warning btn-xs" role="button" target="_blank">NIST</a>
+                      </td>
+                      <td>
+                        <%= val[1] %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+          

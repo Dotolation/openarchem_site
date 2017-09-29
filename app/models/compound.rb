@@ -71,7 +71,7 @@ class Compound < ActiveRecord::Base
 		if comps 
 			comps.each do |rec|
 				comp = find_compound(rec["compound_id"])
-				diag_comps = {"compound_id" => comp["oa_id"], "compound_name" => comp["name"], "dukes" => comp["dukes_url"], "nist" => comp["nist_url"]}
+				diag_comps[comp["oa_id"]] = [comp["name"], comp["peak_time"], comp["dukes_url"], comp["nist_url"]]
 			end
 		end
 		return diag_comps

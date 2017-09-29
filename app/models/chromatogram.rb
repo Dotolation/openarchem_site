@@ -11,7 +11,7 @@ class Chromatogram < ActiveRecord::Base
 	end
 
 	def self.show_chromatogram_data(oa_id)
-		data_arr = get_data(oa_id)
+		data_arr = new_get_data(oa_id)
 	end
 
 	def self.get_data(oa_id)
@@ -48,4 +48,12 @@ class Chromatogram < ActiveRecord::Base
 		return chrom_hash
 	end
 
+
+	def self.new_get_data(oa_id)
+		chrom = find_chromatogram(oa_id)
+		image_hash = Image.get_image_data(nil, oa_id)
+		comp_hash = Compound.get_sample_diagnostic_comps(chrom["sample_id"])
+
+		return {"show_hash" => chrom, "image_hash" => image_hash, "comp_hash" => comp_hash}
+	end
 end
