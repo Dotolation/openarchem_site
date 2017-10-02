@@ -81,7 +81,7 @@ class Site < ActiveRecord::Base
 
 	#base method called by the catalog_show_helper to pull Site infoS
 	def self.show_site_data(oa_id)
-		data_arr = get_data(oa_id)
+		data_arr = new_get_data(oa_id)
 	end
 
 	#inner_list is for getting other entities' data to put on a Site page
@@ -105,5 +105,33 @@ class Site < ActiveRecord::Base
 		atlas = site["atlas_url"]
 		return atlas
 	end
+
+
+	def self.new_get_data(oa_id)
+		site = find_site(oa_id)
+		director = Person.find_person(site["director_id"])
+		bibliography = Bibliography.find_pubs_by_site_id(oa_id)
+		objects = get_sources(oa_id)
+
+		return {"show_hash" => site, "bib_hash" => bibliography, "director_hash" => director, "source_hash" => objects}
+	end
+
+
+	def self.get_sources(oa_id)
+		sams = Sample.select(:source_id).distinct.where("site_id = ?", oa_id)
+		sources = []
+		sams.each{|rec| sources << rec["source_id"]}
+		source_hash = Hash.new
+		unless sams[0].nil?
+			sources.each do |rec|
+				sou = Source.find_source(rec)
+				source_hash[sou["oa_id"]] = [sou["object_type"], sou["date"], sou["current_location"], sou["object_url"]]
+			end
+		else
+			source_hash = nil
+		end
+		return source_hash
+	end
+
 
 end

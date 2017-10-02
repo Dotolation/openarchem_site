@@ -17,6 +17,25 @@ class Bibliography < ActiveRecord::Base
   def self.find_pubs_by_sample_id(id)
     unless id.empty?
       bib = Bibliography.where("sample_id = ?", id)
+      unless bib[0].nil?
+        pubs = []
+        bib.to_a.each do |rec|
+          pub = Publication.find_publication(rec["publication_id"]).first
+          pubs << Bibliography.pretty_bib(pub)
+        end
+      else
+        return nil
+      end
+    else
+      return nil
+    end
+    return pubs
+  end
+
+
+  def self.find_pubs_by_site_id(id)
+    unless id.empty?
+      bib = Bibliography.where("site_id = ?", id)
       pubs = []
       bib.to_a.each do |rec|
         pub = Publication.find_publication(rec["publication_id"]).first
@@ -27,6 +46,7 @@ class Bibliography < ActiveRecord::Base
     end
     return pubs
   end
+
 
   def self.pretty_bib(bib)
     bib_str = ""

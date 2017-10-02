@@ -1,0 +1,76 @@
+<% summary_info = data_hashes["show_hash"] %>
+<% director = data_hashes["director_hash"] %>
+
+<div class="panel-group">
+  <div class="panel">
+    <% if data_hashes.has_key?("image_hash") %>
+        <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+    <% end %>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Site Information</h3> 
+         <ul class="list-group">
+          <li class="list-group-item"><b>Site Name:</b> <%= summary_info["name"] %> </li>
+          <li class="list-group-item"><b>Geographic Coordinates:</b> <%= summary_info["geo_coords"] %> 
+            <% if summary_info["atlas_url"] %>
+               <a href="<%= summary_info["atlas_url"] %>" class="btn btn-primary btn-xs" role="button" title="Site requires signup" target="_blank">Atlas</a>
+            <% end %>
+          </li>
+          <li class="list-group-item"><b>Dates Excavated:</b> <%= summary_info["date"] %> </li>
+
+          <li class="list-group-item"><b>Director:</b> <%= link_to director["first_name"]+" "+director["last_name"], director["oa_id"] %> </li>
+          <li class="list-group-item"><b>Notes:</b> <%= summary_info["notes"] %> </li>
+        </ul>
+      </div>
+
+      <div class="well">
+        <h3>Objects Tested from Site</h3> 
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Object Type</th>
+              <th>Date</th>
+              <th>Current Location</th>
+            </tr>
+          </thead>
+          <% unless data_hashes["source_hash"].nil? %>
+            <tbody>
+              <% data_hashes["source_hash"].each do |key, val| %>
+                <tr>
+                  <td>
+                    <%= link_to val[0], key %>
+                  </td>
+                  <td>
+                    <%= val[1] %>
+                  </td>
+                  <td>
+                    <%= link_to val[2], val[3] %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          <% end %>
+        </table>
+      </div>
+
+      <div class="well">
+        <h3>Bibliography</h3>
+        <% unless data_hashes["bib_hash"].nil? %>
+          <ul class="list-group">   
+            <% data_hashes["bib_hash"].each do |bib| %>
+              <li class="list-group-item">
+                <%= bib %>
+              </li>
+            <% end %>          
+          </ul>
+        <% end %> 
+      </div>
+    </div>   
+        
+  </div>
+</div>
