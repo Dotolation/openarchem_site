@@ -21,7 +21,7 @@ class Person < ActiveRecord::Base
 	end
 
 	def self.show_person_data(oa_id)
-		data = get_data(oa_id)
+		data = new_get_data(oa_id)
 	end	
 
 	def self.get_data(oa_id)
@@ -42,4 +42,13 @@ class Person < ActiveRecord::Base
  	def self.get_data_for_inner_list(id)
  		sites = Site.get_data_for_mini_view(id, "director_id")
  	end	
+
+
+ 	def self.new_get_data(oa_id)
+ 		person = find_person(oa_id)
+ 		per_hash = Hash.new
+ 		per_hash["name"] = person["first_name"] + " " + person["last_name"]
+ 		per_hash["affiliation"] = person["affiliation"]
+ 		return {"show_hash" => per_hash}
+ 	end
 end

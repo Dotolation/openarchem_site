@@ -1,0 +1,22 @@
+<% summary_info = data_hashes["show_hash"] %>
+<div class="panel-group">
+  <div class="panel">
+    <% if data_hashes.has_key?("image_hash") %>
+        <%= render :partial => "thumbnails" , :locals => {:image_hash => data_hashes["image_hash"]} %>
+    <% end %>
+  </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h2>Record Summary</h2>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <h3>Person Information</h3> 
+         <ul class="list-group">
+          <li class="list-group-item"><b>Name:</b> <%= summary_info["name"] %> </li>
+          <li class="list-group-item"><b>Affiliation:</b> <%= summary_info["affiliation"] %> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
