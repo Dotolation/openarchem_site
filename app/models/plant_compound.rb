@@ -1,4 +1,5 @@
 class PlantCompound < ActiveRecord::Base
+	has_many :plants, foreign_key: :oa_id
 
 	def self.find_by_plant_id(oa_id)
 		unless oa_id.empty?

@@ -1,4 +1,5 @@
 class Plant < ActiveRecord::Base
+	has_many :plant_compounds, foreign_key: :oa_id
 
 	def self.find_plant(oa_id)
 		unless oa_id.empty?
@@ -86,5 +87,13 @@ class Plant < ActiveRecord::Base
 			prod_hash[ref["oa_id"]]=[ref["name"], ref["alternate_name"], ref["plant_part"], a_r]
 		end
 		return prod_hash
+	end
+
+
+
+
+	def self.get_plants_from_compound(oa_id)
+
+		plants = Plant.joins("join plant_compounds").where("plant_compounds.plant_id = plants.oa_id and plant_compounds.compound_id = ?", oa_id)
 	end
 end

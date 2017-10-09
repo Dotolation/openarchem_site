@@ -1,9 +1,16 @@
 class Sample < ActiveRecord::Base
-	has_many :sites
-	has_many :sources
-	
+	has_one :site
+	has_one :source
+  has_many :compounds
+  has_many :plants
+  has_many :products
+	has_one :equipment
+  has_one :extraction
+  has_one :chromatogram
+  has_one :identification
 
 	def self.new_sample(sample)
+    
 	end
 
 	def self.find_sample(id)

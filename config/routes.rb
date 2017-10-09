@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   resource :input_form, as: "input_form", path: "/input_form", controller: "input_form"
 
   get "input_form/samples" => "input_form#samples"
+  get "input_form/samples/autocomplete"
+  get "/populate-plants" => "input_form#plant_select"
+  post "/mini_compound" => "input_form#mini_compound"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
