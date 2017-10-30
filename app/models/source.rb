@@ -1,6 +1,11 @@
 class Source < ActiveRecord::Base
 
-	def self.new_source(source)
+	def self.new_oa_id
+    oa_id = Source.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_source(vals_hash)
+		@source = Source.create(vals_hash)
 	end
 
 

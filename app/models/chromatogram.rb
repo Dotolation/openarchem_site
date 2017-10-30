@@ -1,5 +1,12 @@
 class Chromatogram < ActiveRecord::Base
 
+	def self.new_oa_id
+    oa_id = Chromatogram.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+  def self.new_chromatogram(vals_hash)
+  	@chromatogram = Chromatogram.create(vals_hash)
+  end
 
 	def self.find_chromatogram(id)
 		unless id.empty?

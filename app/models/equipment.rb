@@ -1,5 +1,13 @@
 class Equipment < ActiveRecord::Base
 
+	def self.new_oa_id
+    oa_id = Equipment.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_equipment(vals_hash)
+    @equipment = Equipment.create(vals_hash)
+	end
+
 	def self.find_equipment(id)
 		unless id.empty?
 			equipment = Equipment.where("oa_id = ?", id).first

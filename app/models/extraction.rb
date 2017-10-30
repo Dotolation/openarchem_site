@@ -1,5 +1,12 @@
 class Extraction < ActiveRecord::Base
 
+	def self.new_oa_id
+    oa_id = Extraction.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_extraction(vals_hash)
+    @extraction = Extraction.create(vals_hash)
+	end
 
 	def self.find_extraction(id)
 		unless id.empty?

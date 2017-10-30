@@ -29,8 +29,10 @@ Rails.application.routes.draw do
 
   get "input_form/samples" => "input_form#samples"
   get "input_form/samples/autocomplete"
+  get "input_form/upload"
   get "/populate-plants" => "input_form#plant_select"
-  post "/mini_compound" => "input_form#mini_compound"
+  get "/populate-ingredients" => "input_form#ingredient_select"
+  get "input_form/sites" => "input_form#site_select"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

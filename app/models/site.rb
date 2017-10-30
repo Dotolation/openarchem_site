@@ -2,8 +2,14 @@ class Site < ActiveRecord::Base
 	belongs_to :sample
 	has_many :people
 
-	def self.new_site(site)
+	def self.new_oa_id
+    oa_id = Site.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_site(vals_hash)
+		@site = Site.create(vals_hash)
 	end
+
 
 
 	def self.find_site(id)

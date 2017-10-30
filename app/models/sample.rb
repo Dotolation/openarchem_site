@@ -9,8 +9,24 @@ class Sample < ActiveRecord::Base
   has_one :chromatogram
   has_one :identification
 
-	def self.new_sample(sample)
-    
+  def self.new_oa_id
+    oa_id = Sample.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_sample(vals_hash)
+    #id, oa_id, archem_id, site_orig_id, locus_name, locus_type, sample_date, sample_time, 
+    #subsample_amount, gcms_analysis_date, stored_in_plastic, plastic_in_gcms, 
+    #ided_substance, notes, created_at, updated_at, site_id, source_id, equipment_id, 
+    #extraction_id, chromatogram_id, author_id, editor_id, vetted, sample_type, 
+    #sample_quality, quality_notes
+    ext_sample = Sample.where("archem_id = ?", vals_hash["number"]).first
+    if ext_sample
+      @sample = ext_sample
+    else
+      vals_hash["oa_id"] = Sample.new_oa_id
+      @sample = Sample.create(vals_hash)
+    end
+    return @sample
 	end
 
 	def self.find_sample(id)
