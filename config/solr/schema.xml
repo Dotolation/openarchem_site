@@ -55,7 +55,7 @@
        1.2: omitTermFreqAndPositions attribute introduced, true by default except for text fields.
        1.3: removed optional field compress feature
        1.4: default auto-phrase (QueryParser feature) to off
-       1.5: omitNorms defaults to true for primitive field types (int, float, boolean, string...)
+       1.5: omitNorms defaults to true for primitive field types (int, float, boolean, text...)
      -->
 
 
@@ -73,13 +73,13 @@
 
     <!-- boolean type: "true" or "false" -->
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
-    <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
+    <!--Binary data type. The data should be sent/retrieved in as Base64 encoded texts -->
     <fieldtype name="binary" class="solr.BinaryField"/>
 
     <!-- The optional sortMissingLast and sortMissingFirst attributes are
-         currently supported on types that are sorted internally as strings
+         currently supported on types that are sorted internally as texts
          and on numeric types.
-	       This includes "string","boolean", and, as of 3.5 (and 4.x),
+	       This includes "text","boolean", and, as of 3.5 (and 4.x),
 	       int, float, long, date, double, including the "Trie" variants.
        - If sortMissingLast="true", then a sort on this field will cause documents
          without the field to come after documents with the field,
@@ -187,7 +187,7 @@
 	 removes stop words from case-insensitive "stopwords.txt"
 	 (empty by default), and down cases.  At query time only, it
 	 also applies synonyms. -->
-    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+    <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
@@ -345,7 +345,7 @@
     <fieldType name="alphaOnlySort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <!-- KeywordTokenizer does no actual tokenizing, so the entire
-             input string is preserved as a single token
+             input text is preserved as a single token
           -->
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <!-- The LowerCase TokenFilter does what you expect, which can be
@@ -356,12 +356,12 @@
         <filter class="solr.TrimFilterFactory" />
         <!-- The PatternReplaceFilter gives you the flexibility to use
              Java Regular expression to replace any sequence of characters
-             matching a pattern with an arbitrary replacement string, 
+             matching a pattern with an arbitrary replacement text, 
              which may include back references to portions of the original
-             string matched by the pattern.
+             text matched by the pattern.
              
              See the Java Regular Expression documentation for more
-             information on pattern and replacement string syntax.
+             information on pattern and replacement text syntax.
              
              http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/package-summary.html
           -->
@@ -482,78 +482,91 @@
    <!-- points to the root document of a block of nested documents. Required for nested
       document support, may be removed otherwise
    -->
-    <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
+    <field name="_root_" type="text" indexed="true" stored="false" docValues="false" />
 
-    <field name="oa_id" type="string" indexed="true" stored="true" required="true" /> 
-    <field name="title_display" type="string" indexed="true" stored="true"/>
-    <field name="format" type="string" indexed="false" stored="true"/>
+    <field name="oa_id" type="text" indexed="true" stored="true" required="true" /> 
+    <field name="title_display" type="text" indexed="true" stored="true"/>
+    <field name="format" type="text" indexed="false" stored="true"/>
 
   <!-- Sample documents --> 
-    <field name="sample_id" type="string" indexed="true" stored="true" />
-    <field name="sample_site" type="string" indexed="true" stored="true" />
-    <field name="sample_locus_type" type="string" indexed="true" stored="true" />
-    <field name="sample_type" type="string" indexed="true" stored="true" />
-    <field name="sample_object_type" type="string" indexed="true" stored="true" />
-    <field name="sample_compound" type="string" indexed="true" stored="true" multiValued="true" />
-    <field name="sample_product" type="string" indexed="true" stored="true" multiValued="true" />
-    <field name="sample_plant" type="string" indexed="true" stored="true" multiValued="true" />
-    <field name="sample_identification" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_id" type="text" indexed="true" stored="true" />
+    <field name="sample_site" type="text" indexed="true" stored="true" />
+    <field name="sample_locus_type" type="text" indexed="true" stored="true" />
+    <field name="sample_type" type="text" indexed="true" stored="true" />
+    <field name="sample_object_type" type="text" indexed="true" stored="true" />
+    <field name="sample_compound" type="text" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_product" type="text" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_plant" type="text" indexed="true" stored="true" multiValued="true" />
+    <field name="sample_identification" type="text" indexed="true" stored="true" multiValued="true" />
 
   <!-- Site documents -->
-    <field name="site_id" type="string" indexed="true" stored="true" />
-    <field name="site_name" type="string" indexed="true" stored="true" />
-    <field name="director_name" type="string" indexed="true" stored="true" />
+    <field name="site_id" type="text" indexed="true" stored="true" />
+    <field name="site_name" type="text" indexed="true" stored="true" />
+    <field name="director_name" type="text" indexed="true" stored="true" />
 
   <!-- Source documents -->
-    <field name="source_id" type="string" indexed="true" stored="true" />
-    <field name="source_type" type="string" indexed="true" stored="true" />
-    <field name="source_notes" type="string" indexed="true" stored="true" />
-    <field name="source_condition" type="string" indexed="true" stored="true" />
-    <field name="source_url" type="string" indexed="true" stored="true" />
+    <field name="source_id" type="text" indexed="true" stored="true" />
+    <field name="source_type" type="text" indexed="true" stored="true" />
+    <field name="source_notes" type="text" indexed="true" stored="true" />
+    <field name="source_condition" type="text" indexed="true" stored="true" />
+    <field name="source_url" type="text" indexed="true" stored="true" />
+    <field name="source_relative_date" type="text" indexed="true" stored="true" />
+    <field name="source_absolute_date" type="text" indexed="true" stored="true" />
+    <field name="source_site" type="text" indexed="true" stored="true" />
 
   <!-- Extraction documents -->
-    <field name="extraction_id" type="string" indexed="true" stored="true" />
+    <field name="extraction_id" type="text" indexed="true" stored="true" />
 
   <!-- Equipment documents -->
-    <field name="equipment_id" type="string" indexed="true" stored="true" />
+    <field name="equipment_id" type="text" indexed="true" stored="true" />
 
   <!-- Chromatogram documents -->
-    <field name="chromatogram_id" type="string" indexed="true" stored="true" />
+    <field name="chromatogram_id" type="text" indexed="true" stored="true" />
 
   <!-- Peak documents -->
 
   <!-- Compound documents -->
-    <field name="compound_id" type="string" indexed="true" stored="true" />
-    <field name="compound_formula" type="string" indexed="true" stored="true" />
-    <field name="compound_name" type="string" indexed="true" stored="true" />
+    <field name="compound_id" type="text" indexed="true" stored="true" />
+    <field name="compound_formula" type="text" indexed="true" stored="true" />
+    <field name="compound_name" type="text" indexed="true" stored="true" />
 
   <!-- Plant documents -->
-    <field name="plant_id" type="string" indexed="true" stored="true" />
-    <field name="plant_sci_name" type="string" indexed="true" stored="true" />
-    <field name="plant_common_name" type="string" indexed="true" stored="true" />
+    <field name="plant_id" type="text" indexed="true" stored="true" />
+    <field name="plant_sci_name" type="text" indexed="true" stored="true" />
+    <field name="plant_common_name" type="text" indexed="true" stored="true" />
 
   <!-- Animal documents -->
 
   <!-- People documents -->
-    <field name="person_id" type="string" indexed="true" stored="true" />
-    <field name="person_last_name" type="string" indexed="true" stored="true" />
-    <field name="person_first_name" type="string" indexed="true" stored="true" />
-    <field name="person_full_name" type="string" indexed="true" stored="true" />
-    <field name="person_affiliation" type="string" indexed="true" stored="true" />
+    <field name="person_id" type="text" indexed="true" stored="true" />
+    <field name="person_last_name" type="text" indexed="true" stored="true" />
+    <field name="person_first_name" type="text" indexed="true" stored="true" />
+    <field name="person_full_name" type="text" indexed="true" stored="true" />
+    <field name="person_affiliation" type="text" indexed="true" stored="true" />
 
   <!-- Product documents -->
-    <field name="product_id" type="string" indexed="true" stored="true" />
-    <field name="product_name" type="string" indexed="true" stored="true" />
-    <field name="product_alt_name" type="string" indexed="true" stored="true" />
-    <field name="product_ingredient_ids" type="string" indexed="true" stored="true" multiValued="true" />
-    <field name="product_ingredient_names" type="string" indexed="true" stored="true" multiValued="true" />
-
+    <field name="product_id" type="text" indexed="true" stored="true" />
+    <field name="product_name" type="text" indexed="true" stored="true" />
+    <field name="product_alt_name" type="text" indexed="true" stored="true" />
+    <field name="product_ingredient_ids" type="text" indexed="true" stored="true" multiValued="true" />
+    <field name="product_ingredient_names" type="text" indexed="true" stored="true" multiValued="true" />
+    <field name="product_ancient_ref" type="text" indexed="true" stored="true" multiValued="true" />
+    
   <!-- Identification documents -->
-    <field name="identification_id" type="string" indexed="true" stored="true" />
+    <field name="identification_id" type="text" indexed="true" stored="true" />
 
   <!-- Ancient Ref. documents -->
-    <field name="a_ref_author" type="string" indexed="true" stored="true" />
-    
+    <field name="ancient_ref_author" type="text" indexed="true" stored="true" />
+    <field name="ancient_ref_id" type="text" indexed="true" stored="true" />
+    <field name="ancient_ref_title" type="text" indexed="true" stored="true" />
+    <field name="ancient_ref_product" type="text" indexed="true" stored="true" />
+    <field name="ancient_ref_product_id" type="text" indexed="true" stored="true" />
+
+  <!-- Facets -->
+    <field name="compound_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="ancient_ref_author_facet" type="string" indexed="true" stored="false" multiValued="true"/>
+    <field name="product_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="site_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
    <!--
    The following store examples are used to demonstrate the various ways one might _CHOOSE_ to
@@ -564,7 +577,7 @@
   
    <!-- catchall field, containing all other searchable text fields (implemented
         via copyField further on in this schema  -->
-   <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
 
    <!-- catchall text field that indexes tokens both normally and in reverse for efficient
         leading wildcard queries. -->
@@ -616,6 +629,8 @@
    <copyField source="source_type" dest="text"/>
    <copyField source="source_notes" dest="text"/>
    <copyField source="source_condition" dest="text"/>
+   <copyField source="source_relative_date" dest="text"/>
+   <copyField source="source_absolute_date" dest="text"/>
    <copyField source="compound_formula" dest="text"/>
    <copyField source="compound_name" dest="text"/>
    <copyField source="plant_sci_name" dest="text"/>
@@ -626,6 +641,16 @@
    <copyField source="product_name" dest="text"/>
    <copyField source="product_alt_name" dest="text"/>
    <copyField source="product_ingredient_names" dest="text"/>
+   <copyField source="ancient_ref_author" dest="text"/>
+   <copyField source="ancient_ref_title" dest="text"/>
+   <copyField source="sample_site" dest="site_facet"/>
+   <copyField source="sample_compound" dest="compound_facet"/>
+   <copyField source="compound_name" dest="compound_facet" />
+   <copyField source="sample_product" dest="product_facet"/>
+   <copyField source="product_name" dest="product_facet"/>
+   <copyField source="ancient_ref_author" dest="ancient_ref_author_facet"/>
+   <copyField source="product_ancient_ref" dest="ancient_ref_author_facet"/>
+   <copyField source="source_site" dest="site_facet"/>
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine

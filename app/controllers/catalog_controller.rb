@@ -64,8 +64,10 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
-    config.add_facet_field 'sample_site', :label => 'Site'
-    config.add_facet_field 'sample_compound', :label => 'Compounds'
+    config.add_facet_field 'site_facet', :label => 'Site'
+    config.add_facet_field 'compound_facet', :label => 'Compounds'
+    config.add_facet_field 'ancient_ref_author_facet', :label => 'Ancient References'
+    config.add_facet_field 'product_facet', :label => 'Products'
 
 
     #config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
@@ -94,7 +96,10 @@ class CatalogController < ApplicationController
     config.add_index_field 'plant_common_name', :label => 'Plant Common Name'
     config.add_index_field 'person_id', :label => "ID"
     config.add_index_field 'person_affiliation', :label => "Affiliation"
+    config.add_index_field 'ancient_ref_author', :label => "Author Name"
+    config.add_index_field 'ancient_ref_title', :label => "Work Title"
     config.add_index_field 'product_name', :label => "Product"
+    config.add_index_field 'ancient_ref_product', :label => "Product Referenced"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
@@ -155,6 +160,14 @@ class CatalogController < ApplicationController
       field.solr_local_parameters = {
         :type => 'dismax',
         :qf => 'compound_name compound_formula'
+      }
+    end
+
+    config.add_search_field('ancient_ref') do |field|
+      field.label = "Ancient Reference" 
+      field.solr_local_parameters = {
+        :type => 'dismax',
+        :qf => 'ancient_ref_author ancient_ref_title'
       }
     end
 

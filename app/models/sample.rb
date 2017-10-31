@@ -163,15 +163,15 @@ class Sample < ActiveRecord::Base
 
 		case sq
 		when 5
-			qual = 'Closed intact, in situ' 
+			qual = '5 - Closed intact, in situ' 
 		when 4
-      qual = 'Open intact/Closed fragmented, in situ'
+      qual = '4 - Open intact/Closed fragmented, in situ'
     when 3
-      qual = 'Diagnostic sherd, unwashed'
+      qual = '3 - Diagnostic sherd, unwashed'
     when 2
-      qual = 'Any washed on site/Legacy unwashed'
+      qual = '2 - Any washed on site/Legacy unwashed'
     when 1
-      qual = 'Any washed or treated'
+      qual = '1 - Any washed or treated'
     end
 
     return qual

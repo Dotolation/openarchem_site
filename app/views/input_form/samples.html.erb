@@ -47,6 +47,9 @@
               <%= text_field_tag(:sample_number) %>
             </li>
             <li class="list-group-item">
+              For more info on sample types and qualities, see <%= link_to "Sample Quality Rankings", "http://openarchem.wordpress.com/sample-quality-rankings" %>
+            </li>
+            <li class="list-group-item">
               <%= label_tag(:sample_type, "ORA Sample Type") %>
               <%= select_tag(:sample_type, 
                   options_for_select(
