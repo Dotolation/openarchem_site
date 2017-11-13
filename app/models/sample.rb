@@ -19,13 +19,9 @@ class Sample < ActiveRecord::Base
     #ided_substance, notes, created_at, updated_at, site_id, source_id, equipment_id, 
     #extraction_id, chromatogram_id, author_id, editor_id, vetted, sample_type, 
     #sample_quality, quality_notes
-    ext_sample = Sample.where("archem_id = ?", vals_hash["number"]).first
-    if ext_sample
-      @sample = ext_sample
-    else
-      vals_hash["oa_id"] = Sample.new_oa_id
-      @sample = Sample.create(vals_hash)
-    end
+
+    @sample = Sample.create(vals_hash)
+    
     return @sample
 	end
 
@@ -122,9 +118,7 @@ class Sample < ActiveRecord::Base
 		sample_info_hash["oa_id"] = oa_id
 		sample_info_hash["sample_type"] = doc["sample_type"]
 
-		qual = Sample.sample_qual_convert(doc["sample_quality"])
-
-    sample_info_hash["sample_quality"] = qual
+    sample_info_hash["sample_quality"] = doc["sample_quality"]
     sample_info_hash["final_identification"] = Identification.get_product_name_and_id(oa_id)
     
     #get hash of diagnostic compound names and and plant names with their oa_ids

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170926221410) do
+ActiveRecord::Schema.define(version: 20171113053216) do
 
   create_table "ancient_refs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",                                                          null: false
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "peak_time",        limit: 24
-    t.string   "nist_url"
+    t.string   "nist_url",         limit: 455
     t.index ["oa_id"], name: "index_compounds_on_oa_id", unique: true, using: :btree
   end
 
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.datetime "updated_at"
     t.string   "date"
     t.string   "location"
-    t.string   "ext_number"
+    t.string   "number"
     t.index ["oa_id"], name: "index_extractions_on_oa_id", unique: true, using: :btree
   end
 
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.datetime "updated_at"
     t.string   "compound_id"
     t.string   "plant_id"
+    t.string   "plant_part"
     t.index ["compound_id"], name: "plc_com_idx", using: :btree
     t.index ["plant_id"], name: "plc_pla_idx", using: :btree
   end
@@ -221,12 +222,13 @@ ActiveRecord::Schema.define(version: 20170926221410) do
   create_table "plants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",                         null: false
     t.string   "scientific_name"
-    t.string   "common_name"
+    t.text     "common_name",     limit: 65535
     t.text     "description",     limit: 65535
     t.string   "dukes_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "flora_url"
+    t.index ["flora_url"], name: "flora_url_UNIQUE", unique: true, using: :btree
     t.index ["oa_id"], name: "index_plants_on_oa_id", unique: true, using: :btree
   end
 
@@ -287,7 +289,11 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.datetime "updated_at"
     t.string   "sample_id"
     t.string   "compound_id"
+    t.string   "plant_id"
+    t.string   "product_id"
     t.index ["compound_id"], name: "sac_com_idx", using: :btree
+    t.index ["plant_id"], name: "fk_rails_c367e45732", using: :btree
+    t.index ["product_id"], name: "fk_rails_385e690284", using: :btree
     t.index ["sample_id"], name: "sac_sam_idx", using: :btree
   end
 
@@ -312,8 +318,8 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.string   "equipment_id"
     t.string   "extraction_id"
     t.string   "chromatogram_id"
-    t.string   "author_id"
-    t.string   "editor_id"
+    t.integer  "author_id"
+    t.integer  "editor_id"
     t.boolean  "vetted"
     t.string   "sample_type"
     t.integer  "sample_quality"
@@ -337,6 +343,15 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.index ["user_id"], name: "index_searches_on_user_id", using: :btree
   end
 
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "session_id",               null: false
+    t.text     "data",       limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+    t.index ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+  end
+
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",                     null: false
     t.string   "geo_coords"
@@ -348,6 +363,7 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.string   "director_id"
     t.string   "date"
     t.string   "atlas_url"
+    t.string   "region"
     t.index ["director_id"], name: "sit_per_idx", using: :btree
     t.index ["oa_id"], name: "index_sites_on_oa_id", unique: true, using: :btree
   end
@@ -374,7 +390,9 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.string   "absolute_date"
     t.string   "production_location"
     t.string   "lcp_url"
+    t.string   "site_id"
     t.index ["oa_id"], name: "index_sources_on_oa_id", unique: true, using: :btree
+    t.index ["site_id"], name: "fk_sources_1_idx", using: :btree
   end
 
   create_table "teams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -406,6 +424,7 @@ ActiveRecord::Schema.define(version: 20170926221410) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.boolean  "guest",                  default: false
+    t.boolean  "admin",                  default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
@@ -440,15 +459,18 @@ ActiveRecord::Schema.define(version: 20170926221410) do
   add_foreign_key "products", "animals", primary_key: "oa_id", name: "pro_ani_id", on_delete: :cascade
   add_foreign_key "products", "plants", primary_key: "oa_id", name: "pro_pla_id", on_delete: :cascade
   add_foreign_key "sample_compounds", "compounds", primary_key: "oa_id", name: "sac_com_id", on_delete: :cascade
+  add_foreign_key "sample_compounds", "plants", primary_key: "oa_id"
+  add_foreign_key "sample_compounds", "products", primary_key: "oa_id"
   add_foreign_key "sample_compounds", "samples", primary_key: "oa_id", name: "sac_sam_id", on_delete: :cascade
   add_foreign_key "samples", "chromatograms", primary_key: "oa_id", name: "sam_chr_id", on_delete: :cascade
   add_foreign_key "samples", "equipment", primary_key: "oa_id", name: "sam_equ_id", on_delete: :cascade
   add_foreign_key "samples", "extractions", primary_key: "oa_id", name: "sam_ext_id", on_delete: :cascade
-  add_foreign_key "samples", "people", column: "author_id", primary_key: "oa_id", name: "sam_auth_id", on_delete: :cascade
-  add_foreign_key "samples", "people", column: "editor_id", primary_key: "oa_id", name: "sam_ed_id", on_delete: :cascade
   add_foreign_key "samples", "sites", primary_key: "oa_id", name: "sam_sit_id", on_delete: :cascade
   add_foreign_key "samples", "sources", primary_key: "oa_id", name: "sam_sou_id", on_delete: :cascade
+  add_foreign_key "samples", "users", column: "author_id", name: "sam_auth_id", on_delete: :cascade
+  add_foreign_key "samples", "users", column: "editor_id", name: "sam_ed_id", on_delete: :cascade
   add_foreign_key "sites", "people", column: "director_id", primary_key: "oa_id", name: "sit_per_id", on_delete: :cascade
+  add_foreign_key "sources", "sites", primary_key: "oa_id", name: "fk_sources_1"
   add_foreign_key "teams", "equipment", primary_key: "oa_id", name: "t_equ_id", on_delete: :cascade
   add_foreign_key "teams", "extractions", primary_key: "oa_id", name: "t_ext_id", on_delete: :cascade
   add_foreign_key "teams", "people", primary_key: "oa_id", name: "col_pea_id", on_delete: :cascade

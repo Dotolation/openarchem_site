@@ -1,5 +1,14 @@
 class Plant < ActiveRecord::Base
+	require 'csv'
 	has_many :plant_compounds, foreign_key: :oa_id
+
+	def self.new_oa_id
+    oa_id = Plant.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_plant(vals_hash)
+		@plant = Plant.create(vals_hash)
+	end
 
 	def self.find_plant(oa_id)
 		unless oa_id.empty?
@@ -96,4 +105,72 @@ class Plant < ActiveRecord::Base
 
 		plants = Plant.joins("join plant_compounds").where("plant_compounds.plant_id = plants.oa_id and plant_compounds.compound_id = ?", oa_id)
 	end
+
+
+	def self.import_dukes_plants
+
+		#make common_names file into a hash for ease of use later
+		common_names = Hash.new
+		CSV.foreach("/home/mene/Dukes/COMMON_NAMES.csv", :headers => true) do |row|
+			#COMMON_NAMES.csv [0]CNNAM	[1]FNFNUM
+			if common_names.has_key?(row[1])
+				v = common_names[row[1]]
+				common_names[row[1]] = v + "; " + row[0]
+			else
+				common_names[row[1]] = row[0]
+			end
+		end	
+
+		plant_comps = Hash.new
+		CSV.foreach("/home/mene/Dukes/FARMACY_NEW.csv", :headers => true) do |row|
+			#FARMACY_NEW.csv for chem names and plant part code by fnfnum [0]FNFNUM	[1]CHEM	[3]PPCO
+			if plant_comps[row[0]]
+				curr = plant_comps[row[0]]
+				plant_comps[row[0]] = curr << row[1].capitalize
+			else
+				plant_comps[row[0]] = [row[1].capitalize]
+			end
+		end
+
+		plant_parts = Hash.new
+		CSV.foreach("/home/mene/Dukes/PARTS.csv", :headers => true) do |row|
+			plant_parts[row[0]] = row[1]
+		end
+
+		CSV.foreach("/home/mene/Dukes/FNFTAX.csv", :headers => true).with_index(1) do |row, idx|
+			plant_check = Plant.find_by_scientific_name(row[1])
+			unless plant_check
+				p_hash = Hash.new
+				#FNFTAX.csv for fnfnum and "scientific name" [0]FNFNUM	[1]TAXON
+				fnfnum = row[0]
+				p_hash["scientific_name"] = row[1]
+				p_hash["common_name"] = common_names[fnfnum]
+				#index is the show part of the url, https://phytochem.nal.usda.gov/phytochem/plants/show/[idx]
+				p_hash["dukes_url"] = "https://phytochem.nal.usda.gov/phytochem/plants/show/#{idx}"
+				p_hash["oa_id"] = new_oa_id
+				@plant = new_plant(p_hash)
+
+				p_c = plant_comps[fnfnum]
+				if p_c
+					p_c.each do |comp|
+						pc_hash = Hash.new
+						pc_hash["plant_id"] = @plant.oa_id
+						c = Compound.find_by_name(comp)
+						if c
+							pc_hash["compound_id"] = c.oa_id
+							pc_hash["plant_part"] = plant_parts[row[3]]
+							@plant_compound = PlantCompound.new_plant_compound(pc_hash)
+						end
+					end
+				end
+			end
+		end
+	end
+
+
+
+
 end
+
+
+

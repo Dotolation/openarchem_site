@@ -47,7 +47,7 @@
                     </td>
                     <td>
                       <a href="<%= val[2] %>" class="btn btn-success btn-sm" role="button" target="_blank">Duke's</a>
-                      <% unless val[3].nil? && val[3].empty? %>
+                      <% unless val[3].nil? || val[3].empty? %>
                         <a href="<%= val[3] %>" class="btn btn-default btn-sm" role="button" target="_blank">Flora</a>
                       <% end %>
                     </td>

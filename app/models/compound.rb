@@ -1,4 +1,14 @@
 class Compound < ActiveRecord::Base
+	require "mechanize"
+	require "csv"
+
+	def self.new_oa_id
+    oa_id = Compound.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_compound(vals_hash)
+		@compound = Compound.create(vals_hash)
+	end
 
 	def self.find_compound(oa_id)
 		unless oa_id.empty?
@@ -110,4 +120,101 @@ class Compound < ActiveRecord::Base
 		end
 		return sam_hash
 	end
+
+
+	def self.compounds_from_dukes
+		@agent = set_agent
+		dukes_id = 0
+
+		CSV.foreach("/home/mene/Dukes/CHEMICALS.csv", :headers => true) do |row|
+			dukes_id += 1
+			wiki_data = nil
+			comp_name = row[0].capitalize
+			comp_check = Compound.find_by_name(comp_name)
+			unless comp_check
+				comp_hash = Hash.new
+
+				comp_hash["oa_id"] = new_oa_id
+				comp_hash["name"] = comp_name
+				comp_hash["dukes_url"] = "https://phytochem.nal.usda.gov/phytochem/chemicals/show/#{dukes_id}"
+				
+				wiki_data = import_from_wikimedia(comp_name)
+				unless wiki_data.empty?
+					comp_hash["formula"] = wiki_data[1]
+					comp_hash["molecular_weight"] = wiki_data[0]
+					comp_hash["nist_url"] = "http://webbook.nist.gov/cgi/inchi/InChI=#{wiki_data[4]}"
+					curr_note = comp_hash["notes"] 
+					comp_hash["notes"] = curr_note ? curr_note + "; " + "https://www.wikidata.org/wiki/#{wiki_data[5]}" : "https://www.wikidata.org/wiki/#{wiki_data[5]}" 
+				end
+				@compound = new_compound(comp_hash)
+				#have to add images down here or else the foreign key constraint fails since the compound isn't created yet
+				unless wiki_data.empty?
+					begin
+						if wiki_data[2]
+							#want to pass the img url back to the rake task, wiki_data[2] and wiki_data[3]
+							url = wiki_data[2].gsub(" ", "_")
+							path = Rails.root.join('lib', 'assets', "images", "data", "compounds", comp_name)
+							@agent.get(url).save(path)
+							img_h = Hash.new
+							img_h["oa_id"] = Image.new_oa_id
+							img_h["image_file_path"] = path
+							img_h["image_credit"] = wiki_data[3]
+							img_h["compound_id"] = comp_hash["oa_id"]
+							Image.new_image(img_h)
+						end
+					rescue
+						puts "#{wiki_data[3]} failed!"
+					end
+				end
+				
+			end
+		end
+	end
+
+	def self.import_from_wikimedia(comp_name)
+		c_name = comp_name.gsub("+", "%2B")
+		#search for compound 
+
+		url = "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&search=#{c_name}"
+		json = @agent.get(url).body
+		res = JSON.parse json
+		
+		#go through search results search: {"#":{"id":[id], "label":[exact match on name], "description":"chemical compound" }}
+		unless res["search"].empty?
+			res["search"].each do |result|
+				if result["description"] == "chemical compound"
+					wiki_id = result["id"]
+					#get properties list https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=[val]
+					props_url = "https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=#{wiki_id}"
+					props_json = @agent.get(props_url).body
+					props = JSON.parse props_json
+					unless props["claims"].empty?
+						#P2067 => atomic mass 
+						a_mass = props["claims"]["P2067"] ? props["claims"]["P2067"][0]["mainsnak"]["datavalue"]["value"]["amount"].to_f.round(3) : nil
+						#P274 => chemical formula 
+						formula = props["claims"]["P274"] ? props["claims"]["P274"][0]["mainsnak"]["datavalue"]["value"] : nil
+						#P117 => link to image https://upload.wikimedia.org/wikipedia/commons/f/f6/
+						image = nil
+						if props["claims"]["P117"]
+							image_id = props["claims"]["P117"][0]["mainsnak"]["datavalue"]["value"]
+							image = "https://upload.wikimedia.org/wikipedia/commons/f/f6/#{image_id}"
+							image_cred = "https://commons.wikimedia.org/wiki/File:#{image_id}"
+						end
+						#P234 => InChI id, for generating nist webbook url, http://webbook.nist.gov/cgi/inchi/InChI=[val]
+						inchi = props["claims"]["P234"] ? props["claims"]["P234"][0]["mainsnak"]["datavalue"]["value"] : nil
+						return [a_mass, formula, image, image_cred, inchi, wiki_id]
+					end
+				end
+			end
+		end
+		return []	
+	end
+
+	def self.set_agent(a_alias = 'Mac Safari')
+    @agent = Mechanize.new
+    @agent.pluggable_parser.default = Mechanize::Download
+    @agent.user_agent_alias= a_alias
+    return @agent
+	end
+
 end

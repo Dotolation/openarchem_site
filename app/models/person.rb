@@ -1,6 +1,11 @@
 class Person < ActiveRecord::Base
 
-	def self.new_person(person)
+	def self.new_oa_id
+    oa_id = Person.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_person(vals_hash)
+		@person = Person.create(vals_hash)
 	end
 
 	def self.find_person(id)

@@ -3,7 +3,7 @@ class CreatePlants < ActiveRecord::Migration
     create_table :plants do |t|
       t.string :oa_id, null: false
       t.string :scientific_name
-      t.string :common_name
+      t.text :common_name
       t.text :description
       t.string :image_file_path
       t.string :dukes_url

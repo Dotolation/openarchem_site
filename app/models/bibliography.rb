@@ -1,5 +1,11 @@
 class Bibliography < ActiveRecord::Base
 
+  def self.new_bibliography(vals_hash)
+    @bibliography = Bibliography.create(vals_hash)
+    
+    return @bibliography
+  end
+
   def self.find_pubs_by_source_id(id)
     unless id.empty?
       bib = Bibliography.where("source_id = ?", id)

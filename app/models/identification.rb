@@ -1,5 +1,13 @@
 class Identification < ActiveRecord::Base
 
+	def self.new_oa_id
+    oa_id = Identification.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_identification(vals_hash)
+		@identification = Identification.create(vals_hash)
+	end
+
 	def self.find_identification(id)
 		#may have several return rows, so give back the group of activerecords
 		if id

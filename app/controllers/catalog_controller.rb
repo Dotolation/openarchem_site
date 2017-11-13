@@ -68,6 +68,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'compound_facet', :label => 'Compounds'
     config.add_facet_field 'ancient_ref_author_facet', :label => 'Ancient References'
     config.add_facet_field 'product_facet', :label => 'Products'
+    #config.add_facet_field 'source_type_facet', :label => 'Vessel Type'
 
 
     #config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']

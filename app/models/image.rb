@@ -1,5 +1,16 @@
 class Image < ActiveRecord::Base
 
+  def self.new_oa_id
+    oa_id = Image.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+  def self.new_image(vals_hash)
+
+    @img = Image.create(vals_hash)
+    
+    return @img
+  end
+
   def self.find_image_by_source_id(id)
     unless id.empty?
       source = Image.where("source_id = ?", id)

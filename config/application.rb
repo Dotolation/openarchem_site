@@ -17,5 +17,6 @@ module Openarchem
 		Dir.glob("#{Rails.root}/app/assets/images/**/").each do |path|
 		  config.assets.paths << path
 		end
+    config.action_view.embed_authenticity_token_in_remote_forms = true
   end
 end

@@ -1,23 +1,54 @@
-<div class="fileinput fileinput-new" data-provides="fileinput">
-  <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-  <div>
-    <span class="btn btn-default btn-file"><span class="fileinput-new">Select Object image</span><span class="fileinput-exists">Change</span><input type="file" name="source_img"></span>
-    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+<div class="row">
+  <div class="fileinput fileinput-new" data-provides="fileinput">
+    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+    <div>
+      <span class="btn btn-default btn-file">
+        <span class="fileinput-new">Add Object image</span>
+        <span class="fileinput-exists">Change</span>
+        <input type="file" name="img_source">
+      </span>
+      <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a><br />
+      <span class="fileinput-exists">
+        <%= label_tag(:img_source_image_credit, "Image Credit") %>
+        <%= text_field_tag(:img_source_image_credit) %>
+      </span>
+    </div>
+  </div>
+
+
+  <div class="fileinput fileinput-new" data-provides="fileinput">
+    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+    <div>
+      <span class="btn btn-default btn-file"><span class="fileinput-new">Add Chromatogram image</span><span class="fileinput-exists">Change</span><input type="file" name="chrom_img"></span>
+      <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> <br />
+ 
+      <span class="fileinput-exists">
+        <%= label_tag(:chrom_img_image_credit, "Image Credit") %>
+        <%= text_field_tag(:chrom_img_image_credit) %>
+
+      </span>
+    </div>
+  </div>
+
+  <div class="fileinput fileinput-new" data-provides="fileinput">
+    <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+    <div>
+      <span class="btn btn-default btn-file"><span class="fileinput-new">Select Petrography image</span><span class="fileinput-exists">Change</span><input type="file" name="petro_img"></span>
+      <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> <br />
+      <span class="fileinput-exists">
+        <%= label_tag(:petro_img_image_credit, "Image Credit") %>
+        <%= text_field_tag(:petro_img_image_credit) %>
+      </span>
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="fileinput fileinput-new" data-provides="fileinput">
+    <span class="btn btn-default btn-file"><span class="fileinput-new">Add Chromatogram file</span><span class="fileinput-exists">Change</span><input type="file" name="chrom_file"></span>
+    <span class="fileinput-filename"></span>
+    <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
   </div>
 </div>
 
-<div class="fileinput fileinput-new" data-provides="fileinput">
-  <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-  <div>
-    <span class="btn btn-default btn-file"><span class="fileinput-new">Select Chromatogram image</span><span class="fileinput-exists">Change</span><input type="file" name="chrom_img"></span>
-    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-  </div>
-</div>
 
-<div class="fileinput fileinput-new" data-provides="fileinput">
-  <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-  <div>
-    <span class="btn btn-default btn-file"><span class="fileinput-new">Select Petrography image</span><span class="fileinput-exists">Change</span><input type="file" name="petro_img"></span>
-    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-  </div>
-</div>

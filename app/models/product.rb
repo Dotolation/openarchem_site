@@ -1,9 +1,12 @@
 class Product < ActiveRecord::Base
-	def self.new_site(site)
+	def self.new_oa_id
+    oa_id = Product.last.oa_id.sub(/\d+$/) {|d| (d.to_i + 1).to_s}
+  end
+
+	def self.new_product(vals_hash)
+		@product = Product.create(vals_hash)
 	end
-
-
-	#base method called by the catalog_show_helper to pull Site infoS
+	#base method called by the catalog_show_helper to pull product info
 	def self.show_product_data(oa_id)
 		data_arr = get_data(oa_id)
 	end

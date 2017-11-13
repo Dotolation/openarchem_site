@@ -12,11 +12,11 @@ class AddLotsOfFields < ActiveRecord::Migration[5.0]
     #extractions
     add_column :extractions, :date, :string
     add_column :extractions, :location, :string
-    add_column :extractions, :ext_number, :string
+    add_column :extractions, :number, :string
 
     #samples
-    add_column :samples, :author_id, :string
-    add_column :samples, :editor_id, :string
+    add_column :samples, :author_id, :integer
+    add_column :samples, :editor_id, :integer
     add_column :samples, :vetted, :boolean
     add_column :samples, :sample_type, :string
     add_column :samples, :sample_quality, :integer
@@ -72,7 +72,7 @@ class AddLotsOfFields < ActiveRecord::Migration[5.0]
       ALTER TABLE `openarchem`.`samples` 
       ADD CONSTRAINT `sam_auth_id`
       FOREIGN KEY (`author_id` )
-      REFERENCES `openarchem`.`people` (`oa_id` )
+      REFERENCES `openarchem`.`users` (`id` )
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
       ADD INDEX `sam_auth_idx` (`author_id` ASC) ;
@@ -82,7 +82,7 @@ class AddLotsOfFields < ActiveRecord::Migration[5.0]
       ALTER TABLE `openarchem`.`samples` 
       ADD CONSTRAINT `sam_ed_id`
       FOREIGN KEY (`editor_id` )
-      REFERENCES `openarchem`.`people` (`oa_id` )
+      REFERENCES `openarchem`.`users` (`id` )
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
       ADD INDEX `sam_ed_idx` (`editor_id` ASC) ;

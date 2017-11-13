@@ -1,414 +1,459 @@
+<% if current_user.admin? %>
+  <h2>Create a New Sample Record</h2>
 
-<h2>Create a New Sample Record</h2>
+  <%= form_tag({:controller => "input_form", :action => "create", :method => "post"}, :enctype =>"multipart/form-data") do %>
+    <%= hidden_field_tag(:sample_author_id, current_user.id) %>
 
-<%= form_tag({:controller => "input_form", :action => "create", :method => "post"}, :enctype =>"multipart/form-data") do %>
-  <%= hidden_field_tag(:user, current_user.id) %>
+    <div class="panel-group">
 
-  <div class="panel-group">
-
-    <div class="panel">
-      <div class="panel-body">
-        <h3>Images</h3>
-        <div class="row">
+      <div class="panel">
+        <div class="panel-body">
+          <h3>File Uploads</h3>
           <%= render :partial => "file_upload" %>
         </div>
       </div>
-    </div>
 
-    <div class="panel">
-      <div class="panel-body">
-        <div class="well">
-          <h3>Basic Sample Information</h3> 
-          <ul class="list-group">
-            <li class="list-group-item">
-              <%= label_tag(:source_catalog_number, "Object Accession Number") %>
-              <%= text_field_tag(:source_catalog_number) %>
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:source_current_location, "Object Current Location") %>
-              <%= text_field_tag(:source_current_location) %>
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:source_object_type, "Object Type") %>
-              <%= text_field_tag(:source_object_type) %>
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:site_name, "Excavation Site") %>
-              <%= text_field_tag(:site_name, nil, autofocus: true) %>
-              <div class="results" id="site_results"></div>
-            </li>
-            <script> sites($('#site_name'), $('#site_results')) </script>
-            <li class="list-group-item">
-              <%= label_tag(:site_region, "Site Region") %>
-              <%= text_field_tag(:site_region) %>
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:sample_number, "ORA ID Number") %>
-              <%= text_field_tag(:sample_number) %>
-            </li>
-            <li class="list-group-item">
-              For more info on sample types and qualities, see <%= link_to "Sample Quality Rankings", "http://openarchem.wordpress.com/sample-quality-rankings" %>
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:sample_type, "ORA Sample Type") %>
-              <%= select_tag(:sample_type, 
-                  options_for_select(
-                  [['Reference', 'reference'], 
-                  ['New Excavation', 'new excavation'], 
-                  ['Legacy Object', 'legacy object']])) %>
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:sample_quality, "ORA Sample Quality") %>
-              <%= select_tag(:sample_quality, 
-                  options_for_select(
-                  [['Closed intact, in situ', 5], 
-                  ['Open intact/Closed fragmented, in situ', 4],
-                  ['Diagnostic sherd, unwashed', 3],
-                  ['Any washed on site/Legacy unwashed', 2],
-                  ['Any washed or treated', 1]])) %>  
-            </li>
-            <li class="list-group-item">
-              <%= label_tag(:sample_quality_notes, "Sample Quality Notes") %>
-              <%= text_area_tag(:sample_quality_notes) %>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <h2> <%= submit_tag("Submit") %> Or Add More Details Below </h2>
-    
-    <div class="panel" id="accordion">
-      
+      <div class="panel">
         <div class="panel-body">
-          <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_compound">Compounds and Sources</a></h3>
-          
-          <div id="collapse_compound" class="panel-collapse collapse">
-            <div class="well" >
-             <ul class="list-group">                    
+          <div class="well">
+            <h3>Basic Sample Information</h3> 
+            <ul class="list-group">
               <li class="list-group-item">
-                <h4>Compound Identification</h4>
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Diagnostic Compounds</th>
-                        <th>Proposed Sources</th>
-                        <th>Probable Ingredients</th>
-                      </tr>
-                    </thead>
-                    <tbody id="comp_table">
-                      <tr>
-                        <td>
-                          <%= text_field_tag(:compound_name, nil, autofocus: true) %>
-                          <div class="results" id="diagnostic_results"></div>
-                        </td>
-                        <td>
-                          <%= select_tag(:plant_name, options_for_select([]), :onchange => "populate_ingredients($(this));") %>
-                        </td>
-                        <td>
-                          <%= select_tag(:product_name, options_for_select([])) %>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div> 
-                <script> comps($('#compound_name'), $('#diagnostic_results')) </script>
-                <button type="button" class="btn btn-info btn-lg" id="compound_btn" onclick="AddCompoundFields()">Add a Compound</button>
+                <%= label_tag(:source_institution_id, "Object Accession Number") %>
+                <%= text_field_tag(:source_institution_id) %>
               </li>
-
               <li class="list-group-item">
-                <%= label_tag(:identification, "Proposed Interpretation") %>
-                <%= text_field_tag(:identification) %>
+                <%= label_tag(:source_current_location, "Object Current Location") %>
+                <%= text_field_tag(:source_current_location) %>
               </li>
-
               <li class="list-group-item">
-                <%= label_tag(:identification_certainty, "Interpretation Certainty") %>
-                <%= text_field_tag(:identification_certainty) %>
+                <%= label_tag(:source_object_type, "Object Type") %>
+                <%= text_field_tag(:source_object_type) %>
               </li>
-
               <li class="list-group-item">
-                <%= label_tag(:identification_notes, "Interpretation Notes") %>
-                <%= text_area_tag(:identification_notes) %>
+                <%= label_tag(:site_name, "Excavation Site") %>
+                <%= text_field_tag(:site_name, nil, autofocus: true) %>
+                <div class="results" id="site_results"></div>
               </li>
-
-              
+              <script> sites($('#site_name'), $('#site_results')) </script>
+              <li class="list-group-item">
+                <%= label_tag(:site_region, "Site Region") %>
+                <%= text_field_tag(:site_region) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:sample_archem_id, "ORA ID Number") %>
+                <%= text_field_tag(:sample_archem_id) %>
+              </li>
+              <li class="list-group-item">
+                For more info on sample types and qualities, see <%= link_to "Sample Quality Rankings", "http://openarchem.wordpress.com/sample-quality-rankings" %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:sample_sample_type, "ORA Sample Type") %>
+                <%= select_tag(:sample_sample_type, 
+                    options_for_select(
+                    [['Reference', 'reference'], 
+                    ['New Excavation', 'new excavation'], 
+                    ['Legacy Object', 'legacy object']])) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:sample_sample_quality, "ORA Sample Quality") %>
+                <%= select_tag(:sample_sample_quality, 
+                    options_for_select(
+                    [['5 - Closed intact, in situ', 5], 
+                    ['4 - Open intact/Closed fragmented, in situ', 4],
+                    ['3 - Diagnostic sherd, unwashed', 3],
+                    ['2 - Any washed on site/Legacy unwashed', 2],
+                    ['1 - Any washed or treated', 1]])) %>  
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:sample_quality_notes, "Sample Quality Notes") %>
+                <%= text_area_tag(:sample_quality_notes) %>
+              </li>
+              <li class="list-group-item">
+                <%= %>
+              </li>
             </ul>
           </div>
-        </div> 
-        <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_obj">Object Details</a></h3>
-          
-          <div id="collapse_obj" class="panel-collapse collapse">
-            <div class="well" >
-            <ul class="list-group">
-
-              <li class="list-group-item">
-                <%= label_tag(:source_object_condition, "Object Condition") %>
-                <%= text_field_tag(:source_condition) %>
-              </li>
-
-              <li class="list-group-item">
-                <%= label_tag(:source_date, "Object Date, Relative") %>
-                <%= text_field_tag(:source_date) %>
-              </li>
-
-              <li class="list-group-item">
-                <%= label_tag(:source_absolute_date, "Object Date, Absolute") %>
-                <%= text_field_tag(:source_absolute_date) %>
-              </li>
-       
-              <li class="list-group-item">
-                <%= label_tag(:source_petrography, "Object Fabric Type") %>
-                <%= text_field_tag(:source_petrography) %>
-              </li>
-
-              <li class="list-group-item">
-                <%= label_tag(:site_director, "Excavation Director") %>
-                <%= text_field_tag(:site_director) %>
-              </li>
-
-              <li class="list-group-item">
-                <%= label_tag(:source_excavation_date, "Excavation Date") %>
-                <%= text_field_tag(:source_excavation_date) %>
-              </li>
-
-              <li class="list-group-item">
-                <%= label_tag(:source_excavation_notes, "Excavation Notes") %>
-                <%= text_area_tag(:source_excavation_notes) %>
-              </li>
-          
-              <li class="list-group-item">
-                <%= label_tag(:source_context, "Context") %>
-                <%= text_field_tag(:source_context) %>
-              </li>
+        </div>
+      </div>
+      <h2> <%= submit_tag("Submit") %> Or Add More Details Below </h2>
+      
+      <div class="panel" id="accordion">
         
+          <div class="panel-body">
+            <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_compound">Compounds and Sources</a></h3>
+            
+            <div id="collapse_compound" class="panel-collapse collapse">
+              <div class="well" >
+               <ul class="list-group">                    
+                <li class="list-group-item">
+                  <h4>Compound Identification</h4>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Diagnostic Compounds</th>
+                          <th>Proposed Sources</th>
+                          <th>Probable Ingredients</th>
+                        </tr>
+                      </thead>
+                      <tbody id="comp_table">
+                        <tr>
+                          <td>
+                            <%= text_field_tag(:compound_name, nil, autofocus: true) %>
+                            <div class="results" id="diagnostic_results"></div>
+                            <%= hidden_field_tag(:compound_id, nil) %>
+                          </td>
+                          <td>
+                            <%= select_tag(:plant_name, options_for_select([["Select Plant", 1]]), {:class => "compound_table"}) %>
+                          </td>
+                          <td>
+                            <%= select_tag(:product_name, options_for_select([["Select Ingredient", 1]]), {:class => "compound_table"}) %>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> 
+                  <script> comps($('#compound_name'), $('#diagnostic_results'), $('#compound_id')) </script>
+                  <button type="button" class="btn btn-info btn-lg" id="compound_btn" onclick="AddCompoundFields()">Add a Compound</button>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:identification, "Proposed Interpretation") %>
+                  <%= text_field_tag(:identification) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:identification_certainty, "Interpretation Certainty") %>
+                  <%= text_field_tag(:identification_certainty) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:identification_notes, "Interpretation Notes") %>
+                  <%= text_area_tag(:identification_notes) %>
+                </li>
+
+                
+              </ul>
+            </div>
+          </div> 
+          <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_obj">Object Details</a></h3>
+            
+            <div id="collapse_obj" class="panel-collapse collapse">
+              <div class="well" >
+              <ul class="list-group">
+
+                <li class="list-group-item">
+                  <%= label_tag(:source_object_condition, "Object Condition") %>
+                  <%= text_field_tag(:source_object_condition) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:source_date, "Object Date, Relative") %>
+                  <%= text_field_tag(:source_date) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:source_absolute_date, "Object Date, Absolute") %>
+                  <%= text_field_tag(:source_absolute_date) %>
+                </li>
+         
+                <li class="list-group-item">
+                  <%= label_tag(:source_petrography, "Object Fabric Type") %>
+                  <%= text_field_tag(:source_petrography) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:site_director, "Excavation Director") %>
+                  <%= text_field_tag(:site_director) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:source_excavation_date, "Excavation Date") %>
+                  <%= text_field_tag(:source_excavation_date) %>
+                </li>
+
+                <li class="list-group-item">
+                  <%= label_tag(:source_excavation_notes, "Excavation Notes") %>
+                  <%= text_area_tag(:source_excavation_notes) %>
+                </li>
+              </ul>
+          </div>      
+        </div>
+
+        <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_ext">Sample and Extraction Details</a></h3>          
+        <div id="collapse_ext" class="panel-collapse collapse">
+          <div class="well" >
+          <ul class="list-group">
+
+            <li class="list-group-item">
+              <%= label_tag(:sample_sample_date, "Sample Date") %>
+              <%= text_field_tag(:sample_sample_date) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:sample_sample_time, "Sample Time") %>
+              <%= text_field_tag(:sample_sample_time) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_number, "Extraction Number") %>
+              <%= text_field_tag(:extraction_number) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_date, "Extraction Date") %>
+              <%= text_field_tag(:extraction_date) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_location, "Extraction Location") %>
+              <%= text_field_tag(:extraction_location) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_solvent, "Extraction Solvent") %>
+              <%= text_field_tag(:extraction_solvent) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_buchi, "Buchi?") %>
+              <%= check_box_tag(:extraction_buchi) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_swished, "Swished?") %>
+              <%= check_box_tag(:extraction_swished) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_boiled_manually, "Boiled Manually?") %>
+              <%= check_box_tag(:extraction_boiled_manually) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:extraction_notes, "Extraction Notes") %>
+              <%= text_area_tag(:extraction_notes) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:sample_subsample_amount, "Subsample Amount") %>
+              <%= text_field_tag(:sample_subsample_amount) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:sample_gcms_analysis_date, "GCMS Run Date") %>
+              <%= text_field_tag(:sample_gcms_analysis_date) %>
+            </li>
+             <li class="list-group-item">
+              <%= label_tag(:equipment_location, "GCMS Location") %>
+              <%= text_field_tag(:equipment_location) %>
+            </li>
+             <li class="list-group-item">
+              <%= label_tag(:equipment_solvent, "GCMS Solvent") %>
+              <%= text_field_tag(:equipment_solvent) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:sample_stored_in_plastic, "Stored in Plastic?") %>
+              <%= check_box_tag(:sample_stored_in_plastic) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:sample_plastic_in_gcms, "Plastic in GCMS?") %>
+              <%= check_box_tag(:sample_plastic_in_gcms) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_manufacturer, "Equipment Manufacturer") %>
+              <%= text_field_tag(:equipment_manufacturer) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_model, "Equipment Model") %>
+              <%= text_field_tag(:equipment_model) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_year, "Equipment Year") %>
+              <%= text_field_tag(:equipment_year) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_detector, "Detector") %>
+              <%= text_field_tag(:equipment_detector) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_column_manufacturer, "Column Manufacturer") %>
+              <%= text_field_tag(:equipment_column_manufacturer) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_column_model, "Column Model") %>
+              <%= text_field_tag(:equipment_column_model) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_settings, "Equipment Settings") %>
+              <%= text_area_tag(:equipment_settings) %>
+            </li>
+            <li class="list-group-item">
+              <%= label_tag(:equipment_notes, "Equipment Notes") %>
+              <%= text_area_tag(:equipment_notes) %>
+            </li>
+          </ul>
+          </div>
+        </div>
+        <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_bib">Bibliography</a></h3>          
+        <div id="collapse_bib" class="panel-collapse collapse">
+          <div class="well" id="collapse_bib_well">
+            <ul class="list-group">
               <li class="list-group-item">
-                <%= label_tag(:source_biblio, "Relevant Bibliography") %>
-                <%= text_area_tag(:source_biblio) %>
+                <%= label_tag("Bibliography for:") %><br />
+                <%= label_tag(:biblio_sample, "Sample") %>
+                <%= check_box_tag(:biblio_sample) %>
+                <%= label_tag(:biblio_chromatogram, "Chromatogram") %>
+                <%= check_box_tag(:biblio_chromatogram) %>
+                <%= label_tag(:biblio_site, "Site") %>
+                <%= check_box_tag(:biblio_site) %>
+                <%= label_tag(:biblio_source, "Object") %>
+                <%= check_box_tag(:biblio_source) %>
+                <!-- <%= label_tag(:biblio_other_analysis, "Other Scientific Analysis") %>
+                <%= check_box_tag(:biblio_other_analysis) %> -->
+              </li>
+            
+              <li class="list-group-item">
+                <%= label_tag(:publication_author, "Author(s)") %>
+                <%= text_field_tag(:publication_author) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:publication_title, "Title") %>
+                <%= text_field_tag(:publication_title) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:publication_journal_name, "Journal (or Containing Book) Title, Volume, and Number") %>
+                <%= text_field_tag(:publication_journal_name) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:publication_publisher, "Publisher Name and Location") %>
+                <%= text_field_tag(:publication_publisher) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:publication_year, "Year") %>
+                <%= text_field_tag(:publication_year) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:publication_pages, "Pages") %>
+                <%= text_field_tag(:publication_pages) %>
+              </li>
+              <li class="list-group-item">
+                <%= label_tag(:publication_url, "URL") %>
+                <%= text_field_tag(:publication_url) %>
               </li>
             </ul>
-        </div>      
+            <button type="button" class="btn btn-info btn-lg" id="biblio_btn" onclick="AddPublicationFields()">Add Another Publication</button>
+          </div>
+        </div>
       </div>
+      
+    </div>
+    <%= submit_tag("Submit") %>
+  <% end %>
 
-      <h3><a data-toggle="collapse" data-parent="#accordion" href="#collapse_ext">Sample and Extraction Details</a></h3>          
-      <div id="collapse_ext" class="panel-collapse collapse">
-        <div class="well" >
-        <ul class="list-group">
 
-          <li class="list-group-item">
-            <%= label_tag(:sample_date, "Sample Date") %>
-            <%= text_field_tag(:sample_date) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:sample_time, "Sample Time") %>
-            <%= text_field_tag(:sample_time) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_number, "Extraction Number") %>
-            <%= text_field_tag(:extraction_number) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_date, "Extraction Date") %>
-            <%= text_field_tag(:extraction_date) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_location, "Extraction Location") %>
-            <%= text_field_tag(:extraction_location) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_solvent, "Extraction Solvent") %>
-            <%= text_field_tag(:extraction_solvent) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_buchi, "Buchi?") %>
-            <%= check_box_tag(:extraction_buchi) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_swished, "Swished?") %>
-            <%= check_box_tag(:extraction_swished) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_boiled_manually, "Boiled Manually?") %>
-            <%= check_box_tag(:extraction_boiled_manually) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:extraction_notes, "Extraction Notes") %>
-            <%= text_field_tag(:extraction_notes) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:source_subsample_amount, "Subsample Amount") %>
-            <%= text_field_tag(:source_subsample_amount) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:source_gcms_analysis_date, "GCMS Run Date") %>
-            <%= text_field_tag(:source_gcms_analysis_date) %>
-          </li>
-           <li class="list-group-item">
-            <%= label_tag(:equipment_location, "GCMS Location") %>
-            <%= text_field_tag(:equipment_location) %>
-          </li>
-           <li class="list-group-item">
-            <%= label_tag(:equipment_gcms_solvent, "GCMS Solvent") %>
-            <%= text_field_tag(:equipment_gcms_solvent) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:sample_stored_in_plastic, "Stored in Plastic?") %>
-            <%= check_box_tag(:sample_stored_in_plastic) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:sample_lastic_in_gcms, "Plastic in GCMS?") %>
-            <%= check_box_tag(:sample_plastic_in_gcms) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_manufacturer, "Equipment Manufacturer") %>
-            <%= text_field_tag(:equipment_manufacturer) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_model, "Equipment Model") %>
-            <%= text_field_tag(:equipment_model) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_year, "Equipment Year") %>
-            <%= text_field_tag(:equipment_year) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_detector, "Detector") %>
-            <%= text_field_tag(:equipment_detector) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_column_manufacturer, "Column Manufacturer") %>
-            <%= text_field_tag(:equipment_column_manufacturer) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_column_model, "Column Model") %>
-            <%= text_field_tag(:equipment_column_model) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_settings, "Equipment Settings") %>
-            <%= text_field_tag(:equipment_settings) %>
-          </li>
-          <li class="list-group-item">
-            <%= label_tag(:equipment_notes, "Equipment Notes") %>
-            <%= text_field_tag(:equipment_notes) %>
-          </li>
-        </ul>
+    <div id="add_compound" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <%= form_tag(controller: "input_form", action: "create", method: "post") do %>
+              <%= hidden_field_tag(:user, current_user.id) %>
+              <%= hidden_field_tag(:form_type, "mini_compound") %>
+              <h3>Create a New Compound</h3>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <%= label_tag(:compound_formula, "Formula") %>
+                  <%= text_field_tag(:compound_formula) %>
+                </li>
+                <li class="list-group-item">
+                  <%= label_tag(:compound_name, "Name") %>
+                  <%= text_field_tag(:compound_name) %>
+                </li>
+                <li class="list-group-item">
+                  <%= label_tag(:compound_nist_url, "NIST Webbook URL") %>
+                  <%= text_field_tag(:compound_nist_url) %>
+                </li>
+              </ul>
+              <%= submit_tag("Submit") %>
+
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
-    
-  </div>
-  <%= submit_tag("Submit") %>
+
+
+    <div id="add_plant" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <%= form_tag(controller: "input_form", action: "create", method: "post") do %>
+              <%= hidden_field_tag(:user, current_user.id) %>
+              <%= hidden_field_tag(:form_type, "mini_plant") %>
+              <h3>Create a New Plant</h3>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <%= label_tag(:plant_scientific_name, "Scientific Name") %>
+                  <%= text_field_tag(:plant_scientific_name) %>
+                </li>
+                <li class="list-group-item">
+                  <%= label_tag(:plant_common_name, "Common Name") %>
+                  <%= text_field_tag(:plant_common_name) %>
+                </li>
+                <li class="list-group-item">
+                  <%= label_tag(:plant_dukes_url, "Duke's Phytochemical Database URL") %>
+                  <%= text_field_tag(:plant_dukes_url) %>
+                </li>
+              </ul>
+              <%= submit_tag("Submit") %>
+
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="add_ingredient" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <%= form_tag({controller: "input_form", action: "create"}, method: "post", remote: true, id: "mini_product") do %>
+              <%= hidden_field_tag(:user, current_user.id) %>
+              <%= hidden_field_tag(:form_type, "mini_product") %>
+              <%= hidden_field_tag(:product_plant_id, "") %>
+              <h3>Create a New Ingredient</h3>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <%= label_tag(:product_name, "Name") %>
+                  <%= text_field_tag(:product_name) %>
+                </li>
+                <li class="list-group-item">
+                  <%= label_tag(:product_other_name, "Other Name") %>
+                  <%= text_field_tag(:product_other_name) %>
+                </li>
+              </ul>
+              <%= submit_tag("Submit") %>
+
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<% else %>
+  <h2>Only Admins can currently create records. If you think you should be an admin, please contact us at openarchem@gmail.com </h2>
 <% end %>
-
-
-  <div id="add_compound" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <%= form_tag(controller: "input_form", action: "create", method: "post") do %>
-            <%= hidden_field_tag(:user, current_user.id) %>
-            <%= hidden_field_tag(:form_type, "mini_compound") %>
-            <h3>Create a New Compound</h3>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <%= label_tag(:compound_formula, "Formula") %>
-                <%= text_field_tag(:compound_formula) %>
-              </li>
-              <li class="list-group-item">
-                <%= label_tag(:compound_name, "Name") %>
-                <%= text_field_tag(:compound_name) %>
-              </li>
-              <li class="list-group-item">
-                <%= label_tag(:compound_nist_url, "NIST Webbook URL") %>
-                <%= text_field_tag(:compound_nist_url) %>
-              </li>
-            </ul>
-            <%= submit_tag("Submit") %>
-
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="add_plant" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <%= form_tag(controller: "input_form", action: "create", method: "post") do %>
-            <%= hidden_field_tag(:user, current_user.id) %>
-            <%= hidden_field_tag(:form_type, "mini_plant") %>
-            <h3>Create a New Plant</h3>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <%= label_tag(:plant_scientific_name, "Scientific Name") %>
-                <%= text_field_tag(:plant_scientific_name) %>
-              </li>
-              <li class="list-group-item">
-                <%= label_tag(:plant_common_name, "Common Name") %>
-                <%= text_field_tag(:plant_common_name) %>
-              </li>
-              <li class="list-group-item">
-                <%= label_tag(:plant_dukes_url, "Duke's Phytochemical Database URL") %>
-                <%= text_field_tag(:plant_dukes_url) %>
-              </li>
-            </ul>
-            <%= submit_tag("Submit") %>
-
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="add_ingredient" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <%= form_tag(controller: "input_form", action: "create", method: "post") do %>
-            <%= hidden_field_tag(:user, current_user.id) %>
-            <%= hidden_field_tag(:form_type, "mini_product") %>
-             <%= hidden_field_tag(:product_plant_id, "") %>
-            <h3>Create a New Ingredient</h3>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <%= label_tag(:product_name, "Name") %>
-                <%= text_field_tag(:product_name) %>
-              </li>
-              <li class="list-group-item">
-                <%= label_tag(:product_other_name, "Other Name") %>
-                <%= text_field_tag(:product_other_name) %>
-              </li>
-            </ul>
-            <%= submit_tag("Submit") %>
-
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>

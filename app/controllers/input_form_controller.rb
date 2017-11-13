@@ -36,15 +36,26 @@ class InputFormController < ApplicationController
       if params[:form_type] == "mini_plant"
 
       elsif params[:form_type] == "mini_product"
+       
+        @mini_product = InputForm.mini_product(params)
 
+      elsif params[:form_type] == "mini_compound"
+        
       end
     else
-      byebug
 
-      InputForm.upload(params["source_img"], "source") if params["source_img"] != ""
-      InputForm.upload(params["chrom_img"], "chrom") if params["chrom_img"] != ""
-      InputForm.upload(params["petro_img"], "petro") if params["source_img"] != ""
-      InputForm.create_sample(params)
+      begin
+      
+      @sample = InputForm.create_sample(params)
+      flash[:success] = "Sample successfully saved, see it here: #{view_context.link_to(@sample.oa_id, @sample.oa_id)}" 
+      redirect_to :action => "samples"
+      rescue Exception => e
+        flash[:error] = e.message + ", #{$!} #{e.backtrace}"
+        puts e.message + ", #{$!} #{e.backtrace}"
+
+        render :samples
+      end
+
     end
 
     
