@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113053216) do
+ActiveRecord::Schema.define(version: 20171113235034) do
 
   create_table "ancient_refs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "oa_id",                                                          null: false
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(version: 20171113053216) do
     t.string   "product_id"
     t.datetime "created_at",                    default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at",                    default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string   "sketchfab_url"
     t.index ["animal_id"], name: "fk_rails_366e2bc661", using: :btree
     t.index ["chromatogram_id"], name: "fk_rails_7a4b838dea", using: :btree
     t.index ["compound_id"], name: "fk_rails_2e652f6bf0", using: :btree

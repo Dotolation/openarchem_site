@@ -47,7 +47,7 @@ class InputFormController < ApplicationController
       begin
       
       @sample = InputForm.create_sample(params)
-      flash[:success] = "Sample successfully saved, see it here: #{view_context.link_to(@sample.oa_id, @sample.oa_id)}" 
+      flash[:success] = "Sample successfully saved, see it here: <a href='#{@sample.oa_id}'>#{@sample.oa_id}</a>" 
       redirect_to :action => "samples"
       rescue Exception => e
         flash[:error] = e.message + ", #{$!} #{e.backtrace}"
