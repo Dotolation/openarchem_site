@@ -148,7 +148,7 @@ class Sample < ActiveRecord::Base
 		ext = Extraction.find_extraction(doc["extraction_id"])
 		equ = Equipment.find_equipment(doc["equipment_id"])
 
-		details_hash = {"Sample" => doc, "Extraction" => ext, "Equipment" => equ}
+		details_hash = {"Extraction Notes" => doc, "Extraction Protocol" => ext, "Instrumentation" => equ}
 		
 		return details_hash
 	end

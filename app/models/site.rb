@@ -102,7 +102,7 @@ class Site < ActiveRecord::Base
 
 	def self.get_id_and_name(oa_id)
 		site = Site.find_site(oa_id)
-		arr = [oa_id, site["name"]]
+		arr = [oa_id, site["name"], site["region"]]
 		return arr
 	end
 

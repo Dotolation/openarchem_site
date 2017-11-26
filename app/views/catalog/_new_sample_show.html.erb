@@ -69,16 +69,17 @@
             <li class="list-group-item">
               <b>Source:</b> 
               <%= link_to summary_info["source"][1], summary_info["source"][0] %>
-              <% if summary_info["source"][2] %>  </br>    
+              <% unless summary_info["source"][2].empty? %>  </br>    
                 <button type="button" class="btn btn-info btn-xs " data-toggle="modal" data-target="#bib_modal_ref">Ref.</button>
                 <%= render :partial => "modals", :locals => {:bib => summary_info["source"][2], :type => "ref"} %>
               <% end %>
             </li>
             <li class="list-group-item"><b>Find Site:</b> <%= link_to summary_info["find_site"][1], summary_info["find_site"][0] %>
-              <% if summary_info["find_site"][2] %> </br>
-                 <a href="<%= summary_info["find_site"][2] %>" class="btn btn-primary btn-xs" role="button" title="Site requires signup" target="_blank">Atlas</a>
+              <% if summary_info["find_site"][3] %> </br>
+                 <a href="<%= summary_info["find_site"][3] %>" class="btn btn-primary btn-xs" role="button" title="Site requires signup" target="_blank">Atlas</a>
               <% end %>
             </li>
+            <li class="list-group-item"><b>Site Region:</b> <%= summary_info["find_site"][2] %></li>
             <li class="list-group-item"><b>Date Relative:</b> <%= summary_info["date_rel"] %></li>
             <li class="list-group-item"><b>Date Absolute:</b> <%= summary_info["date_abs"] %></li>
             <li class="list-group-item"><b>Production Location:</b> <%= summary_info["prod_location"] %></li>
