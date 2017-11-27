@@ -17,9 +17,11 @@ class CatalogController < ApplicationController
     config.default_solr_params = { 
       :qt => 'search',
       :q => '*:*',
-      :rows => 10 
+      :rows => 10,
+      :facet => true,
+      :'facet.mincount' => 1
     }
-    
+
     # solr path which will be added to solr base url before the other solr params.
     config.solr_path = 'select' 
     
@@ -64,11 +66,12 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
-    config.add_facet_field 'site_facet', :label => 'Site'
-    config.add_facet_field 'compound_facet', :label => 'Compounds'
-    config.add_facet_field 'ancient_ref_author_facet', :label => 'Ancient References'
-    config.add_facet_field 'product_facet', :label => 'Products'
-    #config.add_facet_field 'source_type_facet', :label => 'Vessel Type'
+    config.add_facet_field 'site_facet', :label => 'Site', :limit => 10
+    config.add_facet_field 'compound_facet', :label => 'Compounds', :limit => 10
+    config.add_facet_field 'source_type_facet', :label => 'Vessel Type', :limit => 10
+    config.add_facet_field 'ancient_ref_author_facet', :label => 'Ancient References', :limit => 10
+    config.add_facet_field 'product_facet', :label => 'Products', :limit => 10
+    
 
 
     #config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
@@ -101,6 +104,8 @@ class CatalogController < ApplicationController
     config.add_index_field 'ancient_ref_title', :label => "Work Title"
     config.add_index_field 'product_name', :label => "Product"
     config.add_index_field 'ancient_ref_product', :label => "Product Referenced"
+    config.add_index_field 'source_site', :label => "Site"
+    config.add_index_field 'source_relative_date', :label => "Date"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
@@ -147,6 +152,14 @@ class CatalogController < ApplicationController
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
     # of Solr search fields. 
+
+    config.add_search_field('vessel') do |field|
+      field.label = "Vessel Type"
+      field.solr_local_parameters = {
+        :type => "dismax",
+        :qf => 'source_type sample_object_type'
+      }
+    end
     
     config.add_search_field('plant') do |field|
       field.label = "Plant Name" 

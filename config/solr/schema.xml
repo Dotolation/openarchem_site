@@ -506,6 +506,7 @@
 
   <!-- Source documents -->
     <field name="source_id" type="text" indexed="true" stored="true" />
+    <field name="source_object_type" type="text" indexed="true" stored="true" />
     <field name="source_type" type="text" indexed="true" stored="true" />
     <field name="source_notes" type="text" indexed="true" stored="true" />
     <field name="source_condition" type="text" indexed="true" stored="true" />
@@ -567,6 +568,7 @@
     <field name="ancient_ref_author_facet" type="string" indexed="true" stored="false" multiValued="true"/>
     <field name="product_facet" type="string" indexed="true" stored="false" multiValued="true" />
     <field name="site_facet" type="string" indexed="true" stored="false" multiValued="true" />
+    <field name="source_type_facet" type="string" indexed="true" stored="false" multiValued="true" />
 
    <!--
    The following store examples are used to demonstrate the various ways one might _CHOOSE_ to
@@ -626,6 +628,7 @@
    <copyField source="sample_identification" dest="text"/>
    <copyField source="site_name" dest="text"/>
    <copyField source="director_name" dest="text"/>
+   <copyField source="source_object_type" dest="text"/>
    <copyField source="source_type" dest="text"/>
    <copyField source="source_notes" dest="text"/>
    <copyField source="source_condition" dest="text"/>
@@ -651,6 +654,8 @@
    <copyField source="ancient_ref_author" dest="ancient_ref_author_facet"/>
    <copyField source="product_ancient_ref" dest="ancient_ref_author_facet"/>
    <copyField source="source_site" dest="site_facet"/>
+   <copyField source="sample_object_type" dest="source_type_facet"/>
+   <copyField source="source_object_type" dest="source_type_facet"/>
 
  <!-- Similarity is the scoring routine for each document vs. a query.
       A custom similarity may be specified here, but the default is fine
