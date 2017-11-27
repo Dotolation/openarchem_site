@@ -129,7 +129,7 @@ class Sample < ActiveRecord::Base
 
     image_hash = Image.get_image_data(doc["source_id"], doc["chromatogram_id"])
     source = Source.get_source_and_bib(doc["source_id"])
-    sample_info_hash["source"] = [doc["source_id"], source[0]["object_type"], source[1]]
+    sample_info_hash["source"] = [doc["source_id"], source[0]["object_type"]+ " " + source[0]["institution_id"], source[1]]
     sample_info_hash["find_site"] = site
     sample_info_hash["date_rel"] = source[0]["date"]
     sample_info_hash["date_abs"] = source[0]["absolute_date"]

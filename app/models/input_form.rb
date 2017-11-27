@@ -150,6 +150,7 @@ class InputForm
       else
         so_id = Source.new_oa_id
         source_fields["oa_id"] = so_id
+        source_fields["site_id"] = @site.oa_id
         @source = Source.new_source(source_fields)
       end
       @sample.source_id = @source.oa_id
