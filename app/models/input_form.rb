@@ -104,7 +104,11 @@ class InputForm
         unless site_fields["director"].empty?
           #add the director or directors to the people and teams tables, keep the first for the director_id
           director = site_fields["director"]
-          d_arr = director.split(/\s+and\s+/) if director =~ /\s+and\s+/
+          if director =~ /\s+and\s+/
+            d_arr = director.split(/\s+and\s+/) 
+          else
+            d_arr = [director]
+          end
           d_arr.each_index {|i| d_arr[i] = d_arr[i].split(/\s/)}
           people = []
 
