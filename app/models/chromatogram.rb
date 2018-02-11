@@ -59,8 +59,9 @@ class Chromatogram < ActiveRecord::Base
 	def self.new_get_data(oa_id)
 		chrom = find_chromatogram(oa_id)
 		image_hash = Image.get_image_data(nil, oa_id)
+		peak_hash = Peak.get_by_chromatogram_id(oa_id)
 		comp_hash = Compound.get_sample_diagnostic_comps(chrom["sample_id"])
 
-		return {"show_hash" => chrom, "image_hash" => image_hash, "comp_hash" => comp_hash}
+		return {"show_hash" => chrom, "image_hash" => image_hash, "peak_hash" => peak_hash, "comp_hash" => comp_hash}
 	end
 end
