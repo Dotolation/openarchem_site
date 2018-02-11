@@ -11,7 +11,7 @@
           <li class="list-group-item"><b>Sample:</b> <%= link_to summary_info["sample_id"], summary_info["sample_id"] %> </li>
           <li class="list-group-item">
             <% data_hashes["image_hash"].each do |rec| %>
-              <%= image_tag(rec[1][1], alt: rec[1][2], style: 'height:auto;width:100%;') %>
+              <%= link_to image_tag(rec[1][1], alt: rec[1][2], style: 'height:auto;width:100%;'), image_path(rec[1][1]), target: :_blank %>
             <% end %>
           </li>
           <% unless data_hashes["peak_hash"].nil? %>
