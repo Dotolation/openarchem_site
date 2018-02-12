@@ -11,7 +11,7 @@
           <li class="list-group-item"><b>Sample:</b> <%= link_to summary_info["sample_id"], summary_info["sample_id"] %> </li>
           <li class="list-group-item">
             <% data_hashes["image_hash"].each do |rec| %>
-              <%= link_to image_tag(rec[1][1], alt: rec[1][2], style: 'height:auto;width:100%;'), image_path(rec[1][1]), target: :_blank %>
+              <%= link_to image_tag(rec[1][1], alt: rec[1][2], style: 'height:auto;width:100%;'), image_path(rec[1][1]), :target => "_blank" %>
             <% end %>
           </li>
           <% unless data_hashes["peak_hash"].nil? %>
@@ -19,7 +19,7 @@
               <div class="table-responsive">
                 <table class="table">
                   <thead>
-                    <% t_head = data_hashes["peak_hash"].delete_at(0) %>
+                    <% t_head = data_hashes["peak_hash"]["keys"] %>
                     <tr>
                       <% t_head.each do |h| %>
                         <th><%= word_wrap(h, line_width: 10) %></th>
@@ -27,7 +27,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% data_hashes["peak_hash"].each do |row| %>
+                    <% data_hashes["peak_hash"]["table"].each do |row| %>
                       <tr>
                         <% row.each do |item| %>
                          <td><%= item %></td>
@@ -37,6 +37,10 @@
                   </tbody>
                 </table>
               </div>
+            </li>
+
+            <li class="list-group-item">
+              <%= link_to "Download Peaks CSV", download_peaks_path(format: "csv", :c_id => summary_info["oa_id"]) %>
             </li>
           <% end %>
         </ul>

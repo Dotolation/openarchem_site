@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :download, as: "download", path: "/download", controller: "download"
+  get "download/peaks" => "download#peaks"
+
   get "input_form" => "input_form#index"
   resource :input_form, as: "input_form", path: "/input_form", controller: "input_form"
 
