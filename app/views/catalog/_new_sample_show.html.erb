@@ -33,13 +33,19 @@
                     <tr>
                       <td>
                         <%= link_to key, val[0] %> </br>
-                        <a href="<%= val[1] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
-                        <a href="<%= val[2] %>" class="btn btn-warning btn-xs" role="button" target="_blank">NIST</a>
+                        <% unless val[1].nil? %>
+                          <a href="<%= val[1] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
+                        <% end %>
+                        <% unless val[2].nil? %>
+                          <a href="<%= val[2] %>" class="btn btn-warning btn-xs" role="button" target="_blank">NIST</a>
+                        <% end %>
                       </td>
                       <td>
                         <i><%= link_to val[3], val[4] %></i>  </br>
-                        <a href="<%= val[5] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
-                        <% unless val[6] == nil %>
+                        <% unless val[5].nil? %>
+                          <a href="<%= val[5] %>" class="btn btn-success btn-xs" role="button" target="_blank">Duke's</a>
+                        <% end %>
+                        <% unless val[6].nil? %>
                           <a href="<%= val[6] %>" class="btn btn-default btn-xs" role="button" target="_blank">Flora</a>
                         <% end %>
                       </td>
